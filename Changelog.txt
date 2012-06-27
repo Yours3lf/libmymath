@@ -1,0 +1,66 @@
+--- Changelog of mymath library ---
+
+v2.0.0
+ -I've decided to follow GLSL conventions, syntax etc. From now on code written using mymath should be copy-pasteable between GLSL and mymath.
+ -added 2x2 matrix class
+ -added templetization, now float double etc. functions and types are available. See the GLSL specs.
+ -swizzling has been implemented. For now on only xyzw is available, but as soon as I'm sure that I have all of them I'll add rgba and stqp
+
+v1.4.2
+ -main.cpp is removed
+ -CMakeLists.txt is changed so that now a .so file is built not an exe with .so byproducts
+ -removed linux dependencies, so now libmymath is truly platform independent, that is you only need iostream.h (for std::cout), assert.h (for assert()), and math.h (for sin(), cos(), etc.)
+
+v1.4.1
+ -new class "frame" is added
+ -now with the frame class you can have multiple projection settings for one camera and you can switch them if you want to
+ -the functionality that frame contains have been removed from the camera class, and instead a camera object now contains a pointer to a frame object
+
+v1.4.0
+ -matrix and vector classes are converted to COLUMN MAJOR classes. That comes with a little bit of performance improvement, since there is no need to transpose a matrix every time one tries to use it with OpenGL. From the matrix stack class error checking was removed, instead asserts will make sure that you don't try to access the stack out of its bounds. Matrix classes now have a get_det() function, which returns the determinant of the matrix. Because of the row->column conversion, now multiplying matrices can only be done one way: matrix * vector. There are various other improvements everywhere, this is why mymath stepped forward from 1.3.x to 1.4.x
+
+v1.3.3
+ -now every matrix and vector class has a function get() which returns a pointer to the inner data. This can be used to pass matrices directly to OpenGL.
+ -vector classes now have copy_data()
+ -the pipeline class contains some serious performance improvements
+
+v1.3.2
+ -now in camera and mymath_main classes don't inherit mymath_main so that from a camera or a matrix stack object we can only see the the object's own content. I created a private mymath_main object in the above classes.
+ -the sources have been reformatted for better reading
+
+v1.3.1
+ -just a bit of revising, now project_xy, and project_xyz work too
+ -the first version, in which ALL the functions should work, and mymath should cooperate with OpenGL flawlessly
+
+v1.3.0
+ -awful lot of changes, briefly: to make it work correcty with OpenGL it needed some corrections
+
+v1.2.0
+ -new class: "pipeline", which includes matrix stack management
+
+v1.1.1
+ -fixed the constant "inv_pi_div_180" in mymath_main.h, which made the conversions between radians and degrees wrong
+
+v1.1.0
+ Many thanks to jyk, KulSeran, and kdmiller3 for the advices and help
+ -the "common" class' content has been removed (namespace, typedefs, includes), instead where needed iostream, math, and assert are included
+ -"f" typecasts (and other nice silly things) have been replaced
+ -index operators have been replaced/extended (now they are supposed to be OK)
+ -empty non-virtual destructors have been removed
+ -"<<" operators now take in constants
+ -in "<<" operators only "return output << ..." is used now
+ -using statements have been removed
+ -the defines in "mymath_main.h" are now constants
+ -constants are now expressed in terms of other constants
+ -in the function "get_angle_bw_2_vec3f" acos() is now clamped between -1, 1
+ -the "get_vec3f_length" function is now expressed in terms of the "dot_prod" function
+ -"find_normal_vec3f" is now simplified to one line
+ -due to the usage of namespaces everything has been renamed usually from "myvec2f" to "vec2f", and from "my_load_ident_3x3m" to "load_ident_m3x3", and the whole library has been reorganized
+  now everything can be called by using mymath::function_name
+ -assertation is used now everywhere where accessing arrays
+ -mymath_main is now not derived from all the "type" classes (there is no need to do so)
+ -new functions in "mymath_main" class: export_vec2f_from_vec3f, export_vec3f_from_vec4f, export_m3x3_from_m4x4, import_vec2f_into_vec3f, import_vec3f_into_vec4f, import_m3x3_into_m4x4
+ -now a "m3x3 * vec3f" and "m4x4 * vec4f" are supported
+
+v1.0.0
+ -the first release of the mymath library
