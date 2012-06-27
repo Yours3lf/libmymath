@@ -1,0 +1,11 @@
+These functionalities are not implemented yet (feel free to implement them and send them to me):
+
+-mat2x3, mat2x4, mat3x2, mat3x4, mat4x2, mat4x3
+-integer functions, derivative functions, noise functions, packing functions
+-quaternions (not part of glsl)
+-random functions
+-outerProduct
+-floatBitsToInt, intBitsToFloat, frexp, ldexp
+-roundEven, modf
+-picking functionality
+-unproject functionality
