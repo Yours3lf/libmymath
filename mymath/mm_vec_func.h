@@ -666,65 +666,65 @@ namespace mymath
 
   namespace impl
   {
-    template<typename t>
+    template<typename ty>
     template<int a, int b, int c, int d>
-    const vec2i<t>& vec2i<t>::swizzle<a, b, c, d>::operator/=( const vec2i<t>& other )
+    const vec2i<ty>& vec2i<ty>::swizzle<a, b, c, d>::operator/=( const vec2i<ty>& other )
     {
-      assert( notEqual( other, vec2i<t>( 0 ) ) );
-      vec2i<t> tmp( ( t )1 / other.x, ( t )1 / other.y );
+      assert( notEqual( other, vec2i<ty>( 0 ) ) );
+      vec2i<ty> tmp( ( ty )1 / other.x, ( ty )1 / other.y );
       v[a] *= tmp.x;
       v[b] *= tmp.y;
-      return *( vec2i<t>* )this;
+      return *( vec2i<ty>* )this;
     }
 
-    template<typename t>
+    template<typename ty>
     template<int a, int b, int c, int d>
-    const vec3i<t>& vec3i<t>::swizzle<a, b, c, d>::operator/=( const vec3i<t>& other )
+    const vec3i<ty>& vec3i<ty>::swizzle<a, b, c, d>::operator/=( const vec3i<ty>& other )
     {
-      assert( notEqual( other, vec3i<t>( 0 ) ) );
-      vec3i<t> tmp( ( t )1 / other.x, ( t )1 / other.y, ( t )1 / other.z );
+      assert( notEqual( other, vec3i<ty>( 0 ) ) );
+      vec3i<ty> tmp( ( ty )1 / other.x, ( ty )1 / other.y, ( ty )1 / other.z );
       v[a] *= tmp.x;
       v[b] *= tmp.y;
       v[c] *= tmp.z;
-      return *( vec3i<t>* )this;
+      return *( vec3i<ty>* )this;
     }
 
-    template<typename t>
+    template<typename ty>
     template<int a, int b, int c, int d>
-    const vec4i<t>& vec4i<t>::swizzle<a, b, c, d>::operator/=( const vec4i<t>& other )
+    const vec4i<ty>& vec4i<ty>::swizzle<a, b, c, d>::operator/=( const vec4i<ty>& other )
     {
-      assert( notEqual( other, vec4i<t>( 0 ) ) );
-      vec4i<t> tmp( ( t )1 / other.x, ( t )1 / other.y, ( t )1 / other.z, ( t )1 / other.w );
+      assert( notEqual( other, vec4i<ty>( 0 ) ) );
+      vec4i<ty> tmp( ( ty )1 / other.x, ( ty )1 / other.y, ( ty )1 / other.z, ( ty )1 / other.w );
       v[a] *= tmp.x;
       v[b] *= tmp.y;
       v[c] *= tmp.z;
       v[d] *= tmp.w;
-      return *( vec4i<t>* )this;
+      return *( vec4i<ty>* )this;
     }
 
-    template<typename t>
-    const vec2i<t>& vec2i<t>::operator/= ( const vec2i<t>& vec )
+    template<typename ty>
+    const vec2i<ty>& vec2i<ty>::operator/= ( const vec2i<ty>& vec )
     {
-      vec2i<t> tmp = vec2i<t>( 1 ) / vec;
+      vec2i<ty> tmp = vec2i<ty>( 1 ) / vec;
       x *= tmp.x;
       y *= tmp.y;
       return *this;
     }
 
-    template<typename t>
-    const vec3i<t>& vec3i<t>::operator/= ( const vec3i<t>& vec )
+    template<typename ty>
+    const vec3i<ty>& vec3i<ty>::operator/= ( const vec3i<ty>& vec )
     {
-      vec3i<t> tmp = vec3i<t>( 1 ) / vec;
+      vec3i<ty> tmp = vec3i<ty>( 1 ) / vec;
       x *= tmp.x;
       y *= tmp.y;
       z *= tmp.z;
       return *this;
     }
 
-    template<typename t>
-    const vec4i<t>& vec4i<t>::operator/= ( const vec4i<t>& vec )
+    template<typename ty>
+    const vec4i<ty>& vec4i<ty>::operator/= ( const vec4i<ty>& vec )
     {
-      vec4i<t> tmp = vec4i<t>( 1 ) / vec;
+      vec4i<ty> tmp = vec4i<ty>( 1 ) / vec;
       x *= tmp.x;
       y *= tmp.y;
       z *= tmp.z;

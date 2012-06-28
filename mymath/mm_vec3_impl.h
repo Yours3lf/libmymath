@@ -8,31 +8,31 @@ namespace mymath
 {
   namespace impl
   {
-    template< typename t >
+    template< typename ty >
     class vec3i
     {
       private:
-        template< int a, int b, int c, int d >
+        template< int at, int bt, int ct, int dt >
         class swizzle
         {
           private:
-            t v[3];
+            ty v[3];
           public:
             //For cases like swizzle = vec2 and swizzle = swizzle
             const vec3i& operator=( const vec3i& other )
             {
-              v[a] = other.x;
-              v[b] = other.y;
-              v[c] = other.z;
+              v[at] = other.x;
+              v[bt] = other.y;
+              v[ct] = other.z;
               return *( vec3i* )this;
             }
 
             //For cases like swizzle *= vec2 and swizzle *= swizzle
             const vec3i& operator*=( const vec3i& other )
             {
-              v[a] *= other.x;
-              v[b] *= other.y;
-              v[c] *= other.z;
+              v[at] *= other.x;
+              v[bt] *= other.y;
+              v[ct] *= other.z;
               return *( vec3i* )this;
             }
 
@@ -40,135 +40,135 @@ namespace mymath
 
             const vec3i& operator+=( const vec3i& other )
             {
-              v[a] += other.x;
-              v[b] += other.y;
-              v[c] += other.z;
+              v[at] += other.x;
+              v[bt] += other.y;
+              v[ct] += other.z;
               return *( vec3i* )this;
             }
 
             const vec3i& operator-=( const vec3i& other )
             {
-              v[a] -= other.x;
-              v[b] -= other.y;
-              v[c] -= other.z;
+              v[at] -= other.x;
+              v[bt] -= other.y;
+              v[ct] -= other.z;
               return *( vec3i* )this;
             }
 
             operator vec3i()
             {
-              return vec3i( v[a], v[b], v[c] );
+              return vec3i( v[at], v[bt], v[ct] );
             }
         };
 
-        template<int a>
-        class swizzle < a, a, a, -3 >
+        template<int at>
+        class swizzle < at, at, at, -3 >
         {
           private:
-            t v[3];
+            ty v[3];
           public:
             operator vec3i()
             {
-              return vec3i( v[a] );
+              return vec3i( v[at] );
             }
         };
 
-        template<int a, int b>
-        class swizzle < b, a, a, -3 >
+        template<int at, int bt>
+        class swizzle < bt, at, at, -3 >
         {
           private:
-            t v[3];
+            ty v[3];
           public:
             operator vec3i()
             {
-              return vec3i( v[b], v[a], v[a] );
+              return vec3i( v[bt], v[at], v[at] );
             }
         };
 
-        template<int a, int b>
-        class swizzle < a, b, a, -3 >
+        template<int at, int bt>
+        class swizzle < at, bt, at, -3 >
         {
           private:
-            t v[3];
+            ty v[3];
           public:
             operator vec3i()
             {
-              return vec3i( v[a], v[b], v[a] );
+              return vec3i( v[at], v[bt], v[at] );
             }
         };
 
-        template<int a, int b>
-        class swizzle < a, a, b, -3 >
+        template<int at, int bt>
+        class swizzle < at, at, bt, -3 >
         {
           private:
-            t v[3];
+            ty v[3];
           public:
             operator vec3i()
             {
-              return vec3i( v[a], v[a], v[b] );
+              return vec3i( v[at], v[at], v[bt] );
             }
         };
 
         //vec2 swizzlers
-        template<int a>
-        class swizzle < a, a, -2, -3 >
+        template<int at>
+        class swizzle < at, at, -2, -3 >
         {
           private:
-            t v[3];
+            ty v[3];
           public:
-            operator vec2i<t>()
+            operator vec2i<ty>()
             {
-              return vec2i<t>( v[a], v[a] );
+              return vec2i<ty>( v[at], v[at] );
             }
         };
 
-        template<int a, int b>
-        class swizzle < a, b, -2, -3 >
+        template<int at, int bt>
+        class swizzle < at, bt, -2, -3 >
         {
           private:
-            t v[3];
+            ty v[3];
           public:
             //For cases like swizzle = vec2 and swizzle = swizzle
-            const vec2i<t>& operator=( const vec2i<t>& other )
+            const vec2i<ty>& operator=( const vec2i<ty>& other )
             {
-              v[a] = other.x;
-              v[b] = other.y;
-              return *( vec2i<t>* )this;
+              v[at] = other.x;
+              v[bt] = other.y;
+              return *( vec2i<ty>* )this;
             }
 
             //For cases like swizzle *= vec2 and swizzle *= swizzle
-            const vec2i<t>& operator*=( const vec2i<t>& other )
+            const vec2i<ty>& operator*=( const vec2i<ty>& other )
             {
-              v[a] *= other.x;
-              v[b] *= other.y;
-              return *( vec2i<t>* )this;
+              v[at] *= other.x;
+              v[bt] *= other.y;
+              return *( vec2i<ty>* )this;
             }
 
-            const vec2i<t>& operator/=( const vec2i<t>& other )
+            const vec2i<ty>& operator/=( const vec2i<ty>& other )
             {
-              assert( other.x != ( t )0 && other.y != ( t )0 );
-              vec2i<t> tmp( ( t )1 / other.x, ( t )1 / other.y );
-              v[a] *= tmp.x;
-              v[b] *= tmp.y;
-              return *( vec2i<t>* )this;
+              assert( other.x != ( ty )0 && other.y != ( ty )0 );
+              vec2i<ty> tmp( ( ty )1 / other.x, ( ty )1 / other.y );
+              v[at] *= tmp.x;
+              v[bt] *= tmp.y;
+              return *( vec2i<ty>* )this;
             }
 
-            const vec2i<t>& operator+=( const vec2i<t>& other )
+            const vec2i<ty>& operator+=( const vec2i<ty>& other )
             {
-              v[a] += other.x;
-              v[b] += other.y;
-              return *( vec2i<t>* )this;
+              v[at] += other.x;
+              v[bt] += other.y;
+              return *( vec2i<ty>* )this;
             }
 
-            const vec2i<t>& operator-=( const vec2i<t>& other )
+            const vec2i<ty>& operator-=( const vec2i<ty>& other )
             {
-              v[a] -= other.x;
-              v[b] -= other.y;
-              return *( vec2i<t>* )this;
+              v[at] -= other.x;
+              v[bt] -= other.y;
+              return *( vec2i<ty>* )this;
             }
 
-            operator vec2i<t>()
+            operator vec2i<ty>()
             {
-              return vec2i<t>( v[a], v[b] );
+              return vec2i<ty>( v[at], v[bt] );
             }
         };
 
@@ -180,28 +180,38 @@ namespace mymath
         {
           struct
           {
-            t x, y, z;
+            ty x, y, z;
+          };
+					
+					struct
+          {
+            ty r, g, b;
+          };
+					
+					struct
+          {
+            ty s, t, q;
           };
 
 #include "includes/vec3_swizzle_declarations.h"
 
-          t v[3];
+          ty v[3];
         };
 #pragma GCC diagnostic pop
 
-        vec3i( const t& a, const t& b, const t& c ) : x( a ), y( b ), z( c ) {}
-        vec3i( const vec2i<t>& vec, const t& num ) : x( vec.x ), y( vec.y ), z( num ) {}
-        vec3i( const t& num, const vec2i<t>& vec ) : x( num ), y( vec.x ), z( vec.y ) {}
-        explicit vec3i( const t& num ) : x( num ), y( num ), z( num ) {}
+        vec3i( const ty& at, const ty& bt, const ty& ct ) : x( at ), y( bt ), z( ct ) {}
+        vec3i( const vec2i<ty>& vec, const ty& num ) : x( vec.x ), y( vec.y ), z( num ) {}
+        vec3i( const ty& num, const vec2i<ty>& vec ) : x( num ), y( vec.x ), z( vec.y ) {}
+        explicit vec3i( const ty& num ) : x( num ), y( num ), z( num ) {}
         vec3i() : x( 0.0f ), y( 0.0f ), z( 0.0f ) {}
 
-        t& operator[]( const unsigned int& num )
+        ty& operator[]( const unsigned int& num )
         {
           assert( num >= 0 && num < 3 && this );
           return v[num];
         }
 
-        const t& operator[]( const unsigned int& num ) const
+        const ty& operator[]( const unsigned int& num ) const
         {
           assert( num >= 0 && num < 3 && this );
           return v[num];

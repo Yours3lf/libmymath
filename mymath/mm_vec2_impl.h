@@ -7,29 +7,29 @@ namespace mymath
 {
   namespace impl
   {
-    template< typename t >
+    template< typename ty >
     class vec2i
     {
       private:
-        template< int a, int b, int c, int d >
+        template< int at, int bt, int ct, int dt >
         class swizzle
         {
           private:
-            t v[2];
+            ty v[2];
           public:
             //For cases like swizzle = vec2 and swizzle = swizzle
             const vec2i& operator=( const vec2i& other )
             {
-              v[a] = other.x;
-              v[b] = other.y;
+              v[at] = other.x;
+              v[bt] = other.y;
               return *( vec2i* )this;
             }
 
             //For cases like swizzle *= vec2 and swizzle *= swizzle
             const vec2i& operator*=( const vec2i& other )
             {
-              v[a] *= other.x;
-              v[b] *= other.y;
+              v[at] *= other.x;
+              v[bt] *= other.y;
               return *( vec2i* )this;
             }
 
@@ -37,33 +37,33 @@ namespace mymath
 
             const vec2i& operator+=( const vec2i& other )
             {
-              v[a] += other.x;
-              v[b] += other.y;
+              v[at] += other.x;
+              v[bt] += other.y;
               return *( vec2i* )this;
             }
 
             const vec2i& operator-=( const vec2i& other )
             {
-              v[a] -= other.x;
-              v[b] -= other.y;
+              v[at] -= other.x;
+              v[bt] -= other.y;
               return *( vec2i* )this;
             }
 
             operator vec2i()
             {
-              return vec2i( v[a], v[b] );
+              return vec2i( v[at], v[bt] );
             }
         };
 
-        template<int a>
-        class swizzle < a, a, -2, -3 >
+        template<int at>
+        class swizzle < at, at, -2, -3 >
         {
           private:
-            t v[2];
+            ty v[2];
           public:
             operator vec2i()
             {
-              return vec2i( v[a] );
+              return vec2i( v[at] );
             }
         };
 
@@ -75,26 +75,36 @@ namespace mymath
         {
           struct
           {
-            t x, y;
+            ty x, y;
+          };
+					
+					struct
+          {
+            ty r, g;
+          };
+					
+					struct
+          {
+            ty s, t;
           };
 
 #include "includes/vec2_swizzle_declarations.h"
 
-          t v[2];
+          ty v[2];
         };
 #pragma GCC diagnostic pop
 
-        vec2i( const t& a, const t& b ) : x( a ), y( b ) {}
-        explicit vec2i( const t& num ) : x( num ), y( num ) {}
+        vec2i( const ty& at, const ty& bt ) : x( at ), y( bt ) {}
+        explicit vec2i( const ty& num ) : x( num ), y( num ) {}
         vec2i() : x( 0 ), y( 0 ) {}
 
-        t& operator[]( const unsigned int& num ) //read-write
+        ty& operator[]( const unsigned int& num ) //read-write
         {
           assert( num >= 0 && num < 2 && this );
           return v[num];
         }
 
-        const t& operator[]( const unsigned int& num ) const //read only, constant ref
+        const ty& operator[]( const unsigned int& num ) const //read only, constant ref
         {
           assert( num >= 0 && num < 2 && this );
           return v[num];

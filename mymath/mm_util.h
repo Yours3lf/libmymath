@@ -11,7 +11,7 @@ namespace mymath
   { \
     if( length( vec ) == ( t )0 ) \
       { return impl::mat4i<t>( 1 ); } \
-    t a = radians( angle ); \
+    t a = angle; \
     t s = std::sin( a ); \
     t c = std::cos( a ); \
     impl::vec3i<t> v = normalize( vec ); \
@@ -233,7 +233,7 @@ namespace mymath
   template< typename t >
   inline impl::mat4i<t> perspective( const t& fovy, const t& aspect, const t& near, const t& far )
   {
-    t top = near * std::tan( radians( fovy ) * ( t )0.5 );
+    t top = near * std::tan( fovy * ( t )0.5 );
     t bottom = -top;
     t left = bottom * aspect;
     t right = -left;

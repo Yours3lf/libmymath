@@ -36,7 +36,7 @@ namespace mymath
       {
         projection_matrix = impl::mat4i<t>( 1 );
 
-        t top = near * std::tan( radians( fovy ) * ( t )0.5 );
+        t top = near * std::tan( fovy * ( t )0.5 );
         t bottom = -top;
         t left = bottom * aspect;
         t right = -left;
@@ -50,7 +50,7 @@ namespace mymath
         projection_matrix[3].z = -( ( t )2 * far * near ) / ( far - near );
         projection_matrix[3].w = ( t )0;
 
-        t ftop = far * std::tan( radians( fovy ) * ( t )0.5 );
+        t ftop = far * std::tan( fovy * ( t )0.5 );
         t fbottom = -ftop;
         t fleft = fbottom * aspect;
         t fright = -fleft;
