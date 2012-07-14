@@ -16,11 +16,13 @@ namespace mymath
     public:
       void set_model_view_matrix_stack( matrix_stack<t>* mv )
       {
+        assert( mv != 0 );
         modelview = mv;
       }
 
       void set_projection_matrix_stack( matrix_stack<t>* p )
       {
+        assert( p != 0 );
         projection = p;
       }
 

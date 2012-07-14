@@ -9,6 +9,8 @@ namespace mymath
   class camera
   {
     private:
+      frame<t>* the_frame;
+
       impl::vec3i<t> convert_local_to_world( const impl::vec3i<t>& local, const bool& rotation_only )
       {
         impl::mat4i<t> rm = get_matrix( true );
@@ -48,30 +50,25 @@ namespace mymath
     protected:
 
     public:
-
-      t rotvert;
-      t rothori;
-      int x_ref, y_ref;
-
       impl::vec3i<t> pos;
       impl::vec3i<t> view_dir;
       impl::vec3i<t> up_vector;
 
-      frame<t>* frm;
-
-      void set_rotations( const int& screen_width, const int& screen_height )
+      impl::vec2i<t> get_rotations( const int& screen_width, const int& screen_height, const int& delta_x, const int& delta_y )
       {
-        if( x_ref != 0 )
+        impl::vec2i<t> rot;
+
+        if( delta_x != 0 )
         {
-          rothori = ( ( x_ref - ( screen_width * 0.5 ) ) / ( screen_width * 0.02 ) ) * 0.01 * 360.0f;
-          x_ref = 0;
+          rot.x = ( ( delta_x - ( screen_width * 0.5 ) ) / ( screen_width * 0.02 ) ) * 0.01 * 360.0f;
         }
 
-        if( y_ref != 0 )
+        if( delta_y != 0 )
         {
-          rotvert = ( ( y_ref - ( screen_height * 0.5 ) ) / ( screen_height * 0.02 ) ) * 0.01 * -360.0f;
-          y_ref = 0;
+          rot.y = ( ( delta_y - ( screen_height * 0.5 ) ) / ( screen_height * 0.02 ) ) * 0.01 * -360.0f;
         }
+
+        return rot;
       }
 
       void translate_world( const impl::vec3i<t>& vec )
@@ -197,7 +194,19 @@ namespace mymath
         view_dir = normalize( view_dir );
       }
 
-      camera() : rotvert( 0 ), rothori( 0 ), x_ref( 0 ), y_ref( 0 ), pos( impl::vec3i<t>( 0, 0, 0 ) ), view_dir( impl::vec3i<t>( 0, 0, -1 ) ), up_vector( impl::vec3i<t>( 0, 1, 0 ) ), frm( 0 ) {}
+      frame<t>* get_frame()
+      {
+        assert( the_frame != 0 );
+        return the_frame;
+      }
+
+      void set_frame( frame<t>* frm )
+      {
+        assert( frm != 0 );
+        the_frame = frm;
+      }
+
+      camera() : the_frame( 0 ), pos( impl::vec3i<t>( 0, 0, 0 ) ), view_dir( impl::vec3i<t>( 0, 0, -1 ) ), up_vector( impl::vec3i<t>( 0, 1, 0 ) ) {}
 
   };
 }

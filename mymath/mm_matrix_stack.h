@@ -9,13 +9,11 @@ namespace mymath
   class matrix_stack
   {
     private:
-
+      int stack_pointer;
+      impl::mat4i<t> stack[64];
     protected:
 
     public:
-
-      int stack_pointer;
-      impl::mat4i<t> stack[64];
 
       void load_identity()
       {
