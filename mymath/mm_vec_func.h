@@ -167,10 +167,18 @@ MYMATH_OPERATORMINUS_FUNC( double )
 MYMATH_OPERATORMINUS_FUNC( int )
 MYMATH_OPERATORMINUS_FUNC( unsigned int )
 
+#ifdef _WIN32
+#pragma warning( push )
+#pragma warning( disable : 4244 )
+#endif
 MYMATH_OPERATORMOD_FUNC( float )
 MYMATH_OPERATORMOD_FUNC( double )
 MYMATH_OPERATORMOD_FUNC( int )
 MYMATH_OPERATORMOD_FUNC( unsigned int )
+#ifdef _WIN32
+#pragma warning( pop )
+#pragma warning( disable : 4244 )
+#endif
 
 MYMATH_OPERATORBITLEFT_FUNC( float )
 MYMATH_OPERATORBITLEFT_FUNC( double )
@@ -200,7 +208,6 @@ MYMATH_OPERATORBITOR_FUNC( unsigned int )
 MYMATH_NEGATE_FUNC( float )
 MYMATH_NEGATE_FUNC( double )
 MYMATH_NEGATE_FUNC( int )
-MYMATH_NEGATE_FUNC( unsigned int )
 
 MYMATH_COUT_FUNC( float )
 MYMATH_COUT_FUNC( double )
@@ -282,29 +289,29 @@ namespace mymath
   //asinh
 #define MYMATH_ASINH_FUNC(t) \
   inline impl::vec2i<t> asinh( const impl::vec2i<t>& vec ) \
-  { return impl::vec2i<t>( asinhf( vec.x ), asinhf( vec.y ) ); } \
+  { return impl::vec2i<t>( asinh( vec.x ), asinh( vec.y ) ); } \
   inline impl::vec3i<t> asinh( const impl::vec3i<t>& vec ) \
-  { return impl::vec3i<t>( asinhf( vec.x ), asinhf( vec.y ), asinhf( vec.z ) ); } \
+  { return impl::vec3i<t>( asinh( vec.x ), asinh( vec.y ), asinh( vec.z ) ); } \
   inline impl::vec4i<t> asinh( const impl::vec4i<t>& vec ) \
-  { return impl::vec4i<t>( asinhf( vec.x ), asinhf( vec.y ), asinhf( vec.z ), asinhf( vec.w ) ); }
+  { return impl::vec4i<t>( asinh( vec.x ), asinh( vec.y ), asinh( vec.z ), asinh( vec.w ) ); }
 
   //acosh
 #define MYMATH_ACOSH_FUNC(t) \
   inline impl::vec2i<t> acosh( const impl::vec2i<t>& vec ) \
-  { return impl::vec2i<t>( acoshf( vec.x ), acoshf( vec.y ) ); } \
+  { return impl::vec2i<t>( acosh( vec.x ), acosh( vec.y ) ); } \
   inline impl::vec3i<t> acosh( const impl::vec3i<t>& vec ) \
-  { return impl::vec3i<t>( acoshf( vec.x ), acoshf( vec.y ), acoshf( vec.z ) ); } \
+  { return impl::vec3i<t>( acosh( vec.x ), acosh( vec.y ), acosh( vec.z ) ); } \
   inline impl::vec4i<t> acosh( const impl::vec4i<t>& vec ) \
-  { return impl::vec4i<t>( acoshf( vec.x ), acoshf( vec.y ), acoshf( vec.z ), acoshf( vec.w ) ); }
+  { return impl::vec4i<t>( acosh( vec.x ), acosh( vec.y ), acosh( vec.z ), acosh( vec.w ) ); }
 
   //atanh
 #define MYMATH_ATANH_FUNC(t) \
   inline impl::vec2i<t> atanh( const impl::vec2i<t>& vec ) \
-  { return impl::vec2i<t>( atanhf( vec.x ), atanhf( vec.y ) ); } \
+  { return impl::vec2i<t>( atanh( vec.x ), atanh( vec.y ) ); } \
   inline impl::vec3i<t> atanh( const impl::vec3i<t>& vec ) \
-  { return impl::vec3i<t>( atanhf( vec.x ), atanhf( vec.y ), atanhf( vec.z ) ); } \
+  { return impl::vec3i<t>( atanh( vec.x ), atanh( vec.y ), atanh( vec.z ) ); } \
   inline impl::vec4i<t> atanh( const impl::vec4i<t>& vec ) \
-  { return impl::vec4i<t>( atanhf( vec.x ), atanhf( vec.y ), atanhf( vec.w ), atanhf( vec.w ) ); }
+  { return impl::vec4i<t>( atanh( vec.x ), atanh( vec.y ), atanh( vec.w ), atanh( vec.w ) ); }
 
   //exp2
 #define MYMATH_EXP2_FUNC(t) \
@@ -318,11 +325,11 @@ namespace mymath
   //log2
 #define MYMATH_LOG2_FUNC(t) \
   inline impl::vec2i<t> log2( const impl::vec2i<t>& vec ) \
-  { return impl::vec2i<t>( log2f( vec.x ), log2f( vec.y ) ); } \
+  { return impl::vec2i<t>( log2( vec.x ), log2( vec.y ) ); } \
   inline impl::vec3i<t> log2( const impl::vec3i<t>& vec ) \
-  { return impl::vec3i<t>( log2f( vec.x ), log2f( vec.y ), log2f( vec.z ) ); } \
+  { return impl::vec3i<t>( log2( vec.x ), log2( vec.y ), log2( vec.z ) ); } \
   inline impl::vec4i<t> log2( const impl::vec4i<t>& vec ) \
-  { return impl::vec4i<t>( log2f( vec.x ), log2f( vec.y ), log2f( vec.z ), log2f( vec.w ) ); }
+  { return impl::vec4i<t>( log2( vec.x ), log2( vec.y ), log2( vec.z ), log2( vec.w ) ); }
 
   //inversesqrt
 #define MYMATH_INVERSESQRT_FUNC(t) \
@@ -345,20 +352,20 @@ namespace mymath
   //trunc
 #define MYMATH_TRUNC_FUNC(t) \
   inline impl::vec2i<t> trunc( const impl::vec2i<t>& vec ) \
-  { return impl::vec2i<t>( truncf( vec.x ), truncf( vec.y ) ); } \
+  { return impl::vec2i<t>( trunc( vec.x ), trunc( vec.y ) ); } \
   inline impl::vec3i<t> trunc( const impl::vec3i<t>& vec ) \
-  { return impl::vec3i<t>( truncf( vec.x ), truncf( vec.y ), truncf( vec.z ) ); } \
+  { return impl::vec3i<t>( trunc( vec.x ), trunc( vec.y ), trunc( vec.z ) ); } \
   inline impl::vec4i<t> trunc( const impl::vec4i<t>& vec ) \
-  { return impl::vec4i<t>( truncf( vec.x ), truncf( vec.y ), truncf( vec.z ), truncf( vec.w ) ); }
+  { return impl::vec4i<t>( trunc( vec.x ), trunc( vec.y ), trunc( vec.z ), trunc( vec.w ) ); }
 
   //round
 #define MYMATH_ROUND_FUNC(t) \
   inline impl::vec2i<t> round( const impl::vec2i<t>& vec ) \
-  { return impl::vec2i<t>( roundf( vec.x ), roundf( vec.y ) ); } \
+  { return impl::vec2i<t>( round( vec.x ), round( vec.y ) ); } \
   inline impl::vec3i<t> round( const impl::vec3i<t>& vec ) \
-  { return impl::vec3i<t>( roundf( vec.x ), roundf( vec.y ), roundf( vec.z ) ); } \
+  { return impl::vec3i<t>( round( vec.x ), round( vec.y ), round( vec.z ) ); } \
   inline impl::vec4i<t> round( const impl::vec4i<t>& vec ) \
-  { return impl::vec4i<t>( roundf( vec.x ), roundf( vec.y ), roundf( vec.z ), roundf( vec.w ) ); }
+  { return impl::vec4i<t>( round( vec.x ), round( vec.y ), round( vec.z ), round( vec.w ) ); }
 
   //fract
 #define MYMATH_FRACT_FUNC(t) \
@@ -498,22 +505,22 @@ namespace mymath
   //isnan
 #define MYMATH_ISNAN_FUNC(t) \
   inline bool isnan( const impl::vec2i<t>& vec ) \
-  { return std::isnan( vec.x ) || std::isnan( vec.y ); } \
+  { return isnan( vec.x ) || isnan( vec.y ); } \
   inline bool isnan( const impl::vec3i<t>& vec ) \
-  {  return std::isnan( vec.x ) || std::isnan( vec.y ) || std::isnan( vec.z ); } \
+  {  return isnan( vec.x ) || isnan( vec.y ) || isnan( vec.z ); } \
   inline bool isnan( const impl::vec4i<t>& vec ) \
-  { return std::isnan( vec.x ) || std::isnan( vec.y ) || std::isnan( vec.z ) || std::isnan( vec.w ); }
+  { return isnan( vec.x ) || isnan( vec.y ) || isnan( vec.z ) || isnan( vec.w ); }
 
   //isinf
 #define MYMATH_ISINF_FUNC(t) \
   inline bool isinf( const impl::vec2i<t>& vec ) \
-  { return std::isinf( vec.x ) || std::isinf( vec.y ); } \
+  { return isinf( vec.x ) || isinf( vec.y ); } \
   inline bool isinf( const impl::vec3i<t>& vec ) \
-  { return std::isinf( vec.x ) || std::isinf( vec.y ) || std::isinf( vec.z ); } \
+  { return isinf( vec.x ) || isinf( vec.y ) || isinf( vec.z ); } \
   inline bool isinf( const impl::vec4i<t>& vec ) \
-  { return std::isinf( vec.x ) || std::isinf( vec.y ) || std::isinf( vec.z ) || std::isinf( vec.w ); }
+  { return isinf( vec.x ) || isinf( vec.y ) || isinf( vec.z ) || isinf( vec.w ); }
 
-  //cross only vec3
+//cross only vec3
 #define MYMATH_CROSS_FUNC(t) \
   inline impl::vec3i<t> cross( const impl::vec3i<t>& a, const impl::vec3i<t>& b ) \
   { return impl::vec3i<t>( a.y * b.z - b.y * a.z, -( a.x * b.z ) + b.x * a.z, a.x * b.y - b.x * a.y ); }

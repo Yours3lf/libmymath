@@ -85,6 +85,116 @@ namespace mymath
       return num;
     }
   }
+
+  inline float asinh( const float& num )
+  {
+    return std::log( num + std::sqrt( num * num + 1.0f ) );
+  }
+
+  inline double asinh( const double& num )
+  {
+    return std::log( num + std::sqrt( num * num + 1.0 ) );
+  }
+
+  inline float acosh( const float& num )
+  {
+    return std::log( num + std::sqrt( num * num - 1.0f ) );
+  }
+
+  inline double acosh( const double& num )
+  {
+    return std::log( num + std::sqrt( num * num - 1.0 ) );
+  }
+
+  inline float atanh( const float& num )
+  {
+    return std::log( ( 1.0f + num ) / ( 1.0f - num ) ) / 2.0f;
+  }
+
+  inline double atanh( const double& num )
+  {
+    return std::log( ( 1.0 + num ) / ( 1.0 - num ) ) / 2.0;
+  }
+
+  inline float log2( const float& num )
+  {
+    return std::log( num ) / std::log( 2.0f );
+  }
+
+  inline double log2( const double& num )
+  {
+    return std::log( num ) / std::log( 2.0 );
+  }
+
+  inline float trunc( const float& num )
+  {
+    return num < 0.0f ? -floor( -num ) : floor( num );
+  }
+
+  inline double trunc( const double& num )
+  {
+    return num < 0.0 ? -floor( -num ) : floor( num );
+  }
+
+  inline float round( const float& num )
+  {
+    if( num < 0 )
+    {
+      return float( int( num - 0.5f ) );
+    }
+    else
+    {
+      return float( int( num + 0.5f ) );
+    }
+  }
+
+  inline double round( const double& num )
+  {
+    if( num < 0 )
+    {
+      return double( int( num - 0.5 ) );
+    }
+    else
+    {
+      return double( int( num + 0.5 ) );
+    }
+  }
+
+  inline bool isnan( const float& num )
+  {
+#ifdef _WIN32
+    return _isnan( num ) != 0;
+#else
+    return std::isnan( num );
+#endif
+  }
+
+  inline bool isnan( const double& num )
+  {
+#ifdef _WIN32
+    return _isnan( num ) != 0;
+#else
+    return std::isnan( num );
+#endif
+  }
+
+  inline bool isinf( const float& num )
+  {
+#ifdef _WIN32
+    return _fpclass( num ) == _FPCLASS_NINF || _fpclass( num ) == _FPCLASS_PINF;
+#else
+    return std::isinf( num );
+#endif
+  }
+
+  inline bool isinf( const double& num )
+  {
+#ifdef _WIN32
+    return _fpclass( num ) == _FPCLASS_NINF || _fpclass( num ) == _FPCLASS_PINF;
+#else
+    return std::isinf( num );
+#endif
+  }
 }
 
 namespace mm = mymath;

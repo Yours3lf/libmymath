@@ -333,20 +333,22 @@ namespace mymath
       protected:
 
       public:
+#ifndef _WIN32
 #pragma GCC diagnostic ignored "-pedantic"
+#endif
         union
         {
           struct
           {
             ty x, y, z, w;
           };
-					
-					struct
+
+          struct
           {
             ty r, g, b, a;
           };
-					
-					struct
+
+          struct
           {
             ty s, t, q, p;
           };
@@ -355,7 +357,9 @@ namespace mymath
 
           ty v[4];
         };
+#ifndef _WIN32
 #pragma GCC diagnostic pop
+#endif
 
         vec4i( const ty& at, const ty& bt, const ty& ct, const ty& dt ) : x( at ), y( bt ), z( ct ), w( dt ) {}
         vec4i( const vec3i<ty>& vec, const ty& num ) : x( vec.x ), y( vec.y ), z( vec.z ), w( num ) {}
