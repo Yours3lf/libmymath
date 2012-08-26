@@ -582,6 +582,15 @@ namespace mymath
   MYMATH_STD_VEC_FUNC( ceil, float )
   MYMATH_STD_VEC_FUNC( ceil, double )
 
+#ifdef _WIN32
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
+#endif
+
   MYMATH_STD_2_VEC_FUNC( min, float )
   MYMATH_STD_2_VEC_FUNC( min, double )
   MYMATH_STD_2_VEC_FUNC( min, int )
