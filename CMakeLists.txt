@@ -126,7 +126,7 @@ link_directories(${CMAKE_SOURCE_DIR}/external/lib/)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(${project_name}_external_libs sfml-window sfml-system sfml-audio GLEW GL)
+set(${project_name}_external_libs sfml-window sfml-system GLEW GL)
 
 #adding the project's exe
 add_executable(${project_name} main)

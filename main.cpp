@@ -52,7 +52,7 @@ inline float int_sphere( const vec3& o, const vec3& d, const vec4& sphere )
 
 inline vec3 nor_sphere( const vec3& pos, const vec4& sphere )
 {
-	vec4 s = sphere;
+  vec4 s = sphere;
   return normalize( pos - s.xyz ) / vec3( s.w );
 }
 
@@ -103,7 +103,7 @@ inline vec4 fragment_program( const vec2& coord, const float& time )
 
   vec2 uv = coord / screen_size;
 
-  sph1.x = cos( time );
+  sph1.x = cos( time ) * 2.0f;
   sph1.z = sin( time );
 
   //generate a ray with origin o and direction d
@@ -171,9 +171,9 @@ inline void thread_func( const uvec2& startend )
 {
   uvec2 coord;
 
-  for( coord.y = startend.x; coord.y < startend.y; coord.y++ )
+  for( coord.y = 0; coord.y < screen.y; coord.y++ )
   {
-    for( coord.x = 0; coord.x < screen.x; coord.x++ )
+    for( coord.x = startend.x; coord.x < startend.y; coord.x++ )
     {
       write_tex( fragment_program( vec2( coord.x, coord.y ), elapsed_time ), coord );
     }
@@ -181,7 +181,7 @@ inline void thread_func( const uvec2& startend )
 }
 
 int main( int argc, char* args[] )
-{	
+{
   //parse command line arguments
   for( int i = 1; i < argc; i++ )
   {
@@ -349,12 +349,12 @@ int main( int argc, char* args[] )
 
       for( unsigned int c = 0; c < num_threads; c++ )
       {
-        unsigned int amount = screen.y / num_threads;
+        unsigned int amount = screen.x / num_threads;
         unsigned int end = amount * ( c + 1 );
 
-        if( end > screen.y )
+        if( end > screen.x )
         {
-          end = screen.y;
+          end = screen.x;
         }
 
         threads.push_back( new sf::Thread( &thread_func, uvec2( amount * c, end ) ) );
