@@ -59,6 +59,8 @@ namespace mymath
 
         return normal_matrix;
       }
+
+      pipeline() : modelview( 0 ), projection( 0 ) {}
   };
 
 }

@@ -188,7 +188,7 @@ namespace mymath
       void normalize_axises()
       {
         impl::vec3i<t> cross_prod = cross( up_vector, view_dir );
-        view_dir = cross( cross, up_vector );
+        view_dir = cross( cross_prod, up_vector );
 
         up_vector = normalize( up_vector );
         view_dir = normalize( view_dir );
