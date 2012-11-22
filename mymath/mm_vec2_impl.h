@@ -188,15 +188,15 @@ namespace mymath
 
         const vec2i operator++ ( int )
         {
-          x++;
-          y++;
+          ++x;
+          ++y;
           return *this;
         }
 
         const vec2i operator-- ( int )
         {
-          x--;
-          y--;
+          --x;
+          --y;
           return *this;
         }
 

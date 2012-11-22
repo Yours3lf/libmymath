@@ -45,14 +45,14 @@ namespace mymath
 
       void push_matrix()
       {
-        stack_pointer++;
+        ++stack_pointer;
         assert( stack_pointer < 64 && stack_pointer >= 0 );
         stack[stack_pointer] = stack[stack_pointer - 1];
       }
 
       void push_matrix( impl::mat4i<t> m )
       {
-        stack_pointer++;
+        ++stack_pointer;
         assert( stack_pointer < 64 && stack_pointer >= 0 );
         stack[stack_pointer] = m;
       }
@@ -64,7 +64,7 @@ namespace mymath
 
       void pop_matrix()
       {
-        stack_pointer--;
+        --stack_pointer;
         assert( stack_pointer < 64 && stack_pointer >= 0 );
       }
 

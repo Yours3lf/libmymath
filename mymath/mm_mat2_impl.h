@@ -92,15 +92,15 @@ namespace mymath
 
         const mat2i& operator++ ()
         {
-          m[0]++;
-          m[1]++;
+          ++m[0];
+          ++m[1];
           return *this;
         }
 
         const mat2i& operator-- ()
         {
-          m[0]--;
-          m[1]--;
+          --m[0];
+          --m[1];
           return *this;
         }
     };

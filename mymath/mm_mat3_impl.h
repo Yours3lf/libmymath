@@ -119,17 +119,17 @@ namespace mymath
 
         const mat3i& operator++ ()
         {
-          m[0]++;
-          m[1]++;
-          m[2]++;
+          ++m[0];
+          ++m[1];
+          ++m[2];
           return *this;
         }
 
         const mat3i& operator-- ()
         {
-          m[0]--;
-          m[1]--;
-          m[2]--;
+          --m[0];
+          --m[1];
+          --m[2];
           return *this;
         }
     };

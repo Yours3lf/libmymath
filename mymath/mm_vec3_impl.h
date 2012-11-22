@@ -305,17 +305,17 @@ namespace mymath
 
         const vec3i operator++ ( int )
         {
-          x++;
-          y++;
-          z++;
+          ++x;
+          ++y;
+          ++z;
           return *this;
         }
 
         const vec3i operator-- ( int )
         {
-          x--;
-          y--;
-          z--;
+          --x;
+          --y;
+          --z;
           return *this;
         }
 

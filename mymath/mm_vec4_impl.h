@@ -476,19 +476,19 @@ namespace mymath
 
         const vec4i operator++ ( int )
         {
-          x++;
-          y++;
-          z++;
-          w++;
+          ++x;
+          ++y;
+          ++z;
+          ++w;
           return *this;
         }
 
         const vec4i operator-- ( int )
         {
-          x--;
-          y--;
-          z--;
-          w--;
+          --x;
+          --y;
+          --z;
+          --w;
           return *this;
         }
 
