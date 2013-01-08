@@ -90,7 +90,7 @@ namespace mymath
 
       void move_up( const t& d )
       {
-        pos += up_vector * d;
+        pos += up_vector * impl::vec3i<t>( d );
       }
 
       void move_right( const t& d )
@@ -194,7 +194,7 @@ namespace mymath
         view_dir = normalize( view_dir );
       }
 
-      frame<t>* get_frame()
+      const frame<t>* get_frame() const
       {
         assert( the_frame != 0 );
         return the_frame;

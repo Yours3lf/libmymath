@@ -10,7 +10,6 @@ namespace mymath
   {
     private:
       matrix_stack<t>* modelview;
-      matrix_stack<t>* projection;
     protected:
 
     public:
@@ -20,15 +19,14 @@ namespace mymath
         modelview = mv;
       }
 
-      void set_projection_matrix_stack( matrix_stack<t>* p )
+      impl::mat4i<t> get_model_view_projection_matrix( const camera<t>& cam )
       {
-        assert( p != 0 );
-        projection = p;
+        return cam.get_frame()->projection_matrix * modelview->get_matrix();
       }
 
-      impl::mat4i<t> get_model_view_projection_matrix()
+      impl::mat4i<t> get_model_view_projection_matrix( const impl::mat4i<t>& proj )
       {
-        return projection->get_matrix() * modelview->get_matrix();
+        return proj * modelview->get_matrix();
       }
 
       impl::mat4i<t> get_model_view_matrix()
@@ -36,12 +34,7 @@ namespace mymath
         return modelview->get_matrix();
       }
 
-      impl::mat4i<t> get_projection_matrix()
-      {
-        return projection->get_matrix();
-      }
-
-      impl::mat3i<t> get_normal_matrix( bool do_normalize = false )
+      impl::mat3i<t> get_normal_matrix( const bool& do_normalize = false )
       {
         impl::mat4i<t> tmp = modelview->get_matrix();
         impl::mat3i<t> normal_matrix = impl::mat3i<t>( tmp[0].xyz, tmp[1].xyz, tmp[2].xyz );
@@ -60,7 +53,7 @@ namespace mymath
         return normal_matrix;
       }
 
-      pipeline() : modelview( 0 ), projection( 0 ) {}
+      pipeline() : modelview( 0 ) {}
   };
 
 }

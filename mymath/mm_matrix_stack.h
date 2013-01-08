@@ -21,24 +21,24 @@ namespace mymath
         stack[stack_pointer] = impl::mat4i<t>( 1 );
       }
 
-      void load_matrix( impl::mat4i<t> m )
+      void load_matrix( const impl::mat4i<t>& m )
       {
         assert( stack_pointer < 64 && stack_pointer >= 0 );
         stack[stack_pointer] = m;
       }
 
-      void load_matrix( camera<t> c )
+      void load_matrix( const camera<t>& c )
       {
         load_matrix( c.get_matrix( false ) );
       }
 
-      void mult_matrix( impl::mat4i<t> m )
+      void mult_matrix( const impl::mat4i<t>& m )
       {
         assert( stack_pointer < 64 && stack_pointer >= 0 );
         stack[stack_pointer] *= m;
       }
 
-      void mult_matrix( camera<t> c )
+      void mult_matrix( const camera<t>& c )
       {
         mult_matrix( c.get_matrix( false ) );
       }
@@ -50,14 +50,14 @@ namespace mymath
         stack[stack_pointer] = stack[stack_pointer - 1];
       }
 
-      void push_matrix( impl::mat4i<t> m )
+      void push_matrix( const impl::mat4i<t>& m )
       {
         ++stack_pointer;
         assert( stack_pointer < 64 && stack_pointer >= 0 );
         stack[stack_pointer] = m;
       }
 
-      void push_matrix( camera<t> c )
+      void push_matrix( const camera<t>& c )
       {
         push_matrix( c.get_matrix( false ) );
       }
@@ -68,13 +68,13 @@ namespace mymath
         assert( stack_pointer < 64 && stack_pointer >= 0 );
       }
 
-      void scale_matrix( impl::vec3i<t> vec )
+      void scale_matrix( const impl::vec3i<t>& vec )
       {
         assert( stack_pointer < 64 && stack_pointer >= 0 );
         stack[stack_pointer] *= create_scale( vec );
       }
 
-      void translate_matrix_v( impl::vec3i<t> vec )
+      void translate_matrix_v( const impl::vec3i<t>& vec )
       {
         assert( stack_pointer < 64 && stack_pointer >= 0 );
         impl::mat4i<t> translation = create_translation( vec );
@@ -82,13 +82,13 @@ namespace mymath
         stack[stack_pointer] *= translation;
       }
 
-      void translate_matrix( impl::vec3i<t> vec )
+      void translate_matrix( const impl::vec3i<t>& vec )
       {
         assert( stack_pointer < 64 && stack_pointer >= 0 );
         stack[stack_pointer] *= create_translation( vec );
       }
 
-      void rotate_matrix( t angle, impl::vec3i<t> vec )
+      void rotate_matrix( const t& angle, const impl::vec3i<t>& vec )
       {
         assert( stack_pointer < 64 && stack_pointer >= 0 );
         stack[stack_pointer] *= create_rotation( angle, vec );
