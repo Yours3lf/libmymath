@@ -368,7 +368,7 @@ namespace mymath
         vec4i( const ty& num1, const ty& num2, const vec2i<ty>& vec ) : x( num1 ), y( num2 ), z( vec.x ), w( vec.y ) {}
         vec4i( const vec2i<ty>& vec, const ty& num1, const ty& num2 ) : x( vec.x ), y( vec.y ), z( num1 ), w( num2 ) {}
         explicit vec4i( const ty& num ) : x( num ), y( num ), z( num ), w( num ) {}
-        vec4i() : x( 0.0f ), y( 0.0f ), z( 0.0f ), w( 0.0f ) {}
+        vec4i() : x( 0 ), y( 0 ), z( 0 ), w( 0 ) {}
 
         ty& operator[]( const unsigned int& num )
         {

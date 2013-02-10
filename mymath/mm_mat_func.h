@@ -228,113 +228,90 @@ namespace mymath
   template< typename t >
   inline impl::mat2i<t> inverse( const impl::mat2i<t>& mat )
   {
-    t det = determinant( mat );
-
-    if( det == 0 )
-    {
-      return impl::mat2i<t>( 1 );
-    }
-    else
-    {
-      return ::operator*( impl::mat2i<t>( mat[1].y, -mat[0].y,
-                                          -mat[1].x, mat[0].x ), ( ( t )1 / det ) );
-    }
+    assert( determinant( mat ) != 0 );
+    return ::operator*( impl::mat2i<t>( mat[1].y, -mat[0].y, -mat[1].x, mat[0].x ), ( ( t )1 / determinant( mat ) ) );
   }
 
   template< typename t >
   inline impl::mat3i<t> inverse( const impl::mat3i<t>& mat )
   {
-    t det = determinant( mat );
+    assert( determinant( mat ) != 0 );
 
-    if( det == 0 )
-    {
-      return impl::mat3i<t>( 1 );
-    }
-    else
-    {
-      return ::operator*( impl::mat3i<t>( determinant( impl::mat2i<t>( mat[1].y, mat[1].z,
-                                          mat[2].y, mat[2].z ) ),
-                                          -determinant( impl::mat2i<t>( mat[0].y, mat[0].z,
-                                              mat[2].y, mat[2].z ) ),
-                                          determinant( impl::mat2i<t>( mat[0].y, mat[0].z,
-                                              mat[1].y, mat[1].z ) ),
-                                          -determinant( impl::mat2i<t>( mat[1].x, mat[1].z,
-                                              mat[2].x, mat[2].z ) ),
-                                          determinant( impl::mat2i<t>( mat[0].x, mat[0].z,
-                                              mat[2].x, mat[2].z ) ),
-                                          -determinant( impl::mat2i<t>( mat[0].x, mat[0].z,
-                                              mat[1].x, mat[1].z ) ),
-                                          determinant( impl::mat2i<t>( mat[1].x, mat[1].y,
-                                              mat[2].x, mat[2].y ) ),
-                                          -determinant( impl::mat2i<t>( mat[0].x, mat[0].y,
-                                              mat[2].x, mat[2].y ) ),
-                                          determinant( impl::mat2i<t>( mat[0].x, mat[0].y,
-                                              mat[1].x, mat[1].y ) )
-                                        ), ( ( t )1 / det ) );
-    }
+    return ::operator*( impl::mat3i<t>( determinant( impl::mat2i<t>( mat[1].y, mat[1].z,
+                                        mat[2].y, mat[2].z ) ),
+                                        -determinant( impl::mat2i<t>( mat[0].y, mat[0].z,
+                                            mat[2].y, mat[2].z ) ),
+                                        determinant( impl::mat2i<t>( mat[0].y, mat[0].z,
+                                            mat[1].y, mat[1].z ) ),
+                                        -determinant( impl::mat2i<t>( mat[1].x, mat[1].z,
+                                            mat[2].x, mat[2].z ) ),
+                                        determinant( impl::mat2i<t>( mat[0].x, mat[0].z,
+                                            mat[2].x, mat[2].z ) ),
+                                        -determinant( impl::mat2i<t>( mat[0].x, mat[0].z,
+                                            mat[1].x, mat[1].z ) ),
+                                        determinant( impl::mat2i<t>( mat[1].x, mat[1].y,
+                                            mat[2].x, mat[2].y ) ),
+                                        -determinant( impl::mat2i<t>( mat[0].x, mat[0].y,
+                                            mat[2].x, mat[2].y ) ),
+                                        determinant( impl::mat2i<t>( mat[0].x, mat[0].y,
+                                            mat[1].x, mat[1].y ) )
+                                      ), ( ( t )1 / determinant( mat ) ) );
   }
 
   template< typename t >
   inline impl::mat4i<t> inverse( const impl::mat4i<t>& mat )
   {
-    t det = determinant( mat );
+    assert( determinant( mat ) != 0 );
 
-    if( det == 0 )
-    {
-      return impl::mat4i<t>( 1 );
-    }
-    else
-    {
-      return ::operator*( impl::mat4i<t>(
-                            determinant( impl::mat3i<t>( mat[1].y, mat[2].y, mat[3].y,
-                                         mat[1].z, mat[2].z, mat[3].z,
-                                         mat[1].w, mat[2].w, mat[3].w ) ),
-                            -determinant( impl::mat3i<t>( mat[0].y, mat[2].y, mat[3].y,
-                                          mat[0].z, mat[2].z, mat[3].z,
-                                          mat[0].w, mat[2].w, mat[3].w ) ),
-                            determinant( impl::mat3i<t>( mat[0].y, mat[1].y, mat[3].y,
-                                         mat[0].z, mat[1].z, mat[3].z,
-                                         mat[0].w, mat[1].w, mat[3].w ) ),
-                            -determinant( impl::mat3i<t>( mat[0].y, mat[1].y, mat[2].y,
-                                          mat[0].z, mat[1].z, mat[2].z,
-                                          mat[0].w, mat[1].w, mat[2].w ) ),
-                            -determinant( impl::mat3i<t>( mat[1].x, mat[2].x, mat[3].x,
-                                          mat[1].z, mat[2].z, mat[3].z,
-                                          mat[1].w, mat[2].w, mat[3].w ) ),
-                            determinant( impl::mat3i<t>( mat[0].x, mat[2].x, mat[3].x,
-                                         mat[0].z, mat[2].z, mat[3].z,
-                                         mat[0].w, mat[2].w, mat[3].w ) ),
-                            -determinant( impl::mat3i<t>( mat[0].x, mat[1].x, mat[3].x,
-                                          mat[0].z, mat[1].z, mat[3].z,
-                                          mat[0].w, mat[1].w, mat[3].w ) ),
-                            determinant( impl::mat3i<t>( mat[0].x, mat[1].x, mat[2].x,
-                                         mat[0].z, mat[1].z, mat[2].z,
-                                         mat[0].w, mat[1].w, mat[2].w ) ),
-                            determinant( impl::mat3i<t>( mat[1].x, mat[2].x, mat[3].x,
-                                         mat[1].y, mat[2].y, mat[3].y,
-                                         mat[1].w, mat[2].w, mat[3].w ) ),
-                            -determinant( impl::mat3i<t>( mat[0].x, mat[2].x, mat[3].x,
-                                          mat[0].y, mat[2].y, mat[3].y,
-                                          mat[0].w, mat[2].w, mat[3].w ) ),
-                            determinant( impl::mat3i<t>( mat[0].x, mat[1].x, mat[3].x,
-                                         mat[0].y, mat[1].y, mat[3].y,
-                                         mat[0].w, mat[1].w, mat[3].w ) ),
-                            -determinant( impl::mat3i<t>( mat[0].x, mat[1].x, mat[2].x,
-                                          mat[0].y, mat[1].y, mat[2].y,
-                                          mat[0].w, mat[1].w, mat[2].w ) ),
-                            -determinant( impl::mat3i<t>( mat[1].x, mat[2].x, mat[3].x,
-                                          mat[1].y, mat[2].y, mat[3].y,
-                                          mat[1].z, mat[2].z, mat[3].z ) ),
-                            determinant( impl::mat3i<t>( mat[0].x, mat[2].x, mat[3].x,
-                                         mat[0].y, mat[2].y, mat[3].y,
-                                         mat[0].z, mat[2].z, mat[3].z ) ),
-                            -determinant( impl::mat3i<t>( mat[0].x, mat[1].x, mat[3].x,
-                                          mat[0].y, mat[1].y, mat[3].y,
-                                          mat[0].z, mat[1].z, mat[3].z ) ),
-                            determinant( impl::mat3i<t>( mat[0].x, mat[1].x, mat[2].x,
-                                         mat[0].y, mat[1].y, mat[2].y,
-                                         mat[0].z, mat[1].z, mat[2].z ) ) ), ( ( t )1 / det ) );
-    }
+    return ::operator*( impl::mat4i<t>(
+                          determinant( impl::mat3i<t>( mat[1].y, mat[2].y, mat[3].y,
+                                       mat[1].z, mat[2].z, mat[3].z,
+                                       mat[1].w, mat[2].w, mat[3].w ) ),
+                          -determinant( impl::mat3i<t>( mat[0].y, mat[2].y, mat[3].y,
+                                        mat[0].z, mat[2].z, mat[3].z,
+                                        mat[0].w, mat[2].w, mat[3].w ) ),
+                          determinant( impl::mat3i<t>( mat[0].y, mat[1].y, mat[3].y,
+                                       mat[0].z, mat[1].z, mat[3].z,
+                                       mat[0].w, mat[1].w, mat[3].w ) ),
+                          -determinant( impl::mat3i<t>( mat[0].y, mat[1].y, mat[2].y,
+                                        mat[0].z, mat[1].z, mat[2].z,
+                                        mat[0].w, mat[1].w, mat[2].w ) ),
+                          -determinant( impl::mat3i<t>( mat[1].x, mat[2].x, mat[3].x,
+                                        mat[1].z, mat[2].z, mat[3].z,
+                                        mat[1].w, mat[2].w, mat[3].w ) ),
+                          determinant( impl::mat3i<t>( mat[0].x, mat[2].x, mat[3].x,
+                                       mat[0].z, mat[2].z, mat[3].z,
+                                       mat[0].w, mat[2].w, mat[3].w ) ),
+                          -determinant( impl::mat3i<t>( mat[0].x, mat[1].x, mat[3].x,
+                                        mat[0].z, mat[1].z, mat[3].z,
+                                        mat[0].w, mat[1].w, mat[3].w ) ),
+                          determinant( impl::mat3i<t>( mat[0].x, mat[1].x, mat[2].x,
+                                       mat[0].z, mat[1].z, mat[2].z,
+                                       mat[0].w, mat[1].w, mat[2].w ) ),
+                          determinant( impl::mat3i<t>( mat[1].x, mat[2].x, mat[3].x,
+                                       mat[1].y, mat[2].y, mat[3].y,
+                                       mat[1].w, mat[2].w, mat[3].w ) ),
+                          -determinant( impl::mat3i<t>( mat[0].x, mat[2].x, mat[3].x,
+                                        mat[0].y, mat[2].y, mat[3].y,
+                                        mat[0].w, mat[2].w, mat[3].w ) ),
+                          determinant( impl::mat3i<t>( mat[0].x, mat[1].x, mat[3].x,
+                                       mat[0].y, mat[1].y, mat[3].y,
+                                       mat[0].w, mat[1].w, mat[3].w ) ),
+                          -determinant( impl::mat3i<t>( mat[0].x, mat[1].x, mat[2].x,
+                                        mat[0].y, mat[1].y, mat[2].y,
+                                        mat[0].w, mat[1].w, mat[2].w ) ),
+                          -determinant( impl::mat3i<t>( mat[1].x, mat[2].x, mat[3].x,
+                                        mat[1].y, mat[2].y, mat[3].y,
+                                        mat[1].z, mat[2].z, mat[3].z ) ),
+                          determinant( impl::mat3i<t>( mat[0].x, mat[2].x, mat[3].x,
+                                       mat[0].y, mat[2].y, mat[3].y,
+                                       mat[0].z, mat[2].z, mat[3].z ) ),
+                          -determinant( impl::mat3i<t>( mat[0].x, mat[1].x, mat[3].x,
+                                        mat[0].y, mat[1].y, mat[3].y,
+                                        mat[0].z, mat[1].z, mat[3].z ) ),
+                          determinant( impl::mat3i<t>( mat[0].x, mat[1].x, mat[2].x,
+                                       mat[0].y, mat[1].y, mat[2].y,
+                                       mat[0].z, mat[1].z, mat[2].z ) ) ), ( ( t )1 / determinant( mat ) ) );
   }
 
   template< typename t >

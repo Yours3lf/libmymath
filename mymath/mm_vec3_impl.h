@@ -207,7 +207,7 @@ namespace mymath
         vec3i( const vec2i<ty>& vec, const ty& num ) : x( vec.x ), y( vec.y ), z( num ) {}
         vec3i( const ty& num, const vec2i<ty>& vec ) : x( num ), y( vec.x ), z( vec.y ) {}
         explicit vec3i( const ty& num ) : x( num ), y( num ), z( num ) {}
-        vec3i() : x( 0.0f ), y( 0.0f ), z( 0.0f ) {}
+        vec3i() : x( 0 ), y( 0 ), z( 0 ) {}
 
         ty& operator[]( const unsigned int& num )
         {

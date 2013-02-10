@@ -9,8 +9,7 @@ namespace mymath
 #define MYMATH_CREATEROTATION_FUNC(t) \
   inline impl::mat4i<t> create_rotation( const t& angle, const impl::vec3i<t> vec ) \
   { \
-    if( length( vec ) == ( t )0 ) \
-      { return impl::mat4i<t>( 1 ); } \
+    assert( length( vec ) != 0 ); \
     t a = angle; \
     t s = std::sin( a ); \
     t c = std::cos( a ); \
