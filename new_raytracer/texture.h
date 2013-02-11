@@ -15,7 +15,11 @@ class texture
 
     vec3 get_texel( const vec2& uv )
     {
-      assert( data.size() > 0 );
+      if( data.size() == 0 )
+      {
+        return vec3( 1 );
+      }
+
       float fu = ( uv.x + 1000.5f ) * w;
       float fv = ( 1.0f - uv.y + 1000.0f ) * w;
       int u1 = ( ( int )fu ) % w;
