@@ -19,11 +19,11 @@ float fps = 1.0f;
 int frames = 0;
 sf::Clock the_clock;
 std::string app_path;
-uvec2 screen( 1280, 720 );
+uvec2 screen( 800, 600 );
 vec4* tex = 0;
 float elapsed_time = 0.0f;
 unsigned int current_time = 0;
-unsigned int num_threads = 1;
+unsigned int num_threads = 16;
 bool silent = false;
 bool fullscreen = false;
 
@@ -349,7 +349,7 @@ int main( int argc, char* args[] )
 
       for( unsigned int c = 0; c < num_threads; c++ )
       {
-        unsigned int amount = screen.x / num_threads;
+        float amount = screen.x / ( float )num_threads;
         unsigned int end = amount * ( c + 1 );
 
         if( end > screen.x )
@@ -368,7 +368,7 @@ int main( int argc, char* args[] )
     }
     else
     {
-      thread_func( uvec2( 0, screen.y ) );
+      thread_func( uvec2( 0, screen.x ) );
     }
 
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, screen.x, screen.y, 0, GL_RGBA, GL_FLOAT, &tex[0][0] );
@@ -401,3 +401,4 @@ int main( int argc, char* args[] )
 
   return 0;
 }
+
