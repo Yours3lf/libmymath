@@ -29,8 +29,8 @@ static const int hit = 1, inside = -1, miss = 0;
 static const int gridsize = 8;
 static const int gridshift = 3;
 
-static int num_samples = 64;
-static int trace_depth = 8;
+static int num_samples = 16; //64
+static int trace_depth = 4; //8
 
 #if COUNT_INTERSECTIONS == 1
 static unsigned int intersections = 0;

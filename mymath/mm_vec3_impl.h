@@ -54,7 +54,7 @@ namespace mymath
               return *( vec3i* )this;
             }
 
-            operator vec3i()
+            operator vec3i() const
             {
               return vec3i( v[at], v[bt], v[ct] );
             }
@@ -66,7 +66,7 @@ namespace mymath
           private:
             ty v[3];
           public:
-            operator vec3i()
+            operator vec3i() const
             {
               return vec3i( v[at] );
             }
@@ -78,7 +78,7 @@ namespace mymath
           private:
             ty v[3];
           public:
-            operator vec3i()
+            operator vec3i() const
             {
               return vec3i( v[bt], v[at], v[at] );
             }
@@ -90,7 +90,7 @@ namespace mymath
           private:
             ty v[3];
           public:
-            operator vec3i()
+            operator vec3i() const
             {
               return vec3i( v[at], v[bt], v[at] );
             }
@@ -102,7 +102,7 @@ namespace mymath
           private:
             ty v[3];
           public:
-            operator vec3i()
+            operator vec3i() const
             {
               return vec3i( v[at], v[at], v[bt] );
             }
@@ -115,7 +115,7 @@ namespace mymath
           private:
             ty v[3];
           public:
-            operator vec2i<ty>()
+            operator vec2i<ty>() const
             {
               return vec2i<ty>( v[at], v[at] );
             }
@@ -166,7 +166,7 @@ namespace mymath
               return *( vec2i<ty>* )this;
             }
 
-            operator vec2i<ty>()
+            operator vec2i<ty>() const
             {
               return vec2i<ty>( v[at], v[bt] );
             }
@@ -319,7 +319,7 @@ namespace mymath
           return *this;
         }
 
-        const unsigned int length()
+        const unsigned int length() const
         {
           return 3;
         }

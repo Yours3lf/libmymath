@@ -35,7 +35,7 @@ class aabb
     }
 
     aabb() {}
-    
+
     aabb( const vec3& p, const vec3& s )
     {
       pos = p;

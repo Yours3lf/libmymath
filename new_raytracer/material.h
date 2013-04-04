@@ -14,7 +14,7 @@ class material
     float reflectivity, refractivity, diffuse_coeff, specular_coeff, refraction_index, diffuse_reflectivity;
     texture* tex;
     vec2 uvscale, inv_uvscale;
-		
+
     material()
     {
       diffuse_color = vec3( 0.2f );
@@ -27,7 +27,7 @@ class material
       inv_uvscale = vec2( 1 );
       tex = 0;
     }
-    
+
     ~material()
     {
       if( tex )

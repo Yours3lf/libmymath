@@ -409,7 +409,7 @@ inline vec3 raytrace( const ray& r, int depth, float r_index, float& dist, int& 
       primitive* p2 = 0;
       vec3 l;
 
-      if( dynamic_cast<sphere*>( *it ) )
+      if( ( *it )->type == primitive::SPHERE )
       {
         shade = 1.0f;
 
@@ -427,7 +427,7 @@ inline vec3 raytrace( const ray& r, int depth, float r_index, float& dist, int& 
           }
         }
       }
-      else if( dynamic_cast<box*>( *it ) )
+      else if( ( *it )->type == primitive::BOX )
       {
         shade = 0;
         box* b = ( box* ) * it;
@@ -485,7 +485,8 @@ inline vec3 raytrace( const ray& r, int depth, float r_index, float& dist, int& 
 
             if( v_dot_r > 0.0f )
             {
-              result += vec3( shade * std::pow( v_dot_r, 20 ) * p->mat.specular_coeff ) * ( *it )->mat.diffuse_color;
+              const float spec_pow = 20;
+              result += vec3( spec_pow * shade * std::pow( v_dot_r, spec_pow ) * p->mat.specular_coeff ) * ( *it )->mat.diffuse_color;
             }
           }
         }
@@ -840,6 +841,25 @@ int main( int argc, char* args[] )
                 num_samples = 64;
                 trace_depth = 8;
               }
+            }
+
+            if( the_event.key.code == sf::Keyboard::Tab )
+            {
+              sf::Image im;
+              im.create( screen.x, screen.y );
+
+              for( unsigned int x = 0; x < screen.x; ++x )
+              {
+                for( unsigned int y = 0; y < screen.y; ++y )
+                {
+                  vec4 val = clamp( tex[y * screen.x + x], vec4( 0 ), vec4( 1 ) ) * vec4( 255 );
+                  im.setPixel( x, y, sf::Color( val.x, val.y, val.z, val.w ) );
+                }
+              }
+
+              im.saveToFile( "screenshot.png" );
+
+              std::cout << "Screenshot saved." << std::endl;
             }
 
             /*

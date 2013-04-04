@@ -49,7 +49,7 @@ namespace mymath
               return *( vec2i* )this;
             }
 
-            operator vec2i()
+            operator vec2i() const
             {
               return vec2i( v[at], v[bt] );
             }
@@ -61,7 +61,7 @@ namespace mymath
           private:
             ty v[2];
           public:
-            operator vec2i()
+            operator vec2i() const
             {
               return vec2i( v[at] );
             }
@@ -200,7 +200,7 @@ namespace mymath
           return *this;
         }
 
-        const unsigned int length()
+        const unsigned int length() const
         {
           return 2;
         }

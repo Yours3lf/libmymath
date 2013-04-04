@@ -18,7 +18,7 @@ namespace mymath
       private:
         ty v[2];
       public:
-        operator vec3i<ty>()
+        operator vec3i<ty>() const
         {
           return vec3i<ty>( v[a] );
         }
@@ -31,7 +31,7 @@ namespace mymath
       private:
         ty v[2];
       public:
-        operator vec3i<ty>()
+        operator vec3i<ty>() const
         {
           return vec3i<ty>( v[b], v[a], v[a] );
         }
@@ -44,7 +44,7 @@ namespace mymath
       private:
         ty v[2];
       public:
-        operator vec3i<ty>()
+        operator vec3i<ty>() const
         {
           return vec3i<ty>( v[a], v[b], v[a] );
         }
@@ -57,7 +57,7 @@ namespace mymath
       private:
         ty v[2];
       public:
-        operator vec3i<ty>()
+        operator vec3i<ty>() const
         {
           return vec3i<ty>( v[a], v[a], v[b] );
         }
@@ -71,7 +71,7 @@ namespace mymath
       private:
         ty v[2];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[a] );
         }
@@ -84,7 +84,7 @@ namespace mymath
       private:
         ty v[2];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[b], v[a], v[a], v[a] );
         }
@@ -97,7 +97,7 @@ namespace mymath
       private:
         ty v[2];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[a], v[b], v[a], v[a] );
         }
@@ -110,7 +110,7 @@ namespace mymath
       private:
         ty v[2];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[a], v[a], v[b], v[a] );
         }
@@ -123,7 +123,7 @@ namespace mymath
       private:
         ty v[2];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[a], v[a], v[a], v[b] );
         }
@@ -137,7 +137,7 @@ namespace mymath
       private:
         ty v[3];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[a] );
         }
@@ -150,7 +150,7 @@ namespace mymath
       private:
         ty v[3];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[b], v[a], v[a], v[a] );
         }
@@ -163,7 +163,7 @@ namespace mymath
       private:
         ty v[3];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[a], v[b], v[a], v[a] );
         }
@@ -176,7 +176,7 @@ namespace mymath
       private:
         ty v[3];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[a], v[a], v[b], v[a] );
         }
@@ -189,7 +189,7 @@ namespace mymath
       private:
         ty v[3];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[a], v[a], v[a], v[b] );
         }
@@ -202,7 +202,7 @@ namespace mymath
       private:
         ty v[3];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[b], v[c], v[a], v[a] );
         }
@@ -215,7 +215,7 @@ namespace mymath
       private:
         ty v[3];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[b], v[a], v[c], v[a] );
         }
@@ -228,7 +228,7 @@ namespace mymath
       private:
         ty v[3];
       public:
-        operator vec4i<ty>()
+        operator vec4i<ty>() const
         {
           return vec4i<ty>( v[b], v[a], v[a], v[c] );
         }

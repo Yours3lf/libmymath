@@ -37,11 +37,10 @@ inline float int_sphere( const vec3& o, const vec3& d, const vec4& sphere )
   //that is |xyz|^2 = r^2
   //xyz = o + t * d, therefore |o|^2 + t^2 + 2<o, d>t - r^2 = 0
   //just think of the simple sphere equation learned in high school
-  vec4 s = sphere;
-  vec3 oc = o - s.xyz;
+  vec3 oc = o - sphere.xyz;
   //vec3 oc = o - sphere.xyz;
   float b = 2.0f * dot( oc, d );
-  float c = dot( oc, oc ) - s.w * s.w;
+  float c = dot( oc, oc ) - sphere.w * sphere.w;
   float h = b * b - 4.0f * c;
 
   if( h < 0.0f ) return -1.0f;
@@ -401,4 +400,5 @@ int main( int argc, char* args[] )
 
   return 0;
 }
+
 

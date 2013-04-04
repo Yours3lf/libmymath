@@ -117,9 +117,11 @@ class scene
       p->mat.diffuse_coeff = 0.7f;
       p->mat.specular_coeff = 0.5f;
       //p->mat.diffuse_reflectivity = 0.05f;
+      //p->mat.tex = new texture( "../textures/brick.png" );
       p->mat.tex = new texture( "../textures/wood.tga" );
       p->mat.uvscale = vec2( 0.05f );
       p->mat.inv_uvscale = vec2( 1.0f / 0.05f );
+      p->id = 0;
       primitives.push_back( p );
 
       sphere* s = new sphere( vec3( 0, 0.5f, 4 ), 2.0f );
@@ -129,9 +131,11 @@ class scene
       s->mat.diffuse_coeff = 0.5f;
       s->mat.specular_coeff = 0.8f;
       //s->mat.diffuse_reflectivity = 0.3f;
+      //s->mat.tex = new texture( "../textures/rock.png" );
       s->mat.tex = new texture( "../textures/marble.tga" );
       s->mat.uvscale = vec2( 0.8f );
       s->mat.inv_uvscale = vec2( 1.0f / 0.8f );
+      s->id = 1;
       primitives.push_back( s );
 
       s = new sphere( vec3( -5, -0.8f, 7 ), 2 );
@@ -140,9 +144,11 @@ class scene
       s->mat.refractivity = 0;
       s->mat.diffuse_coeff = 0.7f;
       //s->mat.diffuse_reflectivity = 0.6f;
+      //s->mat.tex = new texture( "../textures/brick.png" );
       s->mat.tex = new texture( "../textures/marble.tga" );
       s->mat.uvscale = vec2( 0.8f );
       s->mat.inv_uvscale = vec2( 1.0f / 0.8f );
+      s->id = 2;
       primitives.push_back( s );
 
       s = new sphere( vec3( 5, -0.8f, 7 ), 2 );
@@ -151,9 +157,11 @@ class scene
       s->mat.refractivity = 0;
       s->mat.refraction_index = 1.3f;
       s->mat.diffuse_coeff = 0.4f;
+      //s->mat.tex = new texture( "../textures/terrain.png" );
       s->mat.tex = new texture( "../textures/marble.tga" );
       s->mat.uvscale = vec2( 0.8f );
       s->mat.inv_uvscale = vec2( 1.0f / 0.8f );
+      s->id = 3;
       primitives.push_back( s );
 
       box* b = new box( aabb( vec3( -1, 5, 4 ), vec3( 2, 0.1f, 2 ) ) );
@@ -164,6 +172,7 @@ class scene
       b = new box( aabb( vec3( -1, 5, -1 ), vec3( 2, 0.1f, 2 ) ) );
       b->set_light();
       b->mat.diffuse_color = vec3( 0.7f );
+      b->id = 4;
       primitives.push_back( b );
 
       /*s = new sphere( vec3( 4, 4, -4 ), 0.1f );
@@ -182,9 +191,11 @@ class scene
       p->mat.specular_coeff = 0;
       p->mat.diffuse_coeff = 1;
       p->mat.diffuse_color = vec3( 0.6f, 0.5f, 0.5f );
+      //p->mat.tex = new texture( "../textures/terrain.png" );
       p->mat.tex = new texture( "../textures/marble.tga" );
       p->mat.uvscale = vec2( 0.1f );
       p->mat.inv_uvscale = vec2( 1.0f / 0.1f );
+      p->id = 5;
       primitives.push_back( p );
 
       p = new plane( vec3( 1, 0, 0 ), 10.0f );
@@ -193,9 +204,11 @@ class scene
       p->mat.specular_coeff = 0;
       p->mat.diffuse_coeff = 1;
       p->mat.diffuse_color = vec3( 0.5f, 0.5f, 0.6f );
+      //p->mat.tex = new texture( "../textures/terrain.png" );
       p->mat.tex = new texture( "../textures/marble.tga" );
       p->mat.uvscale = vec2( 0.1f );
       p->mat.inv_uvscale = vec2( 1.0f / 0.1f );
+      p->id = 6;
       primitives.push_back( p );
 
       p = new plane( vec3( -1, 0, 0 ), 10.0f );
@@ -204,9 +217,11 @@ class scene
       p->mat.specular_coeff = 0;
       p->mat.diffuse_coeff = 1;
       p->mat.diffuse_color = vec3( 0.5f, 0.5f, 0.6f );
+      //p->mat.tex = new texture( "../textures/terrain.png" );
       p->mat.tex = new texture( "../textures/marble.tga" );
       p->mat.uvscale = vec2( 0.1f );
       p->mat.inv_uvscale = vec2( 1.0f / 0.1f );
+      p->id = 7;
       primitives.push_back( p );
 
       p = new plane( vec3( 0, -1, 0 ), 5.2f );
@@ -218,6 +233,7 @@ class scene
       //p->mat.tex = new texture( "../textures/wood.tga" );
       p->mat.uvscale = vec2( 0.4f );
       p->mat.inv_uvscale = vec2( 1.0f / 0.4f );
+      p->id = 8;
       primitives.push_back( p );
 
       box* b2 = new box( aabb( vec3( 1.5f, -3, 2.5f ), vec3( 3, 1.5f, 3 ) ) );
@@ -228,6 +244,7 @@ class scene
       //b2->mat.tex = new texture( "../textures/wood.tga" );
       b2->mat.uvscale = vec2( 0.4f );
       b2->mat.inv_uvscale = vec2( 1.0f / 0.4f );
+      b2->id = 9;
       primitives.push_back( b2 );
 
       build_grid();

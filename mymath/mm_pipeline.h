@@ -19,22 +19,22 @@ namespace mymath
         modelview = mv;
       }
 
-      impl::mat4i<t> get_model_view_projection_matrix( const camera<t>& cam )
+      impl::mat4i<t> get_model_view_projection_matrix( const camera<t>& cam ) const
       {
         return cam.get_frame()->projection_matrix * modelview->get_matrix();
       }
 
-      impl::mat4i<t> get_model_view_projection_matrix( const impl::mat4i<t>& proj )
+      impl::mat4i<t> get_model_view_projection_matrix( const impl::mat4i<t>& proj ) const
       {
         return proj * modelview->get_matrix();
       }
 
-      impl::mat4i<t> get_model_view_matrix()
+      impl::mat4i<t> get_model_view_matrix() const
       {
         return modelview->get_matrix();
       }
 
-      impl::mat3i<t> get_normal_matrix( const bool& do_normalize = false )
+      impl::mat3i<t> get_normal_matrix( const bool& do_normalize = false ) const
       {
         impl::mat4i<t> tmp = modelview->get_matrix();
         impl::mat3i<t> normal_matrix = impl::mat3i<t>( tmp[0].xyz, tmp[1].xyz, tmp[2].xyz );

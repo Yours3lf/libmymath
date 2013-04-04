@@ -188,10 +188,14 @@ class box : public primitive
       return bb;
     }
 
-    box() {}
-    
+    box()
+    {
+      type = BOX;
+    }
+
     box( const aabb& b )
     {
+      type = BOX;
       bb = b;
     }
 };

@@ -11,7 +11,7 @@ namespace mymath
     private:
       frame<t>* the_frame;
 
-      impl::vec3i<t> convert_local_to_world( const impl::vec3i<t>& local, const bool& rotation_only )
+      impl::vec3i<t> convert_local_to_world( const impl::vec3i<t>& local, const bool& rotation_only ) const
       {
         impl::mat4i<t> rm = get_matrix( true );
 
@@ -25,7 +25,7 @@ namespace mymath
         return world;
       }
 
-      impl::vec3i<t> convert_world_to_local( const impl::vec3i<t>& world )
+      impl::vec3i<t> convert_world_to_local( const impl::vec3i<t>& world ) const
       {
         impl::vec3i<t> new_world = world - pos;
 
@@ -34,14 +34,14 @@ namespace mymath
         return impl::mat3i<t>( im[0].xyz, im[1].xyz, im[2].xyz ) * new_world;
       }
 
-      impl::vec3i<t> rotate_vector( const impl::vec3i<t>& vec )
+      impl::vec3i<t> rotate_vector( const impl::vec3i<t>& vec ) const
       {
         impl::mat4i<t> m = get_matrix( true );
 
         return impl::mat3i<t>( m[0].xyz, m[1].xyz, m[2].xyz ) * vec;
       }
 
-      impl::vec3i<t> transform_point( const impl::vec3i<t>& point )
+      impl::vec3i<t> transform_point( const impl::vec3i<t>& point ) const
       {
         impl::mat4i<t> m = get_matrix( false );
 
@@ -54,7 +54,7 @@ namespace mymath
       impl::vec3i<t> view_dir;
       impl::vec3i<t> up_vector;
 
-      impl::vec2i<t> get_rotations( const int& screen_width, const int& screen_height, const int& delta_x, const int& delta_y )
+      impl::vec2i<t> get_rotations( const int& screen_width, const int& screen_height, const int& delta_x, const int& delta_y ) const
       {
         impl::vec2i<t> rot;
 
@@ -145,7 +145,7 @@ namespace mymath
         rotate_world( angle, convert_local_to_world( vec, true ) );
       }
 
-      impl::mat4i<t> get_matrix( const bool& rotation_only )
+      impl::mat4i<t> get_matrix( const bool& rotation_only ) const
       {
         impl::vec3i<t> right = cross( up_vector, view_dir );
 
@@ -166,7 +166,7 @@ namespace mymath
         }
       }
 
-      impl::mat4i<t> get_camera_matrix( const bool& rotation_only )
+      impl::mat4i<t> get_camera_matrix( const bool& rotation_only ) const
       {
         impl::vec3i<t> x = cross( up_vector, -view_dir );
 

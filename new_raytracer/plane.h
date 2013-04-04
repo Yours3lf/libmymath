@@ -98,10 +98,14 @@ class plane : public primitive
       return aabb( vec3( -10000 ), vec3( 20000 ) );
     }
 
-    plane() {}
-    
+    plane()
+    {
+      type = PLANE;
+    }
+
     plane( const vec3& n, float p )
     {
+      type = PLANE;
       normal = n;
       point = p;
       uaxis = vec3( n.y, n.z, -n.x );

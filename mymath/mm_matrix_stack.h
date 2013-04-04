@@ -94,7 +94,7 @@ namespace mymath
         stack[stack_pointer] *= create_rotation( angle, vec );
       }
 
-      impl::mat4i<t> get_matrix()
+      impl::mat4i<t> get_matrix() const
       {
         assert( stack_pointer < 64 && stack_pointer >= 0 );
         return stack[stack_pointer];

@@ -12,9 +12,16 @@ class primitive
   private:
   protected:
   public:
+    enum prim_type
+    {
+      BOX, PLANE, SPHERE
+    };
+
     bool light;
     material mat;
     int ray_id;
+    prim_type type;
+    int id;
 
     virtual int intersect( const ray& r, float& dist ) = 0;
     virtual bool intersect_box( const aabb& box ) = 0;
@@ -29,6 +36,7 @@ class primitive
     {
       light = false;
       ray_id = -1;
+      id = -1;
     }
 };
 

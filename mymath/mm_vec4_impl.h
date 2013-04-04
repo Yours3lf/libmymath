@@ -59,7 +59,7 @@ namespace mymath
               return *( vec4i* )this;
             }
 
-            operator vec4i()
+            operator vec4i() const
             {
               return vec4i( v[at], v[bt], v[ct], v[dt] );
             }
@@ -71,7 +71,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec4i()
+            operator vec4i() const
             {
               return vec4i( v[at] );
             }
@@ -83,7 +83,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec4i()
+            operator vec4i() const
             {
               return vec4i( v[bt], v[at], v[at], v[at] );
             }
@@ -95,7 +95,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec4i()
+            operator vec4i() const
             {
               return vec4i( v[at], v[bt], v[at], v[at] );
             }
@@ -107,7 +107,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec4i()
+            operator vec4i() const
             {
               return vec4i( v[at], v[at], v[bt], v[at] );
             }
@@ -119,7 +119,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec4i()
+            operator vec4i() const
             {
               return vec4i( v[at], v[at], v[at], v[bt] );
             }
@@ -131,7 +131,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec4i()
+            operator vec4i() const
             {
               return vec4i( v[bt], v[ct], v[at], v[at] );
             }
@@ -143,7 +143,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec4i()
+            operator vec4i() const
             {
               return vec4i( v[bt], v[at], v[ct], v[at] );
             }
@@ -155,7 +155,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec4i()
+            operator vec4i() const
             {
               return vec4i( v[bt], v[at], v[at], v[ct] );
             }
@@ -168,7 +168,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec3i<ty>()
+            operator vec3i<ty>() const
             {
               return vec3i<ty>( v[at] );
             }
@@ -180,7 +180,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec3i<ty>()
+            operator vec3i<ty>() const
             {
               return vec3i<ty>( v[bt], v[at], v[at] );
             }
@@ -192,7 +192,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec3i<ty>()
+            operator vec3i<ty>() const
             {
               return vec3i<ty>( v[at], v[bt], v[at] );
             }
@@ -204,7 +204,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec3i<ty>()
+            operator vec3i<ty>() const
             {
               return vec3i<ty>( v[at], v[at], v[bt] );
             }
@@ -260,7 +260,7 @@ namespace mymath
               return *( vec3i<ty>* )this;
             }
 
-            operator vec3i<ty>()
+            operator vec3i<ty>() const
             {
               return vec3i<ty>( v[at], v[bt], v[ct] );
             }
@@ -273,7 +273,7 @@ namespace mymath
           private:
             ty v[4];
           public:
-            operator vec2i<ty>()
+            operator vec2i<ty>() const
             {
               return vec2i<ty>( v[at], v[at] );
             }
@@ -324,7 +324,7 @@ namespace mymath
               return *( vec2i<ty>* )this;
             }
 
-            operator vec2i<ty>()
+            operator vec2i<ty>() const
             {
               return vec2i<ty>( v[at], v[bt] );
             }
@@ -492,7 +492,7 @@ namespace mymath
           return *this;
         }
 
-        const unsigned int lenght()
+        const unsigned int lenght() const
         {
           return 4;
         }

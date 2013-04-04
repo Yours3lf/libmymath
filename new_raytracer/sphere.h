@@ -29,6 +29,7 @@ class sphere : public primitive
       //get vector from center to ray origin
       vec3 v = r.origin - center;
       //get the angle between the ray direction and the vector to the sphere center
+      //negate is needed, because it is in opposite direction
       float b = -dot( v, r.direction );
       //b squared - v's length squared + radius squared
       float det = b * b - dot( v, v ) + square_radius;
@@ -134,10 +135,14 @@ class sphere : public primitive
       return result;
     }
 
-    sphere() {}
-    
+    sphere()
+    {
+      type = SPHERE;
+    }
+
     sphere( const vec3& c, float r )
     {
+      type = SPHERE;
       center = c;
       radius = r;
       square_radius = r * r;

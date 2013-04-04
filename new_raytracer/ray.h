@@ -12,7 +12,7 @@ class ray
     int ray_id;
 
     ray() {}
-    
+
     ray( const vec3& o, const vec3& d, int id )
     {
       origin = o;
