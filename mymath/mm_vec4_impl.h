@@ -474,7 +474,7 @@ namespace mymath
           return *this;
         }
 
-        const vec4i operator++ ( impl::post )
+        const vec4i operator++ () //pre
         {
           ++x;
           ++y;
@@ -483,13 +483,27 @@ namespace mymath
           return *this;
         }
 
-        const vec4i operator-- ( impl::post )
+        const vec4i operator++ ( impl::post )
+        {
+          vec4i tmp = *this;
+          ++( *this );
+          return tmp;
+        }
+
+        const vec4i operator-- () //pre
         {
           --x;
           --y;
           --z;
           --w;
           return *this;
+        }
+
+        const vec4i operator-- ( impl::post )
+        {
+          vec4i tmp = *this;
+          --( *this );
+          return tmp;
         }
 
         const unsigned int lenght() const

@@ -186,18 +186,32 @@ namespace mymath
           return *this;
         }
 
-        const vec2i operator++ ( impl::post )
+        const vec2i operator++ () //pre
         {
           ++x;
           ++y;
           return *this;
         }
 
-        const vec2i operator-- ( impl::post )
+        const vec2i operator++ ( impl::post )
+        {
+          vec2i tmp = *this;
+          ++( *this );
+          return tmp;
+        }
+
+        const vec2i operator-- () //pre
         {
           --x;
           --y;
           return *this;
+        }
+
+        const vec2i operator-- ( impl::post )
+        {
+          vec2i tmp = *this;
+          --( *this );
+          return tmp;
         }
 
         const unsigned int length() const

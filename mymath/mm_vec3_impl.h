@@ -303,7 +303,7 @@ namespace mymath
           return *this;
         }
 
-        const vec3i operator++ ( impl::post )
+        const vec3i operator++ () //pre
         {
           ++x;
           ++y;
@@ -311,12 +311,26 @@ namespace mymath
           return *this;
         }
 
-        const vec3i operator-- ( impl::post )
+        const vec3i operator++ ( impl::post )
+        {
+          vec3i tmp = *this;
+          ++( *this );
+          return tmp;
+        }
+
+        const vec3i operator-- () //pre
         {
           --x;
           --y;
           --z;
           return *this;
+        }
+
+        const vec3i operator-- ( impl::post )
+        {
+          vec3i tmp = *this;
+          --( *this );
+          return tmp;
         }
 
         const unsigned int length() const
