@@ -186,14 +186,14 @@ namespace mymath
           return *this;
         }
 
-        const vec2i operator++ ( int )
+        const vec2i operator++ ( impl::post )
         {
           ++x;
           ++y;
           return *this;
         }
 
-        const vec2i operator-- ( int )
+        const vec2i operator-- ( impl::post )
         {
           --x;
           --y;

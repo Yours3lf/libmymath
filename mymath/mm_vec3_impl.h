@@ -303,7 +303,7 @@ namespace mymath
           return *this;
         }
 
-        const vec3i operator++ ( int )
+        const vec3i operator++ ( impl::post )
         {
           ++x;
           ++y;
@@ -311,7 +311,7 @@ namespace mymath
           return *this;
         }
 
-        const vec3i operator-- ( int )
+        const vec3i operator-- ( impl::post )
         {
           --x;
           --y;

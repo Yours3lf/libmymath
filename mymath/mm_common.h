@@ -8,6 +8,11 @@
 
 namespace mymath
 {
+  namespace impl
+  {
+    typedef int post; //this serves as a flag that an increment is a post increment
+  }
+
   static const float pi = 3.1415926535897932384626433832795f;
   static const float two_pi = 2.0f * pi;
   static const float pi_div_180 = pi / 180.0f;
