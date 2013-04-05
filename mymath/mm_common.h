@@ -6,6 +6,9 @@
 #include <algorithm>
 #include <assert.h>
 
+//makes sure only explicit cast is available between vecn and float/double etc.
+#define MYMATH_STRICT_GLSL 0
+
 namespace mymath
 {
   namespace impl
@@ -22,6 +25,90 @@ namespace mymath
   static const double dtwo_pi = 2.0 * dpi;
   static const double dpi_div_180 = dpi / 180.0;
   static const double dinv_pi_div_180 = 180.0 / dpi;
+
+  inline float inversesqrt( const float& a )
+  {
+    return 1.0f / std::sqrt( a );
+  }
+
+  inline double inversesqrt( const double& a )
+  {
+    return 1.0 / std::sqrt( a );
+  }
+
+  inline float step( const float& a, const float& b )
+  {
+    return b < a ? 0 : 1;
+  }
+
+  inline double step( const double& a, const double& b )
+  {
+    return b < a ? 0 : 1;
+  }
+
+  inline float mix( const float& a, const float& b, const float& c )
+  {
+    return a * ( 1 - c ) + b * c;
+  }
+
+  inline double mix( const double& a, const double& b, const double& c )
+  {
+    return a * ( 1 - c ) + b * c;
+  }
+
+  inline float fract( const float& a )
+  {
+    return a - floor( a );
+  }
+
+  inline double fract( const double& a )
+  {
+    return a - floor( a );
+  }
+
+  inline float atan( const float& a, const float& b )
+  {
+    return std::atan( b / a );
+  }
+
+  inline double atan( const double& a, const double& b )
+  {
+    return std::atan( b / a );
+  }
+
+  inline float clamp( const float& a, const float& b, const float& c )
+  {
+    return std::min( std::max( a, b ), c );
+  }
+
+  inline double clamp( const double& a, const double& b, const double& c )
+  {
+    return std::min( std::max( a, b ), c );
+  }
+
+  inline float smoothstep( const float& a, const float& b, const float& c )
+  {
+    float u = ( c - a ) / ( b - a );
+    u = clamp( u, 0, 1 );
+    return u * u * ( 3 - 2 * u );
+  }
+
+  inline double smoothstep( const double& a, const double& b, const double& c )
+  {
+    double u = ( c - a ) / ( b - a );
+    u = clamp( u, 0, 1 );
+    return u * u * ( 3 - 2 * u );
+  }
+
+  inline float fma( const float& a, const float& b, const float& c )
+  {
+    return a * b + c;
+  }
+
+  inline double fma( const double& a, const double& b, const double& c )
+  {
+    return a * b + c;
+  }
 
   inline float radians( const float& degrees )
   {

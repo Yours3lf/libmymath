@@ -99,7 +99,10 @@ namespace mymath
 #endif
 
         vec2i( const ty& at, const ty& bt ) : x( at ), y( bt ) {}
-        explicit vec2i( const ty& num ) : x( num ), y( num ) {}
+#if MYMATH_STRICT_GLSL == 1
+        explicit
+#endif
+        vec2i( const ty& num ) : x( num ), y( num ) {}
         vec2i() : x( 0 ), y( 0 ) {}
 
         ty& operator[]( const unsigned int& num ) //read-write

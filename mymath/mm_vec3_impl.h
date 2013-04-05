@@ -206,7 +206,10 @@ namespace mymath
         vec3i( const ty& at, const ty& bt, const ty& ct ) : x( at ), y( bt ), z( ct ) {}
         vec3i( const vec2i<ty>& vec, const ty& num ) : x( vec.x ), y( vec.y ), z( num ) {}
         vec3i( const ty& num, const vec2i<ty>& vec ) : x( num ), y( vec.x ), z( vec.y ) {}
-        explicit vec3i( const ty& num ) : x( num ), y( num ), z( num ) {}
+#if MYMATH_STRICT_GLSL == 1
+        explicit
+#endif
+        vec3i( const ty& num ) : x( num ), y( num ), z( num ) {}
         vec3i() : x( 0 ), y( 0 ), z( 0 ) {}
 
         ty& operator[]( const unsigned int& num )
