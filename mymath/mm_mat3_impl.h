@@ -117,7 +117,7 @@ namespace mymath
           return *this;
         }
 
-        const mat3i& operator++ ()
+        const mat3i& operator++ () //pre
         {
           ++m[0];
           ++m[1];
@@ -125,12 +125,26 @@ namespace mymath
           return *this;
         }
 
-        const mat3i& operator-- ()
+        const mat3i& operator++ ( impl::post )
+        {
+          mat3i tmp = ( *this );
+          ++( *this );
+          return tmp;
+        }
+
+        const mat3i& operator-- () //pre
         {
           --m[0];
           --m[1];
           --m[2];
           return *this;
+        }
+
+        const mat3i& operator-- ( impl::post )
+        {
+          mat3i tmp = ( *this );
+          --( *this );
+          return tmp;
         }
     };
   }

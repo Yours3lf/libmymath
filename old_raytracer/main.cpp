@@ -5,6 +5,12 @@
 #include <string>
 #include <sstream>
 
+#define USE_TBB 1
+
+#if USE_TBB == 1
+#include "tbb/tbb.h"
+#endif
+
 using namespace mymath;
 using namespace std;
 
@@ -166,11 +172,11 @@ inline void draw_quad()
   glEnd();
 }
 
-inline void thread_func( const uvec2& startend )
+inline void thread_func( const uvec4& startend )
 {
   uvec2 coord;
 
-  for( coord.y = 0; coord.y < screen.y; coord.y++ )
+  for( coord.y = startend.z; coord.y < startend.w; coord.y++ )
   {
     for( coord.x = startend.x; coord.x < startend.y; coord.x++ )
     {
@@ -312,6 +318,25 @@ int main( int argc, char* args[] )
   glActiveTexture( GL_TEXTURE0 );
   glBindTexture( GL_TEXTURE_2D, gltex );
 
+#if USE_TBB == 1
+  //this basically divides the screen into 256 small parts
+  std::vector<uvec4> startends;
+  const unsigned int w = 16;
+  const unsigned int h = 16;
+  startends.resize( w * h );
+
+  for( unsigned int x = 0; x < w; ++x )
+  {
+    for( unsigned int y = 0; y < h; ++y )
+    {
+      startends[x * h + y] = uvec4( ( screen.x / ( float )w ) * x, ( screen.x / ( float )w ) * ( x + 1 ), ( screen.y / ( float )h ) * y, ( screen.y / ( float )h ) * ( y + 1 ) );
+    }
+  }
+
+  //initialize thread building blocks
+  tbb::task_scheduler_init();
+#endif
+
   while( true )
   {
     /*
@@ -341,6 +366,16 @@ int main( int argc, char* args[] )
     }
 
     //memset( tex, 0, screen.x * screen.y ); //clear screen
+#if USE_TBB == 1
+    //intel thread building blocks for the rescue!
+    tbb::parallel_for( tbb::blocked_range<size_t>( 0, ( size_t )startends.size() ),
+                       [ = ]( const tbb::blocked_range<size_t>& r )
+    {
+      for( size_t i = r.begin(); i != r.end(); ++i )
+        thread_func( startends[i] );
+    }
+                     );
+#else
 
     if( num_threads > 1 )
     {
@@ -356,7 +391,7 @@ int main( int argc, char* args[] )
           end = screen.x;
         }
 
-        threads.push_back( new sf::Thread( &thread_func, uvec2( amount * c, end ) ) );
+        threads.push_back( new sf::Thread( &thread_func, uvec4( amount * c, end, 0, screen.y ) ) );
         threads[c]->launch();
       }
 
@@ -367,8 +402,10 @@ int main( int argc, char* args[] )
     }
     else
     {
-      thread_func( uvec2( 0, screen.x ) );
+      thread_func( uvec4( 0, screen.x, 0, screen.y ) );
     }
+
+#endif
 
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, screen.x, screen.y, 0, GL_RGBA, GL_FLOAT, &tex[0][0] );
 

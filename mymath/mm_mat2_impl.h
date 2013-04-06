@@ -90,19 +90,34 @@ namespace mymath
           return *this;
         }
 
-        const mat2i& operator++ ()
+        const mat2i& operator++ () //pre
         {
           ++m[0];
           ++m[1];
           return *this;
         }
 
-        const mat2i& operator-- ()
+        const mat2i& operator++ ( impl::post )
+        {
+          mat2i tmp = *this;
+          ++( *this );
+          return tmp;
+        }
+
+        const mat2i& operator-- () //pre
         {
           --m[0];
           --m[1];
           return *this;
         }
+
+        const mat2i& operator-- ( impl::post )
+        {
+          mat2i tmp = *this;
+          --( *this );
+          return tmp;
+        }
+
     };
   }
 }
