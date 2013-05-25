@@ -29,7 +29,7 @@ namespace mymath
 
       void load_matrix( const camera<t>& c )
       {
-        load_matrix( c.get_matrix( false ) );
+        load_matrix( c.get_camera_matrix( false ) );
       }
 
       void mult_matrix( const impl::mat4i<t>& m )
@@ -40,7 +40,7 @@ namespace mymath
 
       void mult_matrix( const camera<t>& c )
       {
-        mult_matrix( c.get_matrix( false ) );
+        mult_matrix( c.get_camera_matrix( false ) );
       }
 
       void push_matrix()
@@ -59,7 +59,7 @@ namespace mymath
 
       void push_matrix( const camera<t>& c )
       {
-        push_matrix( c.get_matrix( false ) );
+        push_matrix( c.get_camera_matrix( false ) );
       }
 
       void pop_matrix()
