@@ -8,6 +8,7 @@
 
 //makes sure only explicit cast is available between vecn and float/double etc.
 #define MYMATH_STRICT_GLSL 0
+#define MYMATH_DOUBLE_PRECISION 0
 
 namespace mymath
 {
@@ -21,93 +22,54 @@ namespace mymath
   static const float pi_div_180 = pi / 180.0f;
   static const float inv_pi_div_180 = 180.0f / pi;
 
-  static const double dpi = 3.1415926535897932384626433832795;
-  static const double dtwo_pi = 2.0 * dpi;
-  static const double dpi_div_180 = dpi / 180.0;
-  static const double dinv_pi_div_180 = 180.0 / dpi;
-
-  inline float inversesqrt( const float& a )
-  {
-    return 1.0f / std::sqrt( a );
+#define MYMATH_INVERSESQRT( t ) \
+  inline t inversesqrt( const t& a ) \
+  { \
+    return 1 / std::sqrt( a ); \
   }
 
-  inline double inversesqrt( const double& a )
-  {
-    return 1.0 / std::sqrt( a );
+#define MYMATH_STEP( t ) \
+  inline t step( const t& a, const t& b ) \
+  { \
+    return b < a ? 0 : 1; \
   }
 
-  inline float step( const float& a, const float& b )
-  {
-    return b < a ? 0 : 1;
+#define MYMATH_MIX( t ) \
+  inline t mix( const t& a, const t& b, const t& c ) \
+  { \
+    return a * ( 1 - c ) + b * c; \
   }
 
-  inline double step( const double& a, const double& b )
-  {
-    return b < a ? 0 : 1;
+#define MYMATH_FRACT( t ) \
+  inline t fract( const t& a ) \
+  { \
+    return a - floor( a ); \
   }
 
-  inline float mix( const float& a, const float& b, const float& c )
-  {
-    return a * ( 1 - c ) + b * c;
+#define MYMATH_ATAN( t ) \
+  inline t atan( const t& a, const t& b ) \
+  { \
+    return std::atan( b / a ); \
   }
 
-  inline double mix( const double& a, const double& b, const double& c )
-  {
-    return a * ( 1 - c ) + b * c;
+#define MYMATH_CLAMP( t ) \
+  inline t clamp( const t& a, const t& b, const  t& c ) \
+  { \
+    return std::min( std::max( a, b ), c ); \
   }
 
-  inline float fract( const float& a )
-  {
-    return a - floor( a );
+#define MYMATH_SMOOTHSTEP( t ) \
+  inline t smoothstep( const t& a, const t& b, const t& c ) \
+  { \
+    float u = ( c - a ) / ( b - a ); \
+    u = clamp( u, 0, 1 ); \
+    return u * u * ( 3 - 2 * u ); \
   }
 
-  inline double fract( const double& a )
-  {
-    return a - floor( a );
-  }
-
-  inline float atan( const float& a, const float& b )
-  {
-    return std::atan( b / a );
-  }
-
-  inline double atan( const double& a, const double& b )
-  {
-    return std::atan( b / a );
-  }
-
-  inline float clamp( const float& a, const float& b, const float& c )
-  {
-    return std::min( std::max( a, b ), c );
-  }
-
-  inline double clamp( const double& a, const double& b, const double& c )
-  {
-    return std::min( std::max( a, b ), c );
-  }
-
-  inline float smoothstep( const float& a, const float& b, const float& c )
-  {
-    float u = ( c - a ) / ( b - a );
-    u = clamp( u, 0, 1 );
-    return u * u * ( 3 - 2 * u );
-  }
-
-  inline double smoothstep( const double& a, const double& b, const double& c )
-  {
-    double u = ( c - a ) / ( b - a );
-    u = clamp( u, 0, 1 );
-    return u * u * ( 3 - 2 * u );
-  }
-
-  inline float fma( const float& a, const float& b, const float& c )
-  {
-    return a * b + c;
-  }
-
-  inline double fma( const double& a, const double& b, const double& c )
-  {
-    return a * b + c;
+#define MYMATH_FMA( t ) \
+  inline t fma( const t& a, const t& b, const t& c ) \
+  { \
+    return a * b + c; \
   }
 
   inline float radians( const float& degrees )
@@ -115,153 +77,72 @@ namespace mymath
     return degrees * pi_div_180;
   }
 
-  inline double radians( const double& degrees )
-  {
-    return degrees * dpi_div_180;
-  }
-
   inline float degrees( const float& radians )
   {
     return radians * inv_pi_div_180;
   }
 
-  inline double degrees( const double& radians )
-  {
-    return radians * dinv_pi_div_180;
+#define MYMATH_SIGN( t ) \
+  inline t sign( const t& num ) \
+  { \
+    if( num > 0 ) \
+    { \
+      return 1; \
+    } \
+    else if( num < 0 ) \
+    { \
+      return -1; \
+    } \
+    else \
+    { \
+      return num; \
+    } \
   }
 
-  inline float sign( const float& num )
-  {
-    if( num > 0.0f )
-    {
-      return 1.0f;
-    }
-    else if( num < 0.0f )
-    {
-      return -1.0f;
-    }
-    else
-    {
-      return num;
-    }
+#define MYMATH_ASINH( t ) \
+  inline t asinh( const t& num ) \
+  { \
+    return std::log( num + std::sqrt( num * num + 1 ) ); \
   }
 
-  inline double sign( const double& num )
-  {
-    if( num > 0.0 )
-    {
-      return 1.0;
-    }
-    else if( num < 0.0 )
-    {
-      return -1.0;
-    }
-    else
-    {
-      return num;
-    }
+#define MYMATH_ACOSH( t ) \
+  inline t acosh( const t& num ) \
+  { \
+    return std::log( num + std::sqrt( num * num - 1 ) ); \
   }
 
-  inline int sign( const int& num )
-  {
-    if( num > 0 )
-    {
-      return 1;
-    }
-    else if( num < 0 )
-    {
-      return -1;
-    }
-    else
-    {
-      return num;
-    }
+#define MYMATH_ATANH( t ) \
+  inline t atanh( const t& num ) \
+  { \
+    return std::log( ( 1 + num ) / ( 1 - num ) ) / 2; \
   }
 
-  inline float asinh( const float& num )
-  {
-    return std::log( num + std::sqrt( num * num + 1.0f ) );
+#define MYMATH_LOG2( t ) \
+  inline t log2( const t& num ) \
+  { \
+    return std::log( num ) / std::log( 2 ); \
   }
 
-  inline double asinh( const double& num )
-  {
-    return std::log( num + std::sqrt( num * num + 1.0 ) );
+#define MYMATH_TRUNC( t ) \
+  inline t trunc( const t& num ) \
+  { \
+    return num < 0 ? -floor( -num ) : floor( num ); \
   }
 
-  inline float acosh( const float& num )
-  {
-    return std::log( num + std::sqrt( num * num - 1.0f ) );
-  }
-
-  inline double acosh( const double& num )
-  {
-    return std::log( num + std::sqrt( num * num - 1.0 ) );
-  }
-
-  inline float atanh( const float& num )
-  {
-    return std::log( ( 1.0f + num ) / ( 1.0f - num ) ) / 2.0f;
-  }
-
-  inline double atanh( const double& num )
-  {
-    return std::log( ( 1.0 + num ) / ( 1.0 - num ) ) / 2.0;
-  }
-
-  inline float log2( const float& num )
-  {
-    return std::log( num ) / std::log( 2.0f );
-  }
-
-  inline double log2( const double& num )
-  {
-    return std::log( num ) / std::log( 2.0 );
-  }
-
-  inline float trunc( const float& num )
-  {
-    return num < 0.0f ? -floor( -num ) : floor( num );
-  }
-
-  inline double trunc( const double& num )
-  {
-    return num < 0.0 ? -floor( -num ) : floor( num );
-  }
-
-  inline float round( const float& num )
-  {
-    if( num < 0 )
-    {
-      return float( int( num - 0.5f ) );
-    }
-    else
-    {
-      return float( int( num + 0.5f ) );
-    }
-  }
-
-  inline double round( const double& num )
-  {
-    if( num < 0 )
-    {
-      return double( int( num - 0.5 ) );
-    }
-    else
-    {
-      return double( int( num + 0.5 ) );
-    }
+#define MYMATH_ROUND( t ) \
+  inline t round( const t& num ) \
+  { \
+    if( num < 0 ) \
+    { \
+      return t( int( num - 0.5 ) ); \
+    } \
+    else \
+    { \
+      return t( int( num + 0.5 ) ); \
+    } \
   }
 
   inline bool isnan( const float& num )
-  {
-#ifdef _WIN32
-    return _isnan( num ) != 0;
-#else
-    return std::isnan( num );
-#endif
-  }
-
-  inline bool isnan( const double& num )
   {
 #ifdef _WIN32
     return _isnan( num ) != 0;
@@ -279,6 +160,61 @@ namespace mymath
 #endif
   }
 
+#define MYMATH_MIN( t ) \
+  inline t min( const t& a, const t& b ) \
+  { \
+    return std::min( a, b ); \
+  }
+
+#define MYMATH_MAX( t ) \
+  inline t max( const t& a, const t& b ) \
+  { \
+    return std::max( a, b ); \
+  }
+
+  MYMATH_INVERSESQRT( float )
+  MYMATH_STEP( float )
+  MYMATH_MIX( float )
+  MYMATH_FRACT( float )
+  MYMATH_ATAN( float )
+  MYMATH_CLAMP( float )
+  MYMATH_SMOOTHSTEP( float )
+  MYMATH_FMA( float )
+  MYMATH_SIGN( float )
+  MYMATH_ASINH( float )
+  MYMATH_ACOSH( float )
+  MYMATH_ATANH( float )
+  MYMATH_LOG2( float )
+  MYMATH_TRUNC( float )
+  MYMATH_ROUND( float )
+  MYMATH_MIN( float )
+  MYMATH_MAX( float )
+
+#if MYMATH_DOUBLE_PRECISION == 1
+  static const double dpi = 3.1415926535897932384626433832795;
+  static const double dtwo_pi = 2.0 * dpi;
+  static const double dpi_div_180 = dpi / 180.0;
+  static const double dinv_pi_div_180 = 180.0 / dpi;
+
+  inline double radians( const double& degrees )
+  {
+    return degrees * dpi_div_180;
+  }
+
+  inline double degrees( const double& radians )
+  {
+    return radians * dinv_pi_div_180;
+  }
+
+  inline bool isnan( const double& num )
+  {
+#ifdef _WIN32
+    return _isnan( num ) != 0;
+#else
+    return std::isnan( num );
+#endif
+  }
+
   inline bool isinf( const double& num )
   {
 #ifdef _WIN32
@@ -287,8 +223,29 @@ namespace mymath
     return std::isinf( num );
 #endif
   }
+
+  MYMATH_INVERSESQRT( double )
+  MYMATH_STEP( double )
+  MYMATH_MIX( double )
+  MYMATH_FRACT( double )
+  MYMATH_ATAN( double )
+  MYMATH_CLAMP( double )
+  MYMATH_SMOOTHSTEP( double )
+  MYMATH_FMA( double )
+  MYMATH_SIGN( double )
+  MYMATH_ASINH( double )
+  MYMATH_ACOSH( double )
+  MYMATH_ATANH( double )
+  MYMATH_LOG2( double )
+  MYMATH_TRUNC( double )
+  MYMATH_ROUND( double )
+  MYMATH_MIN( double )
+  MYMATH_MAX( double )
+#endif
 }
 
 namespace mm = mymath;
 
 #endif
+
+

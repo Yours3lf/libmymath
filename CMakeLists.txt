@@ -29,7 +29,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/new_
 set(${project_name}_external_libs sfml-window sfml-system sfml-graphics GLEW GL tbb gsl gslcblas)
 
 #adding the project's exe
-add_executable(${project_name} new_raytracer/main)
+add_executable(${project_name} glsl_code/main)
+#add_executable(${project_name} new_raytracer/main)
 #add_executable(${project_name} old_raytracer/main)
 
 add_precompiled_header(${project_name} #add precompiled headers
