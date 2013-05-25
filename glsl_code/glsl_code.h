@@ -11,7 +11,7 @@ namespace glsl
   {
     public:
       vec4 gl_FragCoord;
-      float time; //elapsed time since application start in milliseconds, divided by 1000
+      float time; //elapsed time since application start in seconds
       vec2 mouse; //mouse coordiantes [0...1], with y = 1 being the top of the window
       vec2 resolution; //window size in pixels
       vec4 gl_FragColor;

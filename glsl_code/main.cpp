@@ -26,7 +26,7 @@ sf::Event the_event;
 float fps = 1.0f;
 int frames = 0;
 sf::Clock the_clock;
-uvec2 screen( 800, 600 );
+uvec2 screen( 1280, 720 );
 vec4* tex = 0;
 float elapsed_time = 0.0f;
 unsigned int current_time = 0;
@@ -233,6 +233,7 @@ int main( int argc, char* args[] )
 #if SAVE_SCREENSHOT == 1
   std::stringstream ss;
   int frame_count = 0;
+  unsigned char* pixels = new unsigned char[screen.x * screen.y * 4];
 #endif
 
   while( true )
@@ -273,7 +274,7 @@ int main( int argc, char* args[] )
 #if USE_TBB == 1
     //intel thread building blocks for the rescue!
     tbb::parallel_for( tbb::blocked_range<size_t>( 0, ( size_t )startends.size() ),
-                       [ = ]( const tbb::blocked_range<size_t>& r )
+                       [ & ]( const tbb::blocked_range<size_t>& r )
     {
       for( size_t i = r.begin(); i != r.end(); ++i )
         thread_func( startends[i] );
@@ -327,7 +328,8 @@ int main( int argc, char* args[] )
 
 #if SAVE_SCREENSHOT == 1
     sf::Image im;
-    im.create( screen.x, screen.y, ( unsigned char* )tex );
+    glGetTexImage( GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels );
+    im.create( screen.x, screen.y, pixels );
     ss << "screenshot" << frame_count++ << ".png";
     im.saveToFile( ss.str() );
     ss.str( "" );
@@ -346,6 +348,10 @@ int main( int argc, char* args[] )
       current_time = the_clock.getElapsedTime().asMilliseconds();
     }
   }
+
+#if SAVE_SCREENSHOT == 1
+  delete [] pixels;
+#endif
 
   return 0;
 }
