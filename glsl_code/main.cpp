@@ -7,6 +7,15 @@
 
 #define USE_TBB 1
 #define SAVE_SCREENSHOT 1
+#define USE_SUPERSAMPLING 0
+
+#if USE_SUPERSAMPLING == 1
+#define SS 2
+#else
+#define SS 1
+#endif
+
+#define FRAMERATE_LIMIT 1
 
 #if USE_TBB == 1
 #include "tbb/tbb.h"
@@ -142,20 +151,15 @@ int main( int argc, char* args[] )
     }
   }
 
+  screen *= SS;
+
   /*
    * Initialize OpenGL context
    */
 
   tex = new vec4[screen.x * screen.y];
 
-  if( fullscreen )
-  {
-    the_window.create( sf::VideoMode( screen.x, screen.y, 32 ), "GLSL in c++", sf::Style::Fullscreen );
-  }
-  else
-  {
-    the_window.create( sf::VideoMode( screen.x, screen.y, 32 ), "GLSL in c++", sf::Style::Default );
-  }
+  the_window.create( sf::VideoMode( screen.x / SS, screen.y / SS, 32 ), "GLSL in c++", fullscreen ? sf::Style::Fullscreen : sf::Style::Default );
 
   if( !the_window.isOpen() )
   {
@@ -164,7 +168,10 @@ int main( int argc, char* args[] )
     exit( 1 );
   }
 
-  //the_window.setVerticalSyncEnabled( true );
+#if FRAMERATE_LIMIT == 1
+  the_window.setFramerateLimit( 30 );
+  the_window.setVerticalSyncEnabled( true );
+#endif
 
   GLenum glew_error = glewInit();
 
@@ -188,8 +195,8 @@ int main( int argc, char* args[] )
   glBindTexture( GL_TEXTURE_2D, gltex );
   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-  glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-  glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+  glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+  glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
   glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, screen.x, screen.y, 0, GL_RGBA, GL_FLOAT, 0 );
 
   /*
@@ -198,7 +205,7 @@ int main( int argc, char* args[] )
 
   the_clock.restart();
 
-  glViewport( 0, 0, screen.x, screen.y );
+  glViewport( 0, 0, screen.x / SS, screen.y / SS );
   glMatrixMode( GL_PROJECTION );
   //x_min:0, x_max:1, y_min:0, y_max:1, z_min:0, z_max:-1
   mat4 ortho_matrix = ortographic( 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, -1.0f );
@@ -233,7 +240,7 @@ int main( int argc, char* args[] )
 #if SAVE_SCREENSHOT == 1
   std::stringstream ss;
   int frame_count = 0;
-  unsigned char* pixels = new unsigned char[screen.x * screen.y * 4];
+  unsigned char* pixels = new unsigned char[screen.x / SS * screen.y / SS * 4];
 #endif
 
   while( true )
@@ -328,8 +335,10 @@ int main( int argc, char* args[] )
 
 #if SAVE_SCREENSHOT == 1
     sf::Image im;
-    glGetTexImage( GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels );
-    im.create( screen.x, screen.y, pixels );
+    glReadPixels( 0, 0, screen.x / SS, screen.y / SS, GL_RGBA, GL_UNSIGNED_BYTE, pixels );
+    glFinish();
+    im.create( screen.x / SS, screen.y / SS, pixels );
+    im.flipVertically();
     ss << "screenshot" << frame_count++ << ".png";
     im.saveToFile( ss.str() );
     ss.str( "" );
@@ -337,7 +346,7 @@ int main( int argc, char* args[] )
 
     frames++;
 
-    elapsed_time = the_clock.getElapsedTime().asMilliseconds() * 0.001;
+    elapsed_time += 1 / 30.0f;
 
     if( the_clock.getElapsedTime().asMilliseconds() - current_time > 1000.0f && !silent )
     {
@@ -355,3 +364,5 @@ int main( int argc, char* args[] )
 
   return 0;
 }
+
+
