@@ -97,7 +97,7 @@ namespace mymath
           return *this;
         }
 
-        const mat2i& operator++ ( impl::post )
+        mat2i operator++ ( impl::post )
         {
           mat2i tmp = *this;
           ++( *this );
@@ -111,7 +111,7 @@ namespace mymath
           return *this;
         }
 
-        const mat2i& operator-- ( impl::post )
+        mat2i operator-- ( impl::post )
         {
           mat2i tmp = *this;
           --( *this );

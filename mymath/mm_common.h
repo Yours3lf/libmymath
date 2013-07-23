@@ -10,6 +10,15 @@
 #define MYMATH_STRICT_GLSL 0
 #define MYMATH_DOUBLE_PRECISION 0
 
+#ifdef _WIN32
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
+#endif
+
 namespace mymath
 {
   namespace impl
@@ -171,9 +180,19 @@ namespace mymath
   { \
     return std::max( a, b ); \
   }
-
-  MYMATH_INVERSESQRT( float )
+  
+#ifdef _WIN32
+#pragma warning( push )
+#pragma warning( disable : 4244 )
+#endif
   MYMATH_STEP( float )
+  MYMATH_LOG2( float )
+#ifdef _WIN32
+#pragma warning( pop )
+#pragma warning( disable : 4244 )
+#endif
+  
+  MYMATH_INVERSESQRT( float )
   MYMATH_MIX( float )
   MYMATH_FRACT( float )
   MYMATH_ATAN( float )
@@ -184,7 +203,6 @@ namespace mymath
   MYMATH_ASINH( float )
   MYMATH_ACOSH( float )
   MYMATH_ATANH( float )
-  MYMATH_LOG2( float )
   MYMATH_TRUNC( float )
   MYMATH_ROUND( float )
   MYMATH_MIN( float )

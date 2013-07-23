@@ -161,7 +161,7 @@ namespace mymath
           return *this;
         }
 
-        const mat4i& operator++ ( impl::post )
+        mat4i operator++ ( impl::post )
         {
           mat4i tmp = ( *this );
           ++( *this );
@@ -177,7 +177,7 @@ namespace mymath
           return *this;
         }
 
-        const mat4i& operator-- ( impl::post )
+        mat4i operator-- ( impl::post )
         {
           mat4i tmp = ( *this );
           --( *this );

@@ -7,7 +7,7 @@
 namespace mymath
 {
 #define MYMATH_CREATEROTATION_FUNC(t) \
-  inline impl::mat4i<t> create_rotation( const t& angle, const impl::vec3i<t> vec ) \
+  inline impl::mat4i<t> create_rotation( const t& angle, const impl::vec3i<t>& vec ) \
   { \
     assert( length( vec ) != 0 ); \
     t a = angle; \
