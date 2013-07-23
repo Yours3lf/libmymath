@@ -17,6 +17,12 @@
 #ifdef max
 #undef max
 #endif
+#ifdef near
+#undef near
+#endif
+#ifdef far
+#undef far
+#endif
 #endif
 
 namespace mymath

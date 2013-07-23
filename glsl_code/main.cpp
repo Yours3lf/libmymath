@@ -1,3 +1,7 @@
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#endif
+
 #include "GL/glew.h" //the mighty GLEW :)
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
