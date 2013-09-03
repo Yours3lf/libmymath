@@ -17,19 +17,34 @@
 #ifdef max
 #undef max
 #endif
-#ifdef near
-#undef near
-#endif
-#ifdef far
-#undef far
-#endif
 #endif
 
 namespace mymath
 {
+  static const float epsilon = FLT_EPSILON;
+  static const double depsilon = DBL_EPSILON;
+
   namespace impl
   {
     typedef int post; //this serves as a flag that an increment is a post increment
+
+    template< class t >
+    static bool is_eq( t a, t b )
+    {
+      return a == b;
+    }
+
+    template<>
+    static bool is_eq( float a, float b )
+    {
+      return std::abs( a - b ) < epsilon;
+    }
+
+    template<>
+    static bool is_eq( double a, double b )
+    {
+      return std::abs( a - b ) < depsilon;
+    }
   }
 
   static const float pi = 3.1415926535897932384626433832795f;

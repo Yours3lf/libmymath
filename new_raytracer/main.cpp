@@ -1,3 +1,7 @@
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#endif
+
 #include "globals.h"
 
 #include "GL/glew.h" //the mighty GLEW :)
@@ -396,7 +400,7 @@ inline vec3 raytrace( const ray& r, int depth, float r_index, float& dist, int& 
   vec3 n = p->get_normal( point );
 
 #if GAMMA_CORRECTION == 1
-  vec3 color = pow( p->get_color( point ), vec3( 2.2 ) );
+  vec3 color = pow( p->get_color( point ), vec3( 2.2f ) );
 #else
   vec3 color = p->get_color( point );
 #endif
@@ -600,7 +604,7 @@ inline void write_tex( const vec4& val, const uvec2& coord )
   assert( tex.size() > 0 && c < screen.x * screen.y );
 
 #if GAMMA_CORRECTION == 1
-  tex[c] = pow( val, vec4( 1.0 / 2.2 ) );
+  tex[c] = pow( val, vec4( 1.0f / 2.2f ) );
 #else
   tex[c] = val;
 #endif
@@ -891,6 +895,8 @@ int main( int argc, char* args[] )
           break;
       }
     }
+
+    std::cout << mm::ortographic( -1, 1, -1, 1, -100, 100 );
 
     //memset( tex, 0, screen.x * screen.y ); //clear screen
 

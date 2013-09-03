@@ -107,13 +107,13 @@ namespace mymath
 
         ty& operator[]( const unsigned int& num ) //read-write
         {
-          assert( num >= 0 && num < 2 && this );
+          assert( num < 2 && this );
           return v[num];
         }
 
         const ty& operator[]( const unsigned int& num ) const //read only, constant ref
         {
-          assert( num >= 0 && num < 2 && this );
+          assert( num < 2 && this );
           return v[num];
         }
 

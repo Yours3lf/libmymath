@@ -99,13 +99,13 @@ namespace mymath
 
         vec4i<t>& operator[]( const unsigned int& num )
         {
-          assert( ( num >= 0 ) && ( num < 4 ) );
+          assert( num < 4 );
           return m[num];
         }
 
         vec4i<t> const& operator[]( const unsigned int& num ) const
         {
-          assert( ( num >= 0 ) && ( num < 4 ) );
+          assert( num < 4 );
           return m[num];
         }
 

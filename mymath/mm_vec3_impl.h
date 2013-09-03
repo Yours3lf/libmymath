@@ -145,7 +145,7 @@ namespace mymath
 
             const vec2i<ty>& operator/=( const vec2i<ty>& other )
             {
-              assert( other.x != ( ty )0 && other.y != ( ty )0 );
+              assert( !impl::is_eq( other.x, ( ty )0 ) && !impl::is_eq( other.y, ( ty )0 ) );
               vec2i<ty> tmp( ( ty )1 / other.x, ( ty )1 / other.y );
               v[at] *= tmp.x;
               v[bt] *= tmp.y;
@@ -214,13 +214,13 @@ namespace mymath
 
         ty& operator[]( const unsigned int& num )
         {
-          assert( num >= 0 && num < 3 && this );
+          assert( num < 3 && this );
           return v[num];
         }
 
         const ty& operator[]( const unsigned int& num ) const
         {
-          assert( num >= 0 && num < 3 && this );
+          assert( num < 3 && this );
           return v[num];
         }
 

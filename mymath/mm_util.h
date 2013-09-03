@@ -9,7 +9,7 @@ namespace mymath
 #define MYMATH_CREATEROTATION_FUNC(t) \
   inline impl::mat4i<t> create_rotation( const t& angle, const impl::vec3i<t>& vec ) \
   { \
-    assert( length( vec ) != 0 ); \
+    assert( !impl::is_eq( length( vec ), (t)0 ) ); \
     t a = angle; \
     t s = std::sin( a ); \
     t c = std::cos( a ); \
@@ -78,9 +78,9 @@ namespace mymath
       back[1] *= div; \
     } \
     point_out = impl::vec2i<t>( viewport[0] + ( ( t )1 + back[0] ) * viewport[2] / ( t )2, viewport[1] + ( ( t )1 + back[1] ) * viewport[3] / ( t )2 ); \
-    if( viewport[0] != ( t )0 ) \
+    if( !impl::is_eq( viewport[0], ( t )0 ) ) \
       { point_out[0] -= viewport[0]; } \
-    if( viewport[1] != ( t )0 ) \
+    if( !impl::is_eq( viewport[1], ( t )0 ) ) \
       { point_out[1] -= viewport[1]; } \
     return point_out; \
   }
@@ -142,9 +142,9 @@ namespace mymath
       back[2] *= div; \
     } \
     point_out = impl::vec3i<t>( viewport[0] + ( ( t )1 + back[0] ) * viewport[2] / ( t )2, viewport[1] + ( ( t )1 + back[1] ) * viewport[3] / ( t )2, ( t )0 ); \
-    if( viewport[0] != ( t )0 ) \
+    if( !impl::is_eq( viewport[0], ( t )0 ) ) \
       { point_out[0] -= viewport[0]; } \
-    if( viewport[1] != ( t )0 ) \
+    if( !impl::is_eq( viewport[1], ( t )0 ) ) \
       { point_out[1] -= viewport[1]; } \
     point_out[2] = back[2]; \
     return point_out; \

@@ -15,7 +15,9 @@ using namespace std;
 //use quasi random numbers or not
 //only works on linux
 //it gives better random number distribution
+#ifdef __unix__
 #define USE_QRNG 1
+#endif
 
 #define COUNT_INTERSECTIONS 0
 

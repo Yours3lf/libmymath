@@ -236,7 +236,7 @@ namespace mymath
 
             const vec3i<ty>& operator/=( const vec3i<ty>& other )
             {
-              assert( other.x != ( ty )0 && other.y != ( ty )0 && other.z != ( ty )0 );
+              assert( !impl::is_eq( other.x, ( ty )0 ) && !impl::is_eq( other.y, ( ty )0 ) && !impl::is_eq( other.z, ( ty )0 ) );
               vec3i<ty> tmp( ( ty )1 / other.x, ( ty )1 / other.y, ( ty )1 / other.z );
               v[at] *= tmp.x;
               v[bt] *= tmp.y;
@@ -375,13 +375,13 @@ namespace mymath
 
         ty& operator[]( const unsigned int& num )
         {
-          assert( num >= 0 && num < 4 && this );
+          assert( num < 4 && this );
           return v[num];
         }
 
         const ty& operator[]( const unsigned int& num ) const
         {
-          assert( num >= 0 && num < 4 && this );
+          assert( num < 4 && this );
           return v[num];
         }
 

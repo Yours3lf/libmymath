@@ -8,11 +8,11 @@ namespace mymath
   //equal
 #define MYMATH_EQUAL_FUNC(t) \
   inline bool equal( const impl::vec2i<t>& a, const impl::vec2i<t>& b ) \
-  { return a.x == b.x && a.y == b.y; } \
+  { return impl::is_eq( a.x, b.x ) && impl::is_eq( a.y, b.y ); } \
   inline bool equal( const impl::vec3i<t>& a, const impl::vec3i<t>& b ) \
-  { return a.x == b.x && a.y == b.y && a.z == b.z; } \
+  { return impl::is_eq( a.x, b.x ) && impl::is_eq( a.y, b.y ) && impl::is_eq( a.z, b.z ); } \
   inline bool equal( const impl::vec4i<t>& a, const impl::vec4i<t>& b ) \
-  { return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w; }
+  { return impl::is_eq( a.x, b.x ) && impl::is_eq( a.y, b.y ) && impl::is_eq( a.z, b.z ) && impl::is_eq( a.w, b.w ); }
 
   //notEqual
 #define MYMATH_NOTEQUAL_FUNC(t) \
@@ -44,15 +44,15 @@ namespace mymath
 //operator/
 #define MYMATH_OPERATORDIV_FUNC(t) \
   inline mm::impl::vec2i<t> operator/ ( const mm::impl::vec2i<t>& a, const mm::impl::vec2i<t>& b ) \
-  { assert( b.x != (t)0 && b.y != (t)0 ); \
+  { assert( !mm::impl::is_eq( b.x, (t)0 ) && !mm::impl::is_eq( b.y, (t)0 ) ); \
     mm::impl::vec2i<t> tmp = mm::impl::vec2i<t>( ( t )1 / b.x, ( t )1 / b.y ); \
     return a * tmp; } \
   inline mm::impl::vec3i<t> operator/ ( const mm::impl::vec3i<t>& a, const mm::impl::vec3i<t>& b ) \
-  { assert( b.x != (t)0 && b.y != (t)0 && b.z != (t)0 ); \
+  { assert( !mm::impl::is_eq( b.x, (t)0 ) && !mm::impl::is_eq( b.y, (t)0 ) && !mm::impl::is_eq( b.z, (t)0 ) ); \
     mm::impl::vec3i<t> tmp = mm::impl::vec3i<t>( ( t )1 / b.x, ( t )1 / b.y, ( t )1 / b.z ); \
     return a * tmp; } \
   inline mm::impl::vec4i<t> operator/ ( const mm::impl::vec4i<t>& a, const mm::impl::vec4i<t>& b ) \
-  { assert(  b.x != (t)0 && b.y != (t)0 && b.z != (t)0 && b.w != (t)0 ); \
+  { assert( !mm::impl::is_eq( b.x, (t)0 ) && !mm::impl::is_eq( b.y, (t)0 ) && !mm::impl::is_eq( b.z, (t)0 ) && !mm::impl::is_eq( b.w, (t)0 ) ); \
     mm::impl::vec4i<t> tmp = mm::impl::vec4i<t>( ( t )1 / b.x, ( t )1 / b.y, ( t )1 / b.z, ( t )1 / b.w ); \
     return a * tmp; }
 

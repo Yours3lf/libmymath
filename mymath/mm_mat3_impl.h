@@ -75,13 +75,13 @@ namespace mymath
 
         vec3i<t>& operator[]( const unsigned int& num )
         {
-          assert( ( num >= 0 ) && ( num < 3 ) );
+          assert( num < 3 );
           return m[num];
         }
 
         const vec3i<t>& operator[]( const unsigned int& num ) const
         {
-          assert( ( num >= 0 ) && ( num < 3 ) );
+          assert( num < 3 );
           return m[num];
         }
 

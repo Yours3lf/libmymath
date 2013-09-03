@@ -57,13 +57,13 @@ namespace mymath
 
         vec2i<t>& operator[]( const unsigned int& num )
         {
-          assert( ( num >= 0 ) && ( num < 2 ) );
+          assert( num < 2 );
           return m[num];
         }
 
         const vec2i<t>& operator[]( const unsigned int& num ) const
         {
-          assert( ( num >= 0 ) && ( num < 2 ) );
+          assert( num < 2 );
           return m[num];
         }
 
