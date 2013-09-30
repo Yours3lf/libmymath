@@ -1,10 +1,28 @@
 #ifndef mm_common_h
 #define mm_common_h
 
+//switch for using sse2
+//experimental, don't use
+//#define MYMATH_USE_SSE2
+
 #include <iostream>
 #include <cmath>
 #include <algorithm>
 #include <assert.h>
+
+#ifdef MYMATH_USE_SSE2
+#include <x86intrin.h>
+#endif
+
+//align variables to X bytes
+#ifdef _WIN32
+#define MM_ALIGNED(x) __declspec(align(x))
+#elif __unix__
+#define MM_ALIGNED(x) __attribute__((aligned (x)))
+#endif
+
+//align variables to 16 bytes (GPU friendly)
+#define MM_GPU_ALIGNED MM_ALIGNED(16)
 
 //makes sure only explicit cast is available between vecn and float/double etc.
 #define MYMATH_STRICT_GLSL 0
@@ -22,13 +40,13 @@
 #endif
 #ifdef far
 #undef far
-#endif 
+#endif
 #endif
 
 namespace mymath
 {
-  static const float epsilon = FLT_EPSILON;
-  static const double depsilon = DBL_EPSILON;
+  static const float epsilon = 0.00001;
+  static const double depsilon = 0.00000001;
 
   namespace impl
   {
@@ -41,13 +59,13 @@ namespace mymath
     }
 
     template<>
-    static bool is_eq( float a, float b )
+    bool is_eq( float a, float b )
     {
       return std::abs( a - b ) < epsilon;
     }
 
     template<>
-    static bool is_eq( double a, double b )
+    bool is_eq( double a, double b )
     {
       return std::abs( a - b ) < depsilon;
     }
@@ -207,7 +225,7 @@ namespace mymath
   { \
     return std::max( a, b ); \
   }
-  
+
 #ifdef _WIN32
 #pragma warning( push )
 #pragma warning( disable : 4244 )
@@ -218,7 +236,7 @@ namespace mymath
 #pragma warning( pop )
 #pragma warning( disable : 4244 )
 #endif
-  
+
   MYMATH_INVERSESQRT( float )
   MYMATH_MIX( float )
   MYMATH_FRACT( float )

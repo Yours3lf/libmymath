@@ -2,6 +2,12 @@
 #define mymath_h
 
 #include "mm_common.h"
+
+#ifdef MYMATH_USE_SSE2
+#include "mm_fvec2_impl.h"
+#include "mm_fvec3_impl.h"
+#include "mm_fvec4_impl.h"
+#else
 #include "mm_vec2_impl.h"
 #include "mm_vec3_impl.h"
 #include "mm_vec4_impl.h"
@@ -16,9 +22,38 @@
 #include "mm_camera.h"
 #include "mm_matrix_stack.h"
 #include "mm_pipeline.h"
+#endif
 
 namespace mymath
 {
+#ifdef MYMATH_USE_SSE2
+  typedef impl::fvec2i<float> vec2;
+  //typedef impl::fvec2i<double> dvec2;
+  //typedef impl::fvec2i<bool> bvec2;
+  //typedef impl::fvec2i<int> ivec2;
+  //typedef impl::fvec2i<unsigned int> uvec2;
+
+  typedef impl::fvec3i<float> vec3;
+  //typedef impl::fvec3i<double> dvec3;
+  //typedef impl::fvec3i<bool> bvec3;
+  //typedef impl::fvec3i<int> ivec3;
+  //typedef impl::fvec3i<unsigned int> uvec3;
+
+  typedef impl::fvec4i<float> vec4;
+  //typedef impl::fvec4i<double> dvec4;
+  //typedef impl::fvec4i<bool> bvec4;
+  //typedef impl::fvec4i<int> ivec4;
+  //typedef impl::fvec4i<unsigned int> uvec4;
+
+  //typedef impl::fmat2i<float> mat2;
+  //typedef impl::fmat2i<double> dmat2;
+
+  //typedef impl::fmat3i<float> mat3;
+  //typedef impl::fmat3i<double> dmat3;
+
+  //typedef impl::fmat4i<float> mat4;
+  //typedef impl::fmat4i<double> dmat4;
+#else
   typedef impl::vec2i<float> vec2;
   typedef impl::vec2i<double> dvec2;
   typedef impl::vec2i<bool> bvec2;
@@ -45,6 +80,7 @@ namespace mymath
 
   typedef impl::mat4i<float> mat4;
   typedef impl::mat4i<double> dmat4;
+#endif
 }
 
 #endif
