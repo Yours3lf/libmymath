@@ -583,7 +583,7 @@ inline vec4 fragment_program( const vec2& coord, const float& time, int& curr_id
 
     if( b.intersect( r, bdist ) )
     {
-      r.origin += vec3( bdist + fepsilon ) * r.direction;
+      r.origin += vec3( bdist + epsilon ) * r.direction;
     }
   }
 

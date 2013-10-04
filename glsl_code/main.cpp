@@ -10,8 +10,10 @@
 #include <sstream>
 
 #define USE_TBB 1
-#define SAVE_SCREENSHOT 1
+#define ONETHREAD 0 //if no TBB, use this to run only one thread
+#define SAVE_SCREENSHOT 0
 #define USE_SUPERSAMPLING 0
+#define DISPLAYINFO 1
 
 #if USE_SUPERSAMPLING == 1
 #define SS 2
@@ -19,7 +21,7 @@
 #define SS 1
 #endif
 
-#define FRAMERATE_LIMIT 1
+#define FRAMERATE_LIMIT 0
 
 #if USE_TBB == 1
 #include "tbb/tbb.h"
@@ -293,6 +295,8 @@ int main( int argc, char* args[] )
                      );
 #else
 
+#if ONETHREAD == 0
+
     if( num_threads > 1 )
     {
       std::vector<sf::Thread*> threads;
@@ -321,6 +325,10 @@ int main( int argc, char* args[] )
       thread_func( uvec4( 0, screen.x, 0, screen.y ) );
     }
 
+#else
+    thread_func( uvec4( 0, screen.x, 0, screen.y ) );
+#endif
+
 #endif
 
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, screen.x, screen.y, 0, GL_RGBA, GL_FLOAT, &tex[0][0] );
@@ -338,6 +346,7 @@ int main( int argc, char* args[] )
     the_window.display();
 
 #if SAVE_SCREENSHOT == 1
+    glFinish();
     sf::Image im;
     glReadPixels( 0, 0, screen.x / SS, screen.y / SS, GL_RGBA, GL_UNSIGNED_BYTE, pixels );
     glFinish();
@@ -348,6 +357,7 @@ int main( int argc, char* args[] )
     ss.str( "" );
 #endif
 
+#if DISPLAYINFO == 1
     frames++;
 
     elapsed_time += 1 / 30.0f;
@@ -360,6 +370,8 @@ int main( int argc, char* args[] )
       frames = 0;
       current_time = the_clock.getElapsedTime().asMilliseconds();
     }
+
+#endif
   }
 
 #if SAVE_SCREENSHOT == 1

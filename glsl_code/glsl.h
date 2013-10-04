@@ -12,6 +12,10 @@
 /**/
 void main()
 {
-  gl_FragColor = vec4( gl_FragCoord.xy * mouse / resolution, sin( time ) * 0.5 + 0.5, 1 );
+  vec2 msperr = mouse / resolution;
+  msperr *= gl_FragCoord.xy;
+  gl_FragColor.xy = msperr;
+  gl_FragColor.z = sin( time ) * 0.5 + 0.5;
+  gl_FragColor.w = 1;
 }
 /**/

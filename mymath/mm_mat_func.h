@@ -161,13 +161,15 @@ inline std::ostream& operator<< ( std::ostream& output, const mm::impl::mat4i<t>
 }
 
 MYMATH_VECMULMAT_FUNC( float )
-MYMATH_VECMULMAT_FUNC( double )
 
 MYMATH_MATMULVEC_FUNC( float )
-MYMATH_MATMULVEC_FUNC( double )
 
 MYMATH_VECMULEQUALMAT_FUNC( float )
-MYMATH_VECMULEQUALMAT_FUNC( double )
+
+#if MYMATH_DOUBLE_PRECISION == 1
+MYMATH_VECMULMAT_FUNC( double )
+MYMATH_MATMULVEC_FUNC( double )
+#endif
 
 namespace mymath
 {

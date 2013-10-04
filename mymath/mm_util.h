@@ -170,23 +170,26 @@ namespace mymath
   }
 
   MYMATH_CREATEROTATION_FUNC( float )
-  MYMATH_CREATEROTATION_FUNC( double )
 
   MYMATH_CREATESCALE_FUNC( float )
-  MYMATH_CREATESCALE_FUNC( double )
 
   MYMATH_CREATETRANSLATION_FUNC( float )
-  MYMATH_CREATETRANSLATION_FUNC( double )
 
   MYMATH_GETANGLE_FUNC( vec2i, float )
-  MYMATH_GETANGLE_FUNC( vec2i, double )
   MYMATH_GETANGLE_FUNC( vec3i, float )
-  MYMATH_GETANGLE_FUNC( vec3i, double )
   MYMATH_GETANGLE_FUNC( vec4i, float )
-  MYMATH_GETANGLE_FUNC( vec4i, double )
 
   MYMATH_RAYINTSPHERE_FUNC( float )
+
+#if MYMATH_DOUBLE_PRECISION == 1
+  MYMATH_CREATEROTATION_FUNC( double )
+  MYMATH_CREATESCALE_FUNC( double )
+  MYMATH_CREATETRANSLATION_FUNC( double )
+  MYMATH_GETANGLE_FUNC( vec2i, double )
+  MYMATH_GETANGLE_FUNC( vec3i, double )
+  MYMATH_GETANGLE_FUNC( vec4i, double )
   MYMATH_RAYINTSPHERE_FUNC( double )
+#endif
 
   inline bool is_pow_2( const unsigned int& val )
   {
@@ -206,28 +209,24 @@ namespace mymath
   }
 
   MYMATH_CLOSEENOUGH_FUNC( float )
-  MYMATH_CLOSEENOUGH_FUNC( double )
-
-  MYMATH_PROJECTXY_FUNC( float )
-  MYMATH_PROJECTXY_FUNC( double )
-
+  //MYMATH_PROJECTXY_FUNC( float ) //TODO
   MYMATH_FINDNORMAL_FUNC( float )
-  MYMATH_FINDNORMAL_FUNC( double )
-
   MYMATH_CATMULLROM_FUNC( float )
-  MYMATH_CATMULLROM_FUNC( double )
-
   MYMATH_CALCTANGENT_FUNC( float )
-  MYMATH_CALCTANGENT_FUNC( double )
-
   MYMATH_CLOSESTPOINTONRAY_FUNC( float )
-  MYMATH_CLOSESTPOINTONRAY_FUNC( double )
-
-  MYMATH_PROJECTXYZ_FUNC( float )
-  MYMATH_PROJECTXYZ_FUNC( double )
-
+  //MYMATH_PROJECTXYZ_FUNC( float )
   MYMATH_GETPLANEEQ_FUNC( float )
+
+#if MYMATH_DOUBLE_PRECISION == 1
+  MYMATH_CLOSEENOUGH_FUNC( double )
+  MYMATH_PROJECTXY_FUNC( double )
+  MYMATH_FINDNORMAL_FUNC( double )
+  MYMATH_CATMULLROM_FUNC( double )
+  MYMATH_CALCTANGENT_FUNC( double )
+  MYMATH_CLOSESTPOINTONRAY_FUNC( double )
+  MYMATH_PROJECTXYZ_FUNC( double )
   MYMATH_GETPLANEEQ_FUNC( double )
+#endif
 
   template< typename t >
   inline impl::mat4i<t> perspective( const t& fovy, const t& aspect, const t& near, const t& far )
@@ -263,7 +262,10 @@ namespace mymath
   }
 
   MYMATH_MAKEPLANARSHADOW_FUNC( float )
+
+#if MYMATH_DOUBLE_PRECISION == 1
   MYMATH_MAKEPLANARSHADOW_FUNC( double )
+#endif
 
 }
 

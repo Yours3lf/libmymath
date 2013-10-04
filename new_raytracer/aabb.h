@@ -26,12 +26,12 @@ class aabb
     bool contains( const vec3& p )
     {
       vec3 v2 = pos + size;
-      return p.x > ( pos.x - fepsilon ) &&
-             p.x < ( v2.x + fepsilon ) &&
-             p.y > ( pos.y - fepsilon ) &&
-             p.y < ( v2.y + fepsilon ) &&
-             p.z > ( pos.z - fepsilon ) &&
-             p.z < ( v2.z + fepsilon );
+      return p.x > ( pos.x - epsilon ) &&
+             p.x < ( v2.x + epsilon ) &&
+             p.y > ( pos.y - epsilon ) &&
+             p.y < ( v2.y + epsilon ) &&
+             p.z > ( pos.z - epsilon ) &&
+             p.z < ( v2.z + epsilon );
     }
 
     aabb() {}

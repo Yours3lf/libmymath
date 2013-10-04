@@ -23,9 +23,6 @@ using namespace std;
 
 #define GAMMA_CORRECTION 1
 
-static const float fepsilon = 0.0001f;
-static const vec3 epsilon( fepsilon );
-
 static const int hit = 1, inside = -1, miss = 0;
 
 static const int gridsize = 8;

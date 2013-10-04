@@ -129,6 +129,32 @@ namespace mymath
         }
     };
 
+    template<typename ty>
+    template<int a, int b>
+    class vec2i<ty>::swizzle<a, b, a, b>
+    {
+      private:
+        ty v[2];
+      public:
+        operator vec4i<ty>() const
+        {
+          return vec4i<ty>( v[a], v[b], v[a], v[b] );
+        }
+    };
+
+    template<typename ty>
+    template<int a, int b>
+    class vec2i<ty>::swizzle<a, a, b, b>
+    {
+      private:
+        ty v[2];
+      public:
+        operator vec4i<ty>() const
+        {
+          return vec4i<ty>( v[a], v[a], v[b], v[b] );
+        }
+    };
+
     //vec4 swizzlers for vec3
     template<typename ty>
     template<int a>

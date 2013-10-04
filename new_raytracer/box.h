@@ -55,12 +55,12 @@ class box : public primitive
         {
           ip[c] = r.origin + vec3( dist[c] ) * r.direction;
 
-          if( ip[c].x > bb.pos.x - fepsilon &&
-              ip[c].x < v2.x + fepsilon &&
-              ip[c].y > bb.pos.y - fepsilon &&
-              ip[c].y < v2.y + fepsilon &&
-              ip[c].z > bb.pos.z - fepsilon &&
-              ip[c].z < v2.z + fepsilon )
+          if( ip[c].x > bb.pos.x - epsilon &&
+              ip[c].x < v2.x + epsilon &&
+              ip[c].y > bb.pos.y - epsilon &&
+              ip[c].y < v2.y + epsilon &&
+              ip[c].z > bb.pos.z - epsilon &&
+              ip[c].z < v2.z + epsilon )
           {
             if( dist[c] < d )
             {

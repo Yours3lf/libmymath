@@ -9,12 +9,14 @@ namespace mymath
   namespace impl
   {
     template< typename ty >
-    class fvec2i
-    {
-    };
+    class MM_GPU_ALIGNED vec2i;
+    template< typename ty >
+    class MM_GPU_ALIGNED vec3i;
+    template< typename ty >
+    class MM_GPU_ALIGNED vec4i;
 
     template<>
-    class fvec2i<float>
+    class vec2i<float>
     {
       private:
         template< int at, int bt, int ct, int dt >
@@ -24,36 +26,36 @@ namespace mymath
             __m128 v;
           public:
             //For cases like swizzle = vec2 and swizzle = swizzle
-            const fvec2i& operator=( const fvec2i& other )
+            const vec2i& operator=( const vec2i& other )
             {
-              v = _mm_shuffle_ps( other.d, other.d, _MM_SHUFFLE( at, bt, 0, 0 ) );
-              return *( fvec2i* )this;
+              v = _mm_shuffle_ps( other.d, other.d, MM_SHUFFLE( at, bt, 0, 0 ) );
+              return *( vec2i* )this;
             }
 
             //For cases like swizzle *= vec2 and swizzle *= swizzle
-            const fvec2i& operator*=( const fvec2i& other )
+            const vec2i& operator*=( const vec2i& other )
             {
-              v = _mm_mul_ps( v, _mm_shuffle_ps( other.d, other.d, _MM_SHUFFLE( at, bt, 0, 0 ) ) );
-              return *( fvec2i* )this;
+              v = _mm_mul_ps( v, _mm_shuffle_ps( other.d, other.d, MM_SHUFFLE( at, bt, 0, 0 ) ) );
+              return *( vec2i* )this;
             }
 
-            const fvec2i& operator/=( const fvec2i& other ); //needs notEqual, defined elsewhere
+            const vec2i& operator/=( const vec2i& other ); //needs notEqual, defined elsewhere
 
-            const fvec2i& operator+=( const fvec2i& other )
+            const vec2i& operator+=( const vec2i& other )
             {
-              v = _mm_add_ps( v, _mm_shuffle_ps( other.d, other.d, _MM_SHUFFLE( at, bt, 0, 0 ) ) );
-              return *( fvec2i* )this;
+              v = _mm_add_ps( v, _mm_shuffle_ps( other.d, other.d, MM_SHUFFLE( at, bt, 0, 0 ) ) );
+              return *( vec2i* )this;
             }
 
-            const fvec2i& operator-=( const fvec2i& other )
+            const vec2i& operator-=( const vec2i& other )
             {
-              v = _mm_sub_ps( v, _mm_shuffle_ps( other.d, other.d, _MM_SHUFFLE( at, bt, 0, 0 ) ) );
-              return *( fvec2i* )this;
+              v = _mm_sub_ps( v, _mm_shuffle_ps( other.d, other.d, MM_SHUFFLE( at, bt, 0, 0 ) ) );
+              return *( vec2i* )this;
             }
 
-            operator fvec2i() const
+            operator vec2i() const
             {
-              return fvec2i( _mm_shuffle_ps( d, d, _MM_SHUFFLE( at, bt, 0, 0 ) ) );
+              return vec2i( _mm_shuffle_ps( v, v, MM_SHUFFLE( at, bt, 0, 0 ) ) );
             }
         };
 
@@ -63,10 +65,111 @@ namespace mymath
           private:
             __m128 v;
           public:
-            operator fvec2i() const
+            operator vec2i() const
             {
-              return fvec2i( _mm_shuffle_ps( v, v, _MM_SHUFFLE( at, at, 0, 0 ) ) );
+              return vec2i( _mm_shuffle_ps( v, v, MM_SHUFFLE( at, at, 0, 0 ) ) );
             }
+        };
+
+        //vec2 to vec3 and vec4 declarations
+        template< int a >
+        class swizzle < a, a, a, -3 >
+        {
+          private:
+            __m128 v;
+          public:
+            operator vec3i<float>() const;
+        };
+
+        template<int a, int b>
+        class swizzle < b, a, a, -3 >
+        {
+          private:
+            __m128 v;
+          public:
+            operator vec3i<float>() const;
+        };
+
+        template<int a, int b>
+        class swizzle < a, b, a, -3 >
+        {
+          private:
+            __m128 v;
+          public:
+            operator vec3i<float>() const;
+        };
+
+        template<int a, int b>
+        class swizzle < a, a, b, -3 >
+        {
+          private:
+            __m128 v;
+          public:
+            operator vec3i<float>() const;
+        };
+
+        //vec4 swizzlers for vec2
+        template<int a>
+        class swizzle<a, a, a, a>
+        {
+          private:
+            __m128 v;
+          public:
+            operator vec4i<float>() const;
+        };
+
+        template<int a, int b>
+        class swizzle<b, a, a, a>
+        {
+          private:
+            __m128 v;
+          public:
+            operator vec4i<float>() const;
+        };
+
+        template<int a, int b>
+        class swizzle<a, b, a, a>
+        {
+          private:
+            __m128 v;
+          public:
+            operator vec4i<float>() const;
+        };
+
+        template<int a, int b>
+        class swizzle<a, a, b, a>
+        {
+          private:
+            __m128 v;
+          public:
+            operator vec4i<float>() const;
+        };
+
+        template<int a, int b>
+        class swizzle<a, a, a, b>
+        {
+          private:
+            __m128 v;
+          public:
+            operator vec4i<float>() const;
+        };
+
+        template<int a, int b>
+        class swizzle<a, b, a, b>
+        {
+          private:
+            __m128 v;
+          public:
+            operator vec4i<float>() const;
+        };
+
+        template<int a, int b>
+        class swizzle<a, a, b, b>
+        {
+          private:
+            __m128 v;
+          public:
+            operator vec4i<float>() const;
         };
 
       protected:
@@ -105,13 +208,13 @@ namespace mymath
 #pragma GCC diagnostic pop
 #endif
 
-        fvec2i( const float& at, const float& bt ) : x( at ), y( bt ) {}
+        vec2i( const float& at, const float& bt ) : x( at ), y( bt ) {}
 #if MYMATH_STRICT_GLSL == 1
         explicit
 #endif
-        fvec2i( const float& num ) : x( num ), y( num ) {}
-        fvec2i( const __m128& num ) : d( num ) {}
-        fvec2i() : x( 0 ), y( 0 ) {}
+        vec2i( const float& num ) : x( num ), y( num ) {}
+        vec2i( const __m128& num ) : d( num ) {}
+        vec2i() : x( 0 ), y( 0 ) {}
 
         float& operator[]( const unsigned int& num ) //read-write
         {
@@ -125,93 +228,93 @@ namespace mymath
           return v[num];
         }
 
-        const fvec2i& operator= ( const fvec2i& other )
+        const vec2i& operator= ( const vec2i& other )
         {
           d = other.d;
           return *this;
         }
 
-        const fvec2i& operator*= ( const fvec2i& vec )
+        const vec2i& operator*= ( const vec2i& vec )
         {
           d = _mm_mul_ps( d, vec.d );
           return *this;
         }
 
-        const fvec2i& operator/= ( const fvec2i& vec ); //needs notEqual defined elsewhere
+        const vec2i& operator/= ( const vec2i& vec ); //needs notEqual defined elsewhere
 
-        const fvec2i& operator+= ( const fvec2i& vec )
+        const vec2i& operator+= ( const vec2i& vec )
         {
           d = _mm_add_ps( d, vec.d );
           return *this;
         }
 
-        const fvec2i& operator-= ( const fvec2i& vec )
+        const vec2i& operator-= ( const vec2i& vec )
         {
           d = _mm_sub_ps( d, vec.d );
           return *this;
         }
 
-        const fvec2i& operator%= ( const fvec2i& vec )
+        const vec2i& operator%= ( const vec2i& vec )
         {
           d = sse_mod_ps( d, vec.d );
           return *this;
         }
 
         //TODO
-        /*const fvec2i& operator<<= ( const fvec2i& vec )
+        /*const vec2i& operator<<= ( const vec2i& vec )
         {
           x = ( int )x << ( int )vec.x;
           y = ( int )y << ( int )vec.y;
           return *this;
         }
 
-        const fvec2i& operator>>= ( const fvec2i& vec )
+        const vec2i& operator>>= ( const vec2i& vec )
         {
           x = ( int )x >> ( int )vec.x;
           y = ( int )y >> ( int )vec.y;
           return *this;
         }*/
 
-        const fvec2i& operator&= ( const fvec2i& vec )
+        const vec2i& operator&= ( const vec2i& vec )
         {
           d = _mm_and_ps( d, vec.d );
           return *this;
         }
 
-        const fvec2i& operator^= ( const fvec2i& vec )
+        const vec2i& operator^= ( const vec2i& vec )
         {
           d = _mm_xor_ps( d, vec.d );
           return *this;
         }
 
-        const fvec2i& operator|= ( const fvec2i& vec )
+        const vec2i& operator|= ( const vec2i& vec )
         {
           d = _mm_or_ps( d, vec.d );
           return *this;
         }
 
-        const fvec2i operator++ () //pre
+        const vec2i operator++ () //pre
         {
           d = _mm_add_ps( d, impl::one );
           return *this;
         }
 
-        const fvec2i operator++ ( impl::post )
+        const vec2i operator++ ( impl::post )
         {
-          fvec2i tmp = *this;
+          vec2i tmp = *this;
           ++( *this );
           return tmp;
         }
 
-        const fvec2i operator-- () //pre
+        const vec2i operator-- () //pre
         {
           d = _mm_sub_ps( d, impl::one );
           return *this;
         }
 
-        const fvec2i operator-- ( impl::post )
+        const vec2i operator-- ( impl::post )
         {
-          fvec2i tmp = *this;
+          vec2i tmp = *this;
           --( *this );
           return tmp;
         }

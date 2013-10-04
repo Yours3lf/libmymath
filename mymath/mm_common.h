@@ -21,6 +21,10 @@
 #define MM_ALIGNED(x) __attribute__((aligned (x)))
 #endif
 
+#ifdef MYMATH_USE_SSE2
+#define MM_SHUFFLE(x, y, z, w) (_MM_SHUFFLE(w, z, y, x))
+#endif
+
 //align variables to 16 bytes (GPU friendly)
 #define MM_GPU_ALIGNED MM_ALIGNED(16)
 
