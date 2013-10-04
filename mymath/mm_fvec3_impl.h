@@ -242,16 +242,19 @@ namespace mymath
           struct
           {
             float x, y, z;
+            float dummy;
           };
 
           struct
           {
             float r, g, b;
+            float dummy2;
           };
 
           struct
           {
             float s, t, q;
+            float dummy3;
           };
 
 #include "includes/vec3_swizzle_declarations.h"
@@ -259,6 +262,7 @@ namespace mymath
           struct
           {
             float v[3];
+            float dummy4;
           };
 
           __m128 d;
