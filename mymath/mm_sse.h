@@ -139,11 +139,6 @@ namespace mymath
       return sub0;
     }
 
-    /*inline __m128 sse_trc_ps( __m128 x )
-    {
-      //TODO
-    }*/
-
     inline __m128 sse_rde_ps( __m128 x )
     {
       __m128 and0 = _mm_and_ps( epi32_sign_mask, x );
@@ -177,11 +172,6 @@ namespace mymath
       __m128 sub0 = _mm_sub_ps( x, mul0 );
       return sub0;
     }
-
-    /*inline __m128 sse_modf_ps( __m128 x, __m128i& i )
-    {
-      //TODO
-    }*/
 
     //clamp
     inline __m128 sse_clp_ps( __m128 v, __m128 minv, __m128 maxv )
