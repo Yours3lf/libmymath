@@ -47,52 +47,52 @@ namespace mymath
     static const __m128i two_i32 = _mm_set1_epi32( 2 );
     static const __m128i four_i32 = _mm_set1_epi32( 4 );
     static const __m128i sevenf = _mm_set1_epi32( 0x7f );
-    static const __m128 sqrthf = _mm_set_ps1( 0.707106781186547524 );
-    static const __m128 log_p0 = _mm_set_ps1( 7.0376836292E-2 );
-    static const __m128 log_p1 = _mm_set_ps1( - 1.1514610310E-1 );
-    static const __m128 log_p2 = _mm_set_ps1( 1.1676998740E-1 );
-    static const __m128 log_p3 = _mm_set_ps1( - 1.2420140846E-1 );
-    static const __m128 log_p4 = _mm_set_ps1( + 1.4249322787E-1 );
-    static const __m128 log_p5 = _mm_set_ps1( - 1.6668057665E-1 );
-    static const __m128 log_p6 = _mm_set_ps1( + 2.0000714765E-1 );
-    static const __m128 log_p7 = _mm_set_ps1( - 2.4999993993E-1 );
-    static const __m128 log_p8 = _mm_set_ps1( + 3.3333331174E-1 );
-    static const __m128 log_q1 = _mm_set_ps1( -2.12194440e-4 );
-    static const __m128 log_q2 = _mm_set_ps1( 0.693359375 );
+    static const __m128 sqrthf = _mm_set_ps1( 0.707106781186547524f );
+    static const __m128 log_p0 = _mm_set_ps1( 7.0376836292E-2f );
+    static const __m128 log_p1 = _mm_set_ps1( - 1.1514610310E-1f );
+    static const __m128 log_p2 = _mm_set_ps1( 1.1676998740E-1f );
+    static const __m128 log_p3 = _mm_set_ps1( - 1.2420140846E-1f );
+    static const __m128 log_p4 = _mm_set_ps1( + 1.4249322787E-1f );
+    static const __m128 log_p5 = _mm_set_ps1( - 1.6668057665E-1f );
+    static const __m128 log_p6 = _mm_set_ps1( + 2.0000714765E-1f );
+    static const __m128 log_p7 = _mm_set_ps1( - 2.4999993993E-1f );
+    static const __m128 log_p8 = _mm_set_ps1( + 3.3333331174E-1f );
+    static const __m128 log_q1 = _mm_set_ps1( -2.12194440e-4f );
+    static const __m128 log_q2 = _mm_set_ps1( 0.693359375f );
     static const __m128 exp_hi = _mm_set_ps1( 88.3762626647949f );
     static const __m128 exp_lo = _mm_set_ps1( -88.3762626647949f );
-    static const __m128 log2ef = _mm_set_ps1( 1.44269504088896341 );
-    static const __m128 expc1 = _mm_set_ps1( 0.693359375 );
-    static const __m128 expc2 = _mm_set_ps1( -2.12194440e-4 );
-    static const __m128 exp_p0 = _mm_set_ps1( 1.9875691500E-4 );
-    static const __m128 exp_p1 = _mm_set_ps1( 1.3981999507E-3 );
-    static const __m128 exp_p2 = _mm_set_ps1( 8.3334519073E-3 );
-    static const __m128 exp_p3 = _mm_set_ps1( 4.1665795894E-2 );
-    static const __m128 exp_p4 = _mm_set_ps1( 1.6666665459E-1 );
-    static const __m128 exp_p5 = _mm_set_ps1( 5.0000001201E-1 );
-    static const __m128 dp1 = _mm_set_ps1( -0.78515625 );
-    static const __m128 dp2 = _mm_set_ps1( -2.4187564849853515625e-4 );
-    static const __m128 dp3 = _mm_set_ps1( -3.77489497744594108e-8 );
-    static const __m128 sincof_p0 = _mm_set_ps1( -1.9515295891E-4 );
-    static const __m128 sincof_p1 = _mm_set_ps1( 8.3321608736E-3 );
-    static const __m128 sincof_p2 = _mm_set_ps1( -1.6666654611E-1 );
-    static const __m128 coscof_p0 = _mm_set_ps1( 2.443315711809948E-005 );
-    static const __m128 coscof_p1 = _mm_set_ps1( -1.388731625493765E-003 );
-    static const __m128 coscof_p2 = _mm_set_ps1( 4.166664568298827E-002 );
-    static const __m128 four_per_pi = _mm_set_ps1( 1.27323954473516 );
-    static const __m128 asinf_p0 = _mm_set_ps1( 4.2163199048E-2 );
-    static const __m128 asinf_p1 = _mm_set_ps1( 2.4181311049E-2 );
-    static const __m128 asinf_p2 = _mm_set_ps1( 4.5470025998E-2 );
-    static const __m128 asinf_p3 = _mm_set_ps1( 7.4953002686E-2 );
-    static const __m128 asinf_p4 = _mm_set_ps1( 1.6666752422E-1 );
-    static const __m128 asinf_p5 = _mm_set_ps1( 1.0E-4 );
-    static const __m128 two_per_pi = _mm_set_ps1( 0.63661977236758134308 );
-    static const __m128 atanf_p0 = _mm_set_ps1( 8.05374449538e-2 );
-    static const __m128 atanf_p1 = _mm_set_ps1( -1.38776856032e-1 );
-    static const __m128 atanf_p2 = _mm_set_ps1( 1.99777106478e-1 );
-    static const __m128 atanf_p3 = _mm_set_ps1( -3.33329491539e-1 );
-    static const __m128 t3pi08 = _mm_set_ps1( 2.414213562373095 );
-    static const __m128 tpi08 = _mm_set_ps1( 0.4142135623730950 );
+    static const __m128 log2ef = _mm_set_ps1( 1.44269504088896341f );
+    static const __m128 expc1 = _mm_set_ps1( 0.693359375f );
+    static const __m128 expc2 = _mm_set_ps1( -2.12194440e-4f );
+    static const __m128 exp_p0 = _mm_set_ps1( 1.9875691500E-4f );
+    static const __m128 exp_p1 = _mm_set_ps1( 1.3981999507E-3f );
+    static const __m128 exp_p2 = _mm_set_ps1( 8.3334519073E-3f );
+    static const __m128 exp_p3 = _mm_set_ps1( 4.1665795894E-2f );
+    static const __m128 exp_p4 = _mm_set_ps1( 1.6666665459E-1f );
+    static const __m128 exp_p5 = _mm_set_ps1( 5.0000001201E-1f );
+    static const __m128 dp1 = _mm_set_ps1( -0.78515625f );
+    static const __m128 dp2 = _mm_set_ps1( -2.4187564849853515625e-4f );
+    static const __m128 dp3 = _mm_set_ps1( -3.77489497744594108e-8f );
+    static const __m128 sincof_p0 = _mm_set_ps1( -1.9515295891E-4f );
+    static const __m128 sincof_p1 = _mm_set_ps1( 8.3321608736E-3f );
+    static const __m128 sincof_p2 = _mm_set_ps1( -1.6666654611E-1f );
+    static const __m128 coscof_p0 = _mm_set_ps1( 2.443315711809948E-005f );
+    static const __m128 coscof_p1 = _mm_set_ps1( -1.388731625493765E-003f );
+    static const __m128 coscof_p2 = _mm_set_ps1( 4.166664568298827E-002f );
+    static const __m128 four_per_pi = _mm_set_ps1( 1.27323954473516f );
+    static const __m128 asinf_p0 = _mm_set_ps1( 4.2163199048E-2f );
+    static const __m128 asinf_p1 = _mm_set_ps1( 2.4181311049E-2f );
+    static const __m128 asinf_p2 = _mm_set_ps1( 4.5470025998E-2f );
+    static const __m128 asinf_p3 = _mm_set_ps1( 7.4953002686E-2f );
+    static const __m128 asinf_p4 = _mm_set_ps1( 1.6666752422E-1f );
+    static const __m128 asinf_p5 = _mm_set_ps1( 1.0E-4f );
+    static const __m128 two_per_pi = _mm_set_ps1( 0.63661977236758134308f );
+    static const __m128 atanf_p0 = _mm_set_ps1( 8.05374449538e-2f );
+    static const __m128 atanf_p1 = _mm_set_ps1( -1.38776856032e-1f );
+    static const __m128 atanf_p2 = _mm_set_ps1( 1.99777106478e-1f );
+    static const __m128 atanf_p3 = _mm_set_ps1( -3.33329491539e-1f );
+    static const __m128 t3pi08 = _mm_set_ps1( 2.414213562373095f );
+    static const __m128 tpi08 = _mm_set_ps1( 0.4142135623730950f );
 
 
     inline __m128 sse_rad_ps( __m128 x )
@@ -232,11 +232,11 @@ namespace mymath
 
       __m128 invalid_mask = _mm_cmple_ps( x, _mm_setzero_ps() );
 
-      x = _mm_max_ps( x, ( __m128 )min_norm_pos ); /* cut off denormalized stuff */
+      x = _mm_max_ps( x, _mm_castsi128_ps(min_norm_pos) ); /* cut off denormalized stuff */
 
       emm0 = _mm_srli_epi32( _mm_castps_si128( x ), 23 );
       /* keep only the fractional part */
-      x = _mm_and_ps( x, ( __m128 )inv_mant_mask );
+      x = _mm_and_ps( x, _mm_castsi128_ps(inv_mant_mask) );
       x = _mm_or_ps( x, half );
 
       emm0 = _mm_sub_epi32( emm0, sevenf );
@@ -681,10 +681,10 @@ namespace mymath
     {
       __m128 neg = _mm_cmplt_ps( x, zero );
       x = sse_abs_ps( x );
-      static __m128 acos_p0 = _mm_set1_ps( -0.0187293 );
-      static __m128 acos_p1 = _mm_set1_ps( 0.0742610 );
-      static __m128 acos_p2 = _mm_set1_ps( 0.2121144 );
-      static __m128 acos_p3 = _mm_set1_ps( 1.5707288 );
+      static __m128 acos_p0 = _mm_set1_ps( -0.0187293f );
+      static __m128 acos_p1 = _mm_set1_ps( 0.0742610f );
+      static __m128 acos_p2 = _mm_set1_ps( 0.2121144f );
+      static __m128 acos_p3 = _mm_set1_ps( 1.5707288f );
 
       __m128 ret = acos_p0;
       ret = _mm_mul_ps( ret, x );

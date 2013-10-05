@@ -11,7 +11,7 @@
 #include <assert.h>
 
 #ifdef MYMATH_USE_SSE2
-#include <x86intrin.h>
+#include "x86intrin.h"
 #endif
 
 //align variables to X bytes
@@ -49,7 +49,7 @@
 
 namespace mymath
 {
-  static const float epsilon = 0.00001;
+  static const float epsilon = 0.00001f;
   static const double depsilon = 0.00000001;
 
   namespace impl
