@@ -365,8 +365,9 @@ namespace mymath
         vec4i( const vec3i<ty>& vec, const ty& num ) : x( vec.x ), y( vec.y ), z( vec.z ), w( num ) {}
         vec4i( const ty& num, const vec3i<ty>& vec ) : x( num ), y( vec.x ), z( vec.y ), w( vec.z ) {}
         vec4i( const vec2i<ty>& at, const vec2i<ty>& bt ) : x( at.x ), y( at.y ), z( bt.x ), w( bt.y ) {}
-        vec4i( const ty& num1, const ty& num2, const vec2i<ty>& vec ) : x( num1 ), y( num2 ), z( vec.x ), w( vec.y ) {}
         vec4i( const vec2i<ty>& vec, const ty& num1, const ty& num2 ) : x( vec.x ), y( vec.y ), z( num1 ), w( num2 ) {}
+        vec4i( const ty& num1, const vec2i<ty>& vec, const ty& num2 ) : x( num1 ), y( vec.x ), z( vec.y ), w( num2 ) {}
+        vec4i( const ty& num1, const ty& num2, const vec2i<ty>& vec ) : x( num1 ), y( num2 ), z( vec.x ), w( vec.y ) {}
 #if MYMATH_STRICT_GLSL == 1
         explicit
 #endif

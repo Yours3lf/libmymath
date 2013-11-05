@@ -62,14 +62,12 @@ namespace mymath
       return a == b;
     }
 
-    template<>
-    bool is_eq( float a, float b )
+    static bool is_eq( float a, float b )
     {
       return std::abs( a - b ) < epsilon;
     }
 
-    template<>
-    bool is_eq( double a, double b )
+    static bool is_eq( double a, double b )
     {
       return std::abs( a - b ) < depsilon;
     }
