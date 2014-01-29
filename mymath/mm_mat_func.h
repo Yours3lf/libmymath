@@ -7,11 +7,108 @@
 #include "mm_mat4_impl.h"
 #include "mm_vec_func.h"
 
+/*
+v.x* m[0].x + v.y* m[0].y + v.z * m[0].z
+v.x* m[1].x + v.y* m[1].y + v.z * m[1].z
+v.x* m[2].x + v.y* m[2].y + v.z * m[2].z
+
+v.x* m[0].x +
+v.x* m[1].x +
+v.x* m[2].x +
+v.y* m[0].y +
+v.y* m[1].y +
+v.y* m[2].y +
+v.z* m[0].z
+v.z* m[1].z
+v.z* m[2].z
+
+//original
+return mm::impl::vec3i<t>( mm::dot( vec, mat[0] ), mm::dot( vec, mat[1] ), mm::dot( vec, mat[2] ) ); \
+
+//optimized
+mm::impl::vec4i<t> tmp1 = mat[0].xxxy;
+tmp1 *= vec.xxxy; // xx xx xx yy
+mm::impl::vec4i<t> tmp11 = mat[0].yxxz;
+tmp11 *= vec.yxxz; // yy xx xx zz
+tmp1 *= vec4(1,1,1,0)
+tmp1 += tmp11; // xx + yy, xx + xx, xx + xx, zz
+
+mm::impl::vec4i<t> tmp2 = mat[1].xxxy;
+tmp2 *= vec.xxxy; // xx xx xx yy
+mm::impl::vec4i<t> tmp21 = mat[1].yxxz;
+tmp21 *= vec.yxxz; // yy xx xx zz
+tmp2 *= vec4(1,1,1,0);
+tmp2 += tmp21; // xx + yy, xx + xx, xx + xx, zz
+
+mm::impl::vec4i<t> tmp3 = mat[2].xxxy;
+tmp3 *= vec.xxxy; /// xx xx xx yy
+mm::impl::vec4i<t> tmp31 = mat[2].yxxz;
+tmp31 *= vec.yxxz; // yy xx xx zz
+tmp3 *= vec4(1,1,1,0);
+tmp3 += tmp31; // xx + yy, xx + xx, xx + xx, zz
+
+tmp1 += tmp1.wxxx;
+tmp2 += tmp2.wxxx;
+tmp3 += tmp3.wxxx;
+tmp2 = tmp2.xxxx;
+tmp2 *= vec4(0,1,0,0);
+tmp3 = tmp3.xxxx;
+tmp3 *= vec4(0,0,1,0);
+return (tmp1 + tmp2 + tmp3).xyz;
+
+m[0].x,______,______,m[0].y +
+m[0].y,______,______,m[0].z
+
+      ,m[1].x,______,______,m[1].y +
+      ,m[1].y,______,______,m[1].z
+
+             ,m[2].x,______,______,m[2].y +
+             ,m[2].y,______,______,m[2].z
+
+
+
+m[0].x,m[0].y,m[0].z,m[1].x,m[1].y,m[1].z,m[2].x,m[2].y,m[2].z
+
+*/
+
 #define MYMATH_VECMULMAT_FUNC(t) \
   inline mm::impl::vec2i<t> operator*( const mm::impl::vec2i<t>& vec, const mm::impl::mat2i<t>& mat ) \
-  { return mm::impl::vec2i<t>( mm::dot( vec, mat[0] ), mm::dot( vec, mat[1] ) ); } \
+  { \
+    mm::impl::vec4i<t> tmp1 = vec.xxyy; \
+    mm::impl::vec4i<t> tmp2( mat[0], mat[1] ); \
+    tmp1 *= tmp2.xzyw; \
+    return mm::operator+(tmp1.xy, tmp1.zw); \
+  } \
   inline mm::impl::vec3i<t> operator*( const mm::impl::vec3i<t>& vec, const mm::impl::mat3i<t>& mat ) \
-  { return mm::impl::vec3i<t>( mm::dot( vec, mat[0] ), mm::dot( vec, mat[1] ), mm::dot( vec, mat[2] ) ); } \
+  { \
+    mm::impl::vec4i<t> tmp1 = mat[0].xxxy; \
+    tmp1 *= vec.xxxy; \
+    mm::impl::vec4i<t> tmp11 = mat[0].yxxz; \
+    tmp11 *= vec.yxxz; \
+    tmp1 *= mm::impl::vec4i<t>(1,1,1,0); \
+    tmp1 += tmp11; \
+    mm::impl::vec4i<t> tmp2 = mat[1].xxxy; \
+    tmp2 *= vec.xxxy; \
+    mm::impl::vec4i<t> tmp21 = mat[1].yxxz; \
+    tmp21 *= vec.yxxz; \
+    tmp2 *= mm::impl::vec4i<t>(1,1,1,0); \
+    tmp2 += tmp21; \
+    mm::impl::vec4i<t> tmp3 = mat[2].xxxy; \
+    tmp3 *= vec.xxxy; \
+    mm::impl::vec4i<t> tmp31 = mat[2].yxxz; \
+    tmp31 *= vec.yxxz; \
+    tmp3 *= mm::impl::vec4i<t>(1,1,1,0); \
+    tmp3 += tmp31; \
+    tmp1 += tmp1.wxxx; \
+    tmp2 += tmp2.wxxx; \
+    tmp3 += tmp3.wxxx; \
+    tmp1 *= mm::impl::vec4i<t>(1,0,0,0); \
+    tmp2 = tmp2.xxxx; \
+    tmp2 *= mm::impl::vec4i<t>(0,1,0,0); \
+    tmp3 = tmp3.xxxx; \
+    tmp3 *= mm::impl::vec4i<t>(0,0,1,0); \
+    return mm::operator+(mm::operator+(tmp1, tmp2), tmp3).xyz; \
+  } \
   inline mm::impl::vec4i<t> operator*( const mm::impl::vec4i<t>& vec, const mm::impl::mat4i<t>& mat ) \
   { return mm::impl::vec4i<t>( mm::dot( vec, mat[0] ), mm::dot( vec, mat[1] ), mm::dot( vec, mat[2] ), mm::dot( vec, mat[3] ) ); }
 
