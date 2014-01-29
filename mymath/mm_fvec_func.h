@@ -34,155 +34,158 @@ namespace mymath
   {
     return !equal( a, b );
   }
+}
 
 //mul
-  inline mm::impl::vec2i<float> operator*( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
-  {
-    return _mm_mul_ps( a.d, b.d );
-  }
-  inline mm::impl::vec3i<float> operator*( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
-  {
-    return _mm_mul_ps( a.d, b.d );
-  }
-  inline mm::impl::vec4i<float> operator*( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
-  {
-    return _mm_mul_ps( a.d, b.d );
-  }
+inline mm::impl::vec2i<float> operator*( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
+{
+  return _mm_mul_ps( a.d, b.d );
+}
+inline mm::impl::vec3i<float> operator*( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
+{
+  return _mm_mul_ps( a.d, b.d );
+}
+inline mm::impl::vec4i<float> operator*( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
+{
+  return _mm_mul_ps( a.d, b.d );
+}
 
 //div
-  inline mm::impl::vec2i<float> operator/( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
-  {
-    assert( !mm::impl::is_eq( b.x, ( float )0 ) && !mm::impl::is_eq( b.y, ( float )0 ) );
-    return _mm_div_ps( a.d, b.d );
-  }
+inline mm::impl::vec2i<float> operator/( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
+{
+  assert( !mm::impl::is_eq( b.x, ( float )0 ) && !mm::impl::is_eq( b.y, ( float )0 ) );
+  return _mm_div_ps( a.d, b.d );
+}
 
-  inline mm::impl::vec3i<float> operator/( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
-  {
-    assert( !mm::impl::is_eq( b.x, ( float )0 ) && !mm::impl::is_eq( b.y, ( float )0 ) && !mm::impl::is_eq( b.z, ( float )0 ) );
-    return _mm_div_ps( a.d, b.d );
-  }
+inline mm::impl::vec3i<float> operator/( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
+{
+  assert( !mm::impl::is_eq( b.x, ( float )0 ) && !mm::impl::is_eq( b.y, ( float )0 ) && !mm::impl::is_eq( b.z, ( float )0 ) );
+  return _mm_div_ps( a.d, b.d );
+}
 
-  inline mm::impl::vec4i<float> operator/( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
-  {
-    assert( !mm::impl::is_eq( b.x, ( float )0 ) && !mm::impl::is_eq( b.y, ( float )0 ) && !mm::impl::is_eq( b.z, ( float )0 ) && !mm::impl::is_eq( b.w, ( float )0 ) );
-    return _mm_div_ps( a.d, b.d );
-  }
+inline mm::impl::vec4i<float> operator/( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
+{
+  assert( !mm::impl::is_eq( b.x, ( float )0 ) && !mm::impl::is_eq( b.y, ( float )0 ) && !mm::impl::is_eq( b.z, ( float )0 ) && !mm::impl::is_eq( b.w, ( float )0 ) );
+  return _mm_div_ps( a.d, b.d );
+}
 
 //add
-  inline mm::impl::vec2i<float> operator+( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
-  {
-    return _mm_add_ps( a.d, b.d );
-  }
-  inline mm::impl::vec3i<float> operator+( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
-  {
-    return _mm_add_ps( a.d, b.d );
-  }
-  inline mm::impl::vec4i<float> operator+( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
-  {
-    return _mm_add_ps( a.d, b.d );
-  }
+inline mm::impl::vec2i<float> operator+( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
+{
+  return _mm_add_ps( a.d, b.d );
+}
+inline mm::impl::vec3i<float> operator+( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
+{
+  return _mm_add_ps( a.d, b.d );
+}
+inline mm::impl::vec4i<float> operator+( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
+{
+  return _mm_add_ps( a.d, b.d );
+}
 
 //sub
-  inline mm::impl::vec2i<float> operator-( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
-  {
-    return _mm_sub_ps( a.d, b.d );
-  }
-  inline mm::impl::vec3i<float> operator-( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
-  {
-    return _mm_sub_ps( a.d, b.d );
-  }
-  inline mm::impl::vec4i<float> operator-( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
-  {
-    return _mm_sub_ps( a.d, b.d );
-  }
+inline mm::impl::vec2i<float> operator-( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
+{
+  return _mm_sub_ps( a.d, b.d );
+}
+inline mm::impl::vec3i<float> operator-( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
+{
+  return _mm_sub_ps( a.d, b.d );
+}
+inline mm::impl::vec4i<float> operator-( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
+{
+  return _mm_sub_ps( a.d, b.d );
+}
 
 //mod
-  inline mm::impl::vec2i<float> operator%( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
-  {
-    return mm::impl::sse_mod_ps( a.d, b.d );
-  }
-  inline mm::impl::vec3i<float> operator%( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
-  {
-    return mm::impl::sse_mod_ps( a.d, b.d );
-  }
-  inline mm::impl::vec4i<float> operator%( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
-  {
-    return mm::impl::sse_mod_ps( a.d, b.d );
-  }
+inline mm::impl::vec2i<float> operator%( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
+{
+  return mm::impl::sse_mod_ps( a.d, b.d );
+}
+inline mm::impl::vec3i<float> operator%( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
+{
+  return mm::impl::sse_mod_ps( a.d, b.d );
+}
+inline mm::impl::vec4i<float> operator%( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
+{
+  return mm::impl::sse_mod_ps( a.d, b.d );
+}
 
 //TODO shift left
 //TODO shift right
 
 //and
-  inline mm::impl::vec2i<float> operator&( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
-  {
-    return _mm_and_ps( a.d, b.d );
-  }
-  inline mm::impl::vec3i<float> operator&( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
-  {
-    return _mm_and_ps( a.d, b.d );
-  }
-  inline mm::impl::vec4i<float> operator&( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
-  {
-    return _mm_and_ps( a.d, b.d );
-  }
+inline mm::impl::vec2i<float> operator&( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
+{
+  return _mm_and_ps( a.d, b.d );
+}
+inline mm::impl::vec3i<float> operator&( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
+{
+  return _mm_and_ps( a.d, b.d );
+}
+inline mm::impl::vec4i<float> operator&( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
+{
+  return _mm_and_ps( a.d, b.d );
+}
 
 //xor
-  inline mm::impl::vec2i<float> operator^( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
-  {
-    return _mm_xor_ps( a.d, b.d );
-  }
-  inline mm::impl::vec3i<float> operator^( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
-  {
-    return _mm_xor_ps( a.d, b.d );
-  }
-  inline mm::impl::vec4i<float> operator^( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
-  {
-    return _mm_xor_ps( a.d, b.d );
-  }
+inline mm::impl::vec2i<float> operator^( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
+{
+  return _mm_xor_ps( a.d, b.d );
+}
+inline mm::impl::vec3i<float> operator^( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
+{
+  return _mm_xor_ps( a.d, b.d );
+}
+inline mm::impl::vec4i<float> operator^( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
+{
+  return _mm_xor_ps( a.d, b.d );
+}
 
 //or
-  inline mm::impl::vec2i<float> operator|( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
-  {
-    return _mm_or_ps( a.d, b.d );
-  }
-  inline mm::impl::vec3i<float> operator|( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
-  {
-    return _mm_or_ps( a.d, b.d );
-  }
-  inline mm::impl::vec4i<float> operator|( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
-  {
-    return _mm_or_ps( a.d, b.d );
-  }
+inline mm::impl::vec2i<float> operator|( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
+{
+  return _mm_or_ps( a.d, b.d );
+}
+inline mm::impl::vec3i<float> operator|( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
+{
+  return _mm_or_ps( a.d, b.d );
+}
+inline mm::impl::vec4i<float> operator|( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
+{
+  return _mm_or_ps( a.d, b.d );
+}
 
 //negate
-  inline mm::impl::vec2i<float> operator-( const mm::impl::vec2i<float>& a )
-  {
-    return mm::impl::sse_neg_ps( a.d );
-  }
-  inline mm::impl::vec3i<float> operator-( const mm::impl::vec3i<float>& a )
-  {
-    return mm::impl::sse_neg_ps( a.d );
-  }
-  inline mm::impl::vec4i<float> operator-( const mm::impl::vec4i<float>& a )
-  {
-    return mm::impl::sse_neg_ps( a.d );
-  }
+inline mm::impl::vec2i<float> operator-( const mm::impl::vec2i<float>& a )
+{
+  return mm::impl::sse_neg_ps( a.d );
+}
+inline mm::impl::vec3i<float> operator-( const mm::impl::vec3i<float>& a )
+{
+  return mm::impl::sse_neg_ps( a.d );
+}
+inline mm::impl::vec4i<float> operator-( const mm::impl::vec4i<float>& a )
+{
+  return mm::impl::sse_neg_ps( a.d );
+}
 
 //cout
-  inline std::ostream& operator<< ( std::ostream& output, const mm::impl::vec2i<float>& vec )
-  {
-    return output << "( " << vec.x << ", " << vec.y << " )\n";
-  }
-  inline std::ostream& operator<< ( std::ostream& output, const mm::impl::vec3i<float>& vec )
-  {
-    return output << "( " << vec.x << ", " << vec.y << ", " << vec.z << " )\n";
-  }
-  inline std::ostream& operator<< ( std::ostream& output, const mm::impl::vec4i<float>& vec )
-  {
-    return output << "( " << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << " )\n";
-  }
+inline std::ostream& operator<< ( std::ostream& output, const mm::impl::vec2i<float>& vec )
+{
+  return output << "( " << vec.x << ", " << vec.y << " )\n";
+}
+inline std::ostream& operator<< ( std::ostream& output, const mm::impl::vec3i<float>& vec )
+{
+  return output << "( " << vec.x << ", " << vec.y << ", " << vec.z << " )\n";
+}
+inline std::ostream& operator<< ( std::ostream& output, const mm::impl::vec4i<float>& vec )
+{
+  return output << "( " << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << " )\n";
+}
 
+namespace mymath
+{
 //less
   inline bool lessThan( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
   {

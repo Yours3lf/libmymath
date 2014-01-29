@@ -13,7 +13,7 @@
     mm::impl::vec4i<t> tmp1 = vec.xxyy; \
     mm::impl::vec4i<t> tmp2( mat[0], mat[1] ); \
     tmp1 *= tmp2.xzyw; \
-    return mm::operator+(tmp1.xy, tmp1.zw); \
+    return tmp1.xy + tmp1.zw; \
   } \
   inline mm::impl::vec3i<t> operator*( const mm::impl::vec3i<t>& vec, const mm::impl::mat3i<t>& mat ) \
   { \
@@ -43,7 +43,7 @@
     tmp2 *= mm::impl::vec4i<t>(0,1,0,0); \
     tmp3 = tmp3.xxxx; \
     tmp3 *= mm::impl::vec4i<t>(0,0,1,0); \
-    return mm::operator+(mm::operator+(tmp1, tmp2), tmp3).xyz; \
+    return (tmp1 + tmp2 + tmp3).xyz; \
   } \
   inline mm::impl::vec4i<t> operator*( const mm::impl::vec4i<t>& vec, const mm::impl::mat4i<t>& mat ) \
   { \
@@ -67,7 +67,7 @@
     tmp4 += tmp4.xxxz; \
     tmp4 += tmp4.xxxy; \
     tmp4 *= mm::impl::vec4i<t>(0, 0, 0, 1); \
-    return mm::operator+(mm::operator+(mm::operator+(tmp1, tmp2), tmp3), tmp4); \
+    return tmp1 + tmp2 + tmp3 + tmp4; \
   }
 
 #define MYMATH_MATMULVEC_FUNC(t) \
@@ -76,7 +76,7 @@
     mm::impl::vec4i<t> tmp1 = vec.xxyy; \
     mm::impl::vec4i<t> tmp2 = mm::impl::vec4i<t>( mat[0], mat[1] ); \
     tmp1 *= tmp2; \
-    return mm::operator+(tmp1.xy, tmp1.zw); \
+    return tmp1.xy + tmp1.zw; \
   } \
   inline mm::impl::vec3i<t> operator* ( const mm::impl::mat3i<t>& mat, const mm::impl::vec3i<t>& vec ) \
   { \
@@ -86,7 +86,7 @@
     tmp2 *= mat[1].xyzz; \
     mm::impl::vec4i<t> tmp3 = vec.zzzz; \
     tmp3 *= mat[2].xyzz; \
-    return mm::operator+(mm::operator+(tmp1, tmp2), tmp3).xyz; \
+    return (tmp1 + tmp2 + tmp3).xyz; \
   } \
   inline mm::impl::vec4i<t> operator*( const mm::impl::mat4i<t>& mat, const mm::impl::vec4i<t>& vec ) \
   { \
@@ -98,7 +98,7 @@
     tmp3 *= mat[2]; \
     mm::impl::vec4i<t> tmp4 = vec.wwww; \
     tmp4 *= mat[3]; \
-    return mm::operator+(mm::operator+(mm::operator+(tmp1, tmp2), tmp3), tmp4); \
+    return tmp1 + tmp2 + tmp3 + tmp4; \
   }
 
 #define MYMATH_VECMULEQUALMAT_FUNC(t) \
@@ -128,7 +128,7 @@ inline mm::impl::mat2i<t> operator* ( const mm::impl::mat2i<t>& a, const mm::imp
   mm::impl::vec4i<t> tmp2( b[0].xx, b[1].xx );
   mm::impl::vec4i<t> tmp3( a[1], a[1] );
   mm::impl::vec4i<t> tmp4( b[0].yy, b[1].yy );
-  mm::impl::vec4i<t> res = mm::operator+( mm::operator*( tmp1, tmp2 ), mm::operator*( tmp3, tmp4 ) );
+  mm::impl::vec4i<t> res = tmp1 * tmp2 + tmp3 * tmp4;
   return mm::impl::mat2i<t>( res.xy, res.zw );
 }
 
@@ -140,9 +140,9 @@ inline mm::impl::mat3i<t> operator* ( const mm::impl::mat3i<t>& a, const mm::imp
   mm::impl::vec3i<t> tmp2 = a[1];
   mm::impl::vec3i<t> tmp3 = a[2];
 
-  return mm::impl::mat3i<t>( mm::operator+( mm::operator*( tmp1, b[0].xxx ), mm::operator+( mm::operator*( tmp2, b[0].yyy ), mm::operator*( tmp3, b[0].zzz ) ) ),
-                             mm::operator+( mm::operator*( tmp1, b[1].xxx ), mm::operator+( mm::operator*( tmp2, b[1].yyy ), mm::operator*( tmp3, b[1].zzz ) ) ),
-                             mm::operator+( mm::operator*( tmp1, b[2].xxx ), mm::operator+( mm::operator*( tmp2, b[2].yyy ), mm::operator*( tmp3, b[2].zzz ) ) ) );
+  return mm::impl::mat3i<t>( tmp1 * b[0].xxx + tmp2 * b[0].yyy + tmp3 * b[0].zzz,
+                             tmp1 * b[1].xxx + tmp2 * b[1].yyy + tmp3 * b[1].zzz,
+                             tmp1 * b[2].xxx + tmp2 * b[2].yyy + tmp3 * b[2].zzz );
 }
 
 template< typename t >
@@ -153,28 +153,28 @@ inline mm::impl::mat4i<t> operator* ( const mm::impl::mat4i<t>& a, const mm::imp
   mm::impl::vec4i<t> tmp3 = a[2];
   mm::impl::vec4i<t> tmp4 = a[3];
 
-  return mm::impl::mat4i<t>( mm::operator+( mm::operator*( tmp1, b[0].xxxx ), mm::operator+( mm::operator*( tmp2, b[0].yyyy ), mm::operator+( mm::operator*( tmp3, b[0].zzzz ), mm::operator*( tmp4, b[0].wwww ) ) ) ),
-                             mm::operator+( mm::operator*( tmp1, b[1].xxxx ), mm::operator+( mm::operator*( tmp2, b[1].yyyy ), mm::operator+( mm::operator*( tmp3, b[1].zzzz ), mm::operator*( tmp4, b[1].wwww ) ) ) ),
-                             mm::operator+( mm::operator*( tmp1, b[2].xxxx ), mm::operator+( mm::operator*( tmp2, b[2].yyyy ), mm::operator+( mm::operator*( tmp3, b[2].zzzz ), mm::operator*( tmp4, b[2].wwww ) ) ) ),
-                             mm::operator+( mm::operator*( tmp1, b[3].xxxx ), mm::operator+( mm::operator*( tmp2, b[3].yyyy ), mm::operator+( mm::operator*( tmp3, b[3].zzzz ), mm::operator*( tmp4, b[3].wwww ) ) ) ) );
+  return mm::impl::mat4i<t>( tmp1 * b[0].xxxx + tmp2 * b[0].yyyy + tmp3 * b[0].zzzz + tmp4 * b[0].wwww,
+                             tmp1 * b[1].xxxx + tmp2 * b[1].yyyy + tmp3 * b[1].zzzz + tmp4 * b[1].wwww,
+                             tmp1 * b[2].xxxx + tmp2 * b[2].yyyy + tmp3 * b[2].zzzz + tmp4 * b[2].wwww,
+                             tmp1 * b[3].xxxx + tmp2 * b[3].yyyy + tmp3 * b[3].zzzz + tmp4 * b[3].wwww );
 }
 
 template< typename t >
 inline mm::impl::mat2i<t> operator*( const mm::impl::mat2i<t>& mat, const t& num )
 {
-  return mm::impl::mat2i<t>( mm::operator*( mat[0], mm::impl::vec2i<t>( num ) ), mm::operator*( mat[1], mm::impl::vec2i<t>( num ) ) );
+  return mm::impl::mat2i<t>( mat[0] * mm::impl::vec2i<t>( num ), mat[1] * mm::impl::vec2i<t>( num ) );
 }
 
 template< typename t >
 inline mm::impl::mat3i<t> operator*( const mm::impl::mat3i<t>& mat, const t& num )
 {
-  return mm::impl::mat3i<t>( mm::operator*( mat[0], mm::impl::vec3i<t>( num ) ), mm::operator*( mat[1], mm::impl::vec3i<t>( num ) ), mm::operator*( mat[2], mm::impl::vec3i<t>( num ) ) );
+  return mm::impl::mat3i<t>( mat[0] * mm::impl::vec3i<t>( num ), mat[1] * mm::impl::vec3i<t>( num ), mat[2] * mm::impl::vec3i<t>( num ) );
 }
 
 template< typename t >
 inline mm::impl::mat4i<t> operator*( const mm::impl::mat4i<t>& mat, const t& num )
 {
-  return mm::impl::mat4i<t>( mm::operator*( mat[0], mm::impl::vec4i<t>( num ) ), mm::operator*( mat[1], mm::impl::vec4i<t>( num ) ), mm::operator*( mat[2], mm::impl::vec4i<t>( num ) ), mm::operator*( mat[3], mm::impl::vec4i<t>( num ) ) );
+  return mm::impl::mat4i<t>( mat[0] * mm::impl::vec4i<t>( num ), mat[1] * mm::impl::vec4i<t>( num ), mat[2] * mm::impl::vec4i<t>( num ), mat[3] * mm::impl::vec4i<t>( num ) );
 }
 
 template< typename t >
