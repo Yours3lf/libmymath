@@ -9,7 +9,7 @@ namespace mymath
   namespace impl
   {
     template< typename t >
-    class mat2i
+    class MM_GPU_ALIGNED mat2i
     {
       private:
         /*
@@ -26,10 +26,8 @@ namespace mymath
         mat2i( const t& m0, const t& m1,
                const t& m2, const t& m3 )
         {
-          m[0].x = m0;
-          m[0].y = m1;
-          m[1].x = m2;
-          m[1].y = m3;
+          m[0] = vec2i<t>( m0, m1 );
+          m[1] = vec2i<t>( m2, m3 );
         }
 
         // 1 column per vector
@@ -41,18 +39,14 @@ namespace mymath
 
         explicit mat2i( const t& num )
         {
-          m[0].x = num;
-          m[0].y = 0;
-          m[1].x = 0;
-          m[1].y = num;
+          m[0] = vec2i<t>( num, 0 );
+          m[1] = vec2i<t>( 0, num );
         }
 
         mat2i()
         {
-          m[0].x = 1;
-          m[0].y = 0;
-          m[1].x = 0;
-          m[1].y = 1;
+          m[0] = vec2i<t>( 1, 0 );
+          m[1] = vec2i<t>( 0, 1 );
         }
 
         vec2i<t>& operator[]( const unsigned int& num )
@@ -69,17 +63,14 @@ namespace mymath
 
         const mat2i& operator*= ( const mat2i& mat )
         {
-          vec2i<t> r0( m[0].x, m[1].x );
-          vec2i<t> r1( m[0].y, m[1].y );
+          vec4i<t> tmp1( m[0], m[0] );
+          vec4i<t> tmp2( mat[0].xx, mat[1].xx );
+          vec4i<t> tmp3( m[1], m[1] );
+          vec4i<t> tmp4( mat[0].yy, mat[1].yy );
+          vec4i<t> res = tmp1 * tmp2 + tmp3 * tmp4;
+          m[0] = res.xy;
+          m[1] = res.zw;
 
-          vec2i<t> c0 = mat[0];
-          vec2i<t> c1 = mat[1];
-
-          m[0].x = dot( r0, c0 );
-          m[0].y = dot( r1, c0 );
-
-          m[1].x = dot( r0, c1 );
-          m[1].y = dot( r1, c1 );
           return *this;
         }
 

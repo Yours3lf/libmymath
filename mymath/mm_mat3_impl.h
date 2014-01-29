@@ -9,7 +9,7 @@ namespace mymath
   namespace impl
   {
     template< typename t >
-    class mat3i
+    class MM_GPU_ALIGNED mat3i
     {
       private:
         /*
@@ -28,15 +28,9 @@ namespace mymath
                const t& m3, const t& m4, const t& m5,
                const t& m6, const t& m7, const t& m8 )
         {
-          m[0].x = m0;
-          m[0].y = m1;
-          m[0].z = m2;
-          m[1].x = m3;
-          m[1].y = m4;
-          m[1].z = m5;
-          m[2].x = m6;
-          m[2].y = m7;
-          m[2].z = m8;
+          m[0] = vec3i<t>( m0, m1, m2 );
+          m[1] = vec3i<t>( m3, m4, m5 );
+          m[2] = vec3i<t>( m6, m7, m8 );
         }
 
         // 1 column per vector
@@ -49,28 +43,16 @@ namespace mymath
 
         explicit mat3i( const t& num )
         {
-          m[0].x = num;
-          m[0].y = 0;
-          m[0].z = 0;
-          m[1].x = 0;
-          m[1].y = num;
-          m[1].z = 0;
-          m[2].x = 0;
-          m[2].y = 0;
-          m[2].z = num;
+          m[0] = vec3i<t>( num, 0, 0 );
+          m[1] = vec3i<t>( 0, num, 0 );
+          m[2] = vec3i<t>( 0, 0, num );
         }
 
         mat3i()
         {
-          m[0].x = 1;
-          m[0].y = 0;
-          m[0].z = 0;
-          m[1].x = 0;
-          m[1].y = 1;
-          m[1].z = 0;
-          m[2].x = 0;
-          m[2].y = 0;
-          m[2].z = 1;
+          m[0] = vec3i<t>( 1, 0, 0 );
+          m[1] = vec3i<t>( 0, 1, 0 );
+          m[2] = vec3i<t>( 0, 0, 1 );
         }
 
         vec3i<t>& operator[]( const unsigned int& num )
@@ -87,25 +69,14 @@ namespace mymath
 
         const mat3i& operator*= ( const mat3i& mat )
         {
-          vec3i<t> r0( m[0].x, m[1].x, m[2].x );
-          vec3i<t> r1( m[0].y, m[1].y, m[2].y );
-          vec3i<t> r2( m[0].z, m[1].z, m[2].z );
+          vec3i<t> tmp1 = m[0];
+          vec3i<t> tmp2 = m[1];
+          vec3i<t> tmp3 = m[2];
 
-          vec3i<t> c0 = mat[0];
-          vec3i<t> c1 = mat[1];
-          vec3i<t> c2 = mat[2];
+          m[0] = tmp1 * mat[0].xxx + tmp2 * mat[0].yyy + tmp3 * mat[0].zzz;
+          m[1] = tmp1 * mat[1].xxx + tmp2 * mat[1].yyy + tmp3 * mat[1].zzz;
+          m[2] = tmp1 * mat[2].xxx + tmp2 * mat[2].yyy + tmp3 * mat[2].zzz;
 
-          m[0].x = dot( r0, c0 );
-          m[0].y = dot( r1, c0 );
-          m[0].z = dot( r2, c0 );
-
-          m[1].x = dot( r0, c1 );
-          m[1].y = dot( r1, c1 );
-          m[1].z = dot( r2, c1 );
-
-          m[2].x = dot( r0, c2 );
-          m[2].y = dot( r1, c2 );
-          m[2].z = dot( r2, c2 );
           return *this;
         }
 

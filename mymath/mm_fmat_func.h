@@ -2,14 +2,48 @@
 #define mm_mat_func_h
 
 #include "mm_common.h"
+#include "mm_fvec_func.h"
+
 #include "mm_mat2_impl.h"
 #include "mm_mat3_impl.h"
 #include "mm_mat4_impl.h"
-#include "mm_vec_func.h"
+
+/*
+v.x* m[0].x + v.y* m[0].y
+v.x* m[1].x + v.y* m[1].y
+
+v.x* m[0].x +
+v.x* m[1].x +
+v.y* m[0].y
+v.y* m[1].y
+
+v.xx* m[0].x, m[1].x
+v.yy* m[0].y, m[1].y
+tmp1 + tmp2
+
+return mm::impl::vec2i<t>( mm::dot( vec, mat[0] ), mm::dot( vec, mat[1] ) ); \
+
+mm::impl::vec2i<t> tmp1 = vec.xx; \
+    mm::impl::vec2i<t> tmp2 = vec.yy; \
+    tmp1 *= mm::impl::vec2i<t>(mat[0].x,mat[1].x); \
+    tmp2 *= mm::impl::vec2i<t>(mat[0].y,mat[1].y); \
+    return mm::operator+(tmp1, tmp2); \
+
+    mm::impl::vec4i<t> tmp1 = mm::impl::vec4i<t>( vec.xxyy ); \
+    mm::impl::vec4i<t> tmp2 = ((mm::impl::vec4i<t>*)&mat)->xzyw; \
+    tmp1 *= tmp2; \
+    return mm::operator+(tmp1.xy, tmp1.zw); \
+
+*/
 
 #define MYMATH_VECMULMAT_FUNC(t) \
   inline mm::impl::vec2i<t> operator*( const mm::impl::vec2i<t>& vec, const mm::impl::mat2i<t>& mat ) \
-  { return mm::impl::vec2i<t>( mm::dot( vec, mat[0] ), mm::dot( vec, mat[1] ) ); } \
+  { \
+    mm::impl::vec4i<t> tmp1 = vec.xxyy; \
+    mm::impl::vec4i<t> tmp2( mat[0].x, mat[1].x, mat[0].y, mat[1].y ); \
+    tmp1 *= tmp2; \
+    return mm::operator+(tmp1.xy, tmp1.zw); \
+  } \
   inline mm::impl::vec3i<t> operator*( const mm::impl::vec3i<t>& vec, const mm::impl::mat3i<t>& mat ) \
   { return mm::impl::vec3i<t>( mm::dot( vec, mat[0] ), mm::dot( vec, mat[1] ), mm::dot( vec, mat[2] ) ); } \
   inline mm::impl::vec4i<t> operator*( const mm::impl::vec4i<t>& vec, const mm::impl::mat4i<t>& mat ) \
@@ -176,8 +210,7 @@ namespace mymath
   template< typename t >
   inline impl::mat2i<t> transpose( const impl::mat2i<t>& mat )
   {
-    return impl::mat2i<t>( mat[0].x, mat[1].x,
-                           mat[0].y, mat[1].y );
+    return impl::mat2i<t>( ( ( impl::vec4i<t>* )&mat )->xz, ( ( impl::vec4i<t>* )&mat )->yw );
   }
 
   template< typename t >
