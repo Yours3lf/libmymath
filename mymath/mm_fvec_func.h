@@ -885,24 +885,24 @@ namespace mymath
 
   namespace impl
   {
-    template<int a, int b, int c, int d>
-    const vec2i<float>& vec2i<float>::swizzle<a, b, c, d>::operator/=( const vec2i<float>& vec )
+    template<int a, int b, int c, int dd>
+    const vec2i<float>& vec2i<float>::swizzle<a, b, c, dd>::operator/=( const vec2i<float>& vec )
     {
       assert( notEqual( vec, vec2i<float>( 0 ) ) );
       d = _mm_div_ps( d, vec.d );
       return *( vec2i<float>* )this;
     }
 
-    template<int a, int b, int c, int d>
-    const vec3i<float>& vec3i<float>::swizzle<a, b, c, d>::operator/=( const vec3i<float>& vec )
+    template<int a, int b, int c, int dd>
+    const vec3i<float>& vec3i<float>::swizzle<a, b, c, dd>::operator/=( const vec3i<float>& vec )
     {
       assert( notEqual( vec, vec3i<float>( 0 ) ) );
       d = _mm_div_ps( d, vec.d );
       return *( vec3i<float>* )this;
     }
 
-    template<int a, int b, int c, int d>
-    const vec4i<float>& vec4i<float>::swizzle<a, b, c, d>::operator/=( const vec4i<float>& vec )
+    template<int a, int b, int c, int dd>
+    const vec4i<float>& vec4i<float>::swizzle<a, b, c, dd>::operator/=( const vec4i<float>& vec )
     {
       assert( notEqual( vec, vec4i<float>( 0 ) ) );
       d = _mm_div_ps( d, vec.d );

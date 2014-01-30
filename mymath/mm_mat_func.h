@@ -2,6 +2,11 @@
 #define mm_mat_func_h
 
 #include "mm_common.h"
+
+#ifdef MYMATH_USE_SSE2
+#include "mm_fvec_func.h"
+#endif
+
 #include "mm_mat2_impl.h"
 #include "mm_mat3_impl.h"
 #include "mm_mat4_impl.h"

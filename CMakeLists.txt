@@ -16,6 +16,29 @@ project(${project_name})
 #so that it talks to us
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+set( use_32_bit true )
+set( use_new_gcc true )
+set( use_sse2 false )
+
+#32 bits
+if( use_32_bit )
+	set(CMAKE_CXX_FLAGS "-m32")
+	set(CMAKE_C_FLAGS "-m32")
+	set(CMAKE_SHARED_LINKER_FLAGS "-m32")
+endif()
+
+if( use_sse2 )
+	message("With sse2")
+	add_definitions("-msse2 -DMYMATH_USE_SSE2")
+endif()
+
+#gcc/4.8.2/bin/gcc
+if( use_new_gcc )
+  message("With new gcc")
+  set(CMAKE_C_COMPILER $ENV{HOME}/gcc/4.8.2/bin/gcc)
+  set(CMAKE_CXX_COMPILER $ENV{HOME}/gcc/4.8.2/bin/g++)
+endif()
+
 if(UNIX)
 	add_definitions( "-Wall -Wno-long-long -ansi -pedantic -std=c++0x" )
 endif()
@@ -35,8 +58,13 @@ include_directories(${CMAKE_SOURCE_DIR}/src/)
 link_directories(${CMAKE_SOURCE_DIR}/src/)
 
 include_directories(${CMAKE_SOURCE_DIR}/external/include/)
-link_directories(${CMAKE_SOURCE_DIR}/external/lib/)
-link_directories(${CMAKE_SOURCE_DIR}/external/lib/tbb)
+if( use_32_bit )
+	link_directories(${CMAKE_SOURCE_DIR}/external/lib/32_bit)
+	link_directories(${CMAKE_SOURCE_DIR}/external/lib/32_bit/tbb)
+else()
+	link_directories(${CMAKE_SOURCE_DIR}/external/lib/64_bit)
+	link_directories(${CMAKE_SOURCE_DIR}/external/lib/64_bit/tbb)
+endif()
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/old_raytracer)

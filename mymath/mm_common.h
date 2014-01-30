@@ -1,10 +1,6 @@
 #ifndef mm_common_h
 #define mm_common_h
 
-//switch for using sse2
-//experimental, don't use
-//#define MYMATH_USE_SSE2
-
 #include <iostream>
 #include <cmath>
 #include <algorithm>
