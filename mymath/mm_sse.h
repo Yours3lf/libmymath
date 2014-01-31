@@ -9,20 +9,8 @@ namespace mymath
   {
     //the following is heavily based on GLM's implementation
     //mit licence
-    //https://github.com/Groovounet/glm/tree/master
+    // https://github.com/Groovounet/glm/tree/master
 
-    union ieee754_QNAN
-    {
-      const float f;
-      struct i
-      {
-        const unsigned int mantissa: 23, exp: 8, sign: 1;
-      };
-
-      ieee754_QNAN() : f( 0.0 )/*, mantissa(0x7FFFFF), exp(0xFF), sign(0x0)*/ {}
-    };
-
-    static const __m128 abs_mask = _mm_set_ps1( ieee754_QNAN().f );
     static const __m128 one = _mm_set_ps1( 1.0f );
     static const __m128 e = _mm_set_ps1( 2.7182818284590452353602874713526624977572470936999595f );
     static const __m128 ee = _mm_mul_ps( e, e );
@@ -31,7 +19,6 @@ namespace mymath
     static const __m128 zero = _mm_set_ps1( 0.0f );
     static const __m128 two = _mm_set_ps1( 2.0f );
     static const __m128 three = _mm_set_ps1( 3.0f );
-    static const __m128 epi32_sign_mask = _mm_castsi128_ps( _mm_set1_epi32( 0x80000000 ) );
     static const __m128 ps_2pow23 = _mm_set_ps1( 8388608.0f );
     static const __m128 sse_pi = _mm_set_ps1( pi );
     static const __m128 sse_two_pi = _mm_set_ps1( two_pi );
@@ -40,7 +27,7 @@ namespace mymath
     static const __m128i min_norm_pos = _mm_set1_epi32( 0x00800000 );
     static const __m128i mant_mask = _mm_set1_epi32( 0x7f800000 );
     static const __m128i inv_mant_mask = _mm_set1_epi32( ~0x7f800000 );
-    static const __m128 sign_mask = _mm_castsi128_ps( _mm_set1_epi32( ( int )0x80000000 ) );
+    static const __m128 sign_mask = _mm_castsi128_ps( _mm_set1_epi32( 0x80000000 ) );
     static const __m128 inv_sign_mask = _mm_castsi128_ps( _mm_set1_epi32( ~0x80000000 ) );
     static const __m128i one_i32 = _mm_set1_epi32( 1 );
     static const __m128i inv_one_i32 = _mm_set1_epi32( ~1 );
@@ -79,14 +66,15 @@ namespace mymath
     static const __m128 coscof_p0 = _mm_set_ps1( 2.443315711809948E-005f );
     static const __m128 coscof_p1 = _mm_set_ps1( -1.388731625493765E-003f );
     static const __m128 coscof_p2 = _mm_set_ps1( 4.166664568298827E-002f );
-    static const __m128 four_per_pi = _mm_set_ps1( 1.27323954473516f );
+    static const __m128 pi_over_four = _mm_set_ps1( 0.78539816339744830962f );
+    static const __m128 four_over_pi = _mm_set_ps1( 1.27323954473516f );
     static const __m128 asinf_p0 = _mm_set_ps1( 4.2163199048E-2f );
     static const __m128 asinf_p1 = _mm_set_ps1( 2.4181311049E-2f );
     static const __m128 asinf_p2 = _mm_set_ps1( 4.5470025998E-2f );
     static const __m128 asinf_p3 = _mm_set_ps1( 7.4953002686E-2f );
     static const __m128 asinf_p4 = _mm_set_ps1( 1.6666752422E-1f );
     static const __m128 asinf_p5 = _mm_set_ps1( 1.0E-4f );
-    static const __m128 two_per_pi = _mm_set_ps1( 0.63661977236758134308f );
+    static const __m128 pi_over_two = _mm_set_ps1( 1.57079632679489661923f );
     static const __m128 atanf_p0 = _mm_set_ps1( 8.05374449538e-2f );
     static const __m128 atanf_p1 = _mm_set_ps1( -1.38776856032e-1f );
     static const __m128 atanf_p2 = _mm_set_ps1( 1.99777106478e-1f );
@@ -107,7 +95,8 @@ namespace mymath
 
     inline __m128 sse_abs_ps( __m128 x )
     {
-      return _mm_and_ps( abs_mask, x );
+      //return _mm_max_ps( x, _mm_sub_ps( _mm_set1_ps( 0.0 ), x ) );
+      return _mm_and_ps( inv_sign_mask, x );
     }
 
     inline __m128 sse_sgn_ps( __m128 x )
@@ -123,7 +112,7 @@ namespace mymath
 
     inline __m128 sse_rnd_ps( __m128 x )
     {
-      __m128 and0 = _mm_and_ps( epi32_sign_mask, x );
+      __m128 and0 = _mm_and_ps( sign_mask, x );
       __m128 or0 = _mm_or_ps( and0, ps_2pow23 );
       __m128 add0 = _mm_add_ps( x, or0 );
       __m128 sub0 = _mm_sub_ps( add0, or0 );
@@ -141,7 +130,7 @@ namespace mymath
 
     inline __m128 sse_rde_ps( __m128 x )
     {
-      __m128 and0 = _mm_and_ps( epi32_sign_mask, x );
+      __m128 and0 = _mm_and_ps( sign_mask, x );
       __m128 or0 = _mm_or_ps( and0, ps_2pow23 );
       __m128 add0 = _mm_add_ps( x, or0 );
       __m128 sub0 = _mm_sub_ps( add0, or0 );
@@ -176,9 +165,9 @@ namespace mymath
     //clamp
     inline __m128 sse_clp_ps( __m128 v, __m128 minv, __m128 maxv )
     {
-      __m128 min0 = _mm_min_ps( v, maxv );
-      __m128 max0 = _mm_max_ps( min0, minv );
-      return max0;
+      __m128 max0 = _mm_max_ps( v, minv );
+      __m128 min0 = _mm_min_ps( max0, maxv );
+      return min0;
     }
 
     inline __m128 sse_mix_ps( __m128 v1, __m128 v2, __m128 a )
@@ -215,7 +204,7 @@ namespace mymath
 
     inline __m128 sse_neg_ps( __m128 x )
     {
-      return _mm_xor_ps( x, epi32_sign_mask );
+      return _mm_xor_ps( x, sign_mask );
     }
 
     //TODO sse_nan_ps
@@ -224,7 +213,7 @@ namespace mymath
 
     //the following is heavily based on the "sse_mathfun" library
     //zlib licence
-    //http://gruntthepeon.free.fr/ssemath/
+    // http://gruntthepeon.free.fr/ssemath/
 
     inline __m128 sse_log_ps( __m128 x )
     {
@@ -232,11 +221,11 @@ namespace mymath
 
       __m128 invalid_mask = _mm_cmple_ps( x, _mm_setzero_ps() );
 
-      x = _mm_max_ps( x, _mm_castsi128_ps(min_norm_pos) ); /* cut off denormalized stuff */
+      x = _mm_max_ps( x, _mm_castsi128_ps( min_norm_pos ) ); /* cut off denormalized stuff */
 
       emm0 = _mm_srli_epi32( _mm_castps_si128( x ), 23 );
       /* keep only the fractional part */
-      x = _mm_and_ps( x, _mm_castsi128_ps(inv_mant_mask) );
+      x = _mm_and_ps( x, _mm_castsi128_ps( inv_mant_mask ) );
       x = _mm_or_ps( x, half );
 
       emm0 = _mm_sub_epi32( emm0, sevenf );
@@ -295,6 +284,7 @@ namespace mymath
       return x;
     }
 
+    //works in range [-88.38...88.38]
     inline __m128 sse_exp_ps( __m128 x )
     {
       __m128 tmp = _mm_setzero_ps(), fx;
@@ -358,7 +348,7 @@ namespace mymath
       sign_bit = _mm_and_ps( sign_bit, ( __m128 )sign_mask );
 
       /* scale by 4/Pi */
-      y = _mm_mul_ps( x, four_per_pi );
+      y = _mm_mul_ps( x, four_over_pi );
 
       /* store the integer part of y in mm0 */
       emm2 = _mm_cvttps_epi32( y );
@@ -439,7 +429,7 @@ namespace mymath
       x = _mm_and_ps( x, ( __m128 )inv_sign_mask );
 
       /* scale by 4/Pi */
-      y = _mm_mul_ps( x, four_per_pi );
+      y = _mm_mul_ps( x, four_over_pi );
 
       /* store the integer part of y in mm0 */
       emm2 = _mm_cvttps_epi32( y );
@@ -521,7 +511,7 @@ namespace mymath
       sign_bit_sin = _mm_and_ps( sign_bit_sin, ( __m128 )sign_mask );
 
       /* scale by 4/Pi */
-      y = _mm_mul_ps( x, four_per_pi );
+      y = _mm_mul_ps( x, four_over_pi );
 
       /* store the integer part of y in emm2 */
       emm2 = _mm_cvttps_epi32( y );
@@ -607,7 +597,7 @@ namespace mymath
 
     inline __m128 sse_asinh_ps( __m128 x )
     {
-      //log (x+sqrt(1+x2))
+      //log( x + sqrt( 1 + x^2 ) )
       __m128 sqr = _mm_mul_ps( x, x );
       sqr = _mm_add_ps( sqr, one );
       sqr = _mm_sqrt_ps( sqr );
@@ -617,33 +607,28 @@ namespace mymath
 
     inline __m128 sse_acosh_ps( __m128 x )
     {
-      //2 log (sqrt((x+1)/2) + sqrt((x-1)/2))
-      __m128 plusone = _mm_add_ps( x, one );
-      __m128 minusone = _mm_sub_ps( x, one );
-      plusone = _mm_mul_ps( plusone, half );
-      minusone = _mm_mul_ps( minusone, half );
-      plusone = _mm_sqrt_ps( plusone );
-      minusone = _mm_sqrt_ps( minusone );
-      __m128 sum = _mm_add_ps( plusone, minusone );
-      __m128 thelog = sse_log_ps( sum );
-      return _mm_mul_ps( thelog, two );
+      //log( x + sqrt( x^2 - 1 ) )
+      __m128 sqr = _mm_mul_ps( x, x );
+      sqr = _mm_sub_ps( sqr, one );
+      sqr = _mm_sqrt_ps( sqr );
+      sqr = _mm_add_ps( sqr, x );
+      return sse_log_ps( sqr );
     }
 
     inline __m128 sse_atanh_ps( __m128 x )
     {
       //(log (1+x) - log (1-x))/2
       __m128 plusone = _mm_add_ps( x, one );
-      __m128 minusone = _mm_sub_ps( x, one );
+      __m128 minusone = _mm_sub_ps( one, x );
       plusone = sse_log_ps( plusone );
       minusone = sse_log_ps( minusone );
-      minusone = _mm_mul_ps( minusone, half );
-      return _mm_sub_ps( plusone, minusone );
+      return _mm_mul_ps( _mm_sub_ps( plusone, minusone ), half );
     }
 
     inline __m128 sse_exp2_ps( __m128 x )
     {
-      //e*e*x
-      return _mm_mul_ps( ee, x );
+      //2^x
+      return sse_exp_ps( _mm_mul_ps( _mm_set1_ps( 0.6931472f ), x ) );
     }
 
     inline __m128 sse_log2_ps( __m128 x )
@@ -660,8 +645,8 @@ namespace mymath
     inline __m128 sse_sign_ps( __m128 x )
     {
       //return (T(0) < val) - (val < T(0));
-      __m128 left = _mm_cmplt_ps( zero, x );
-      __m128 right = _mm_cmplt_ps( x, zero );
+      __m128 left = _mm_and_ps( one, _mm_cmplt_ps( zero, x ) );
+      __m128 right = _mm_and_ps( one, _mm_cmplt_ps( x, zero ) );
       return _mm_sub_ps( left, right );
     }
 
@@ -677,33 +662,8 @@ namespace mymath
       return _mm_add_ps( _mm_mul_ps( a, b ), c );
     }
 
-    inline __m128 sse_acos_ps( __m128 x )
-    {
-      __m128 neg = _mm_cmplt_ps( x, zero );
-      x = sse_abs_ps( x );
-      static __m128 acos_p0 = _mm_set1_ps( -0.0187293f );
-      static __m128 acos_p1 = _mm_set1_ps( 0.0742610f );
-      static __m128 acos_p2 = _mm_set1_ps( 0.2121144f );
-      static __m128 acos_p3 = _mm_set1_ps( 1.5707288f );
-
-      __m128 ret = acos_p0;
-      ret = _mm_mul_ps( ret, x );
-      ret = _mm_add_ps( ret, acos_p1 );
-      ret = _mm_mul_ps( ret, x );
-      ret = _mm_sub_ps( ret, acos_p2 );
-      ret = _mm_mul_ps( ret, x );
-      ret = _mm_add_ps( ret, acos_p3 );
-      __m128 ox = _mm_sqrt_ps( _mm_sub_ps( one, x ) );
-      ret = _mm_mul_ps( ret, ox );
-      __m128 twonegret = _mm_mul_ps( two, neg );
-      twonegret = _mm_mul_ps( twonegret, ret );
-      ret = _mm_sub_ps( ret, twonegret );
-      __m128 negpi = _mm_mul_ps( neg, sse_pi );
-      return _mm_add_ps( negpi, ret );
-    }
-
     //the following is taken from:
-    //https://github.com/LiraNuna/glsl-sse2/blob/master/source/vec4.h
+    // https://github.com/LiraNuna/glsl-sse2/blob/master/source/vec4.h
 
 #define _mm_shufd(xmm, mask) _mm_castsi128_ps(_mm_shuffle_epi32(_mm_castps_si128(xmm), mask))
 
@@ -798,14 +758,25 @@ namespace mymath
       __m128 o = _mm_set1_ps( 1.0f );
       __m128 e = c;
       __m128 d = _mm_mul_ps( b, a );
-      d = _mm_add_ps( d, _mm_shufd( d, 0x4E ) );
-      d = _mm_add_ps( d, _mm_shufd( d, 0x11 ) );
+
+      //xx + ww
+      //yy + xx
+      //zz + yy
+      //ww + zz
+      d = _mm_add_ps( d, _mm_shuffle_ps( d, d, MM_SHUFFLE( 3, 0, 1, 2 ) ) );
+      d = _mm_add_ps( d, _mm_shuffle_ps( d, d, MM_SHUFFLE( 2, 3, 0, 1 ) ) );
+
       __m128 k = _mm_sub_ps( o, _mm_mul_ps( _mm_mul_ps( e, e ),
                                             _mm_sub_ps( o, _mm_mul_ps( d, d ) ) ) );
-      return _mm_and_ps( _mm_cmpnlt_ps( k, _mm_setzero_ps() ),
-                         _mm_mul_ps( _mm_mul_ps( e, _mm_sub_ps( a,
-                                     _mm_mul_ps( _mm_mul_ps( e, d ), _mm_sqrt_ps( k ) ) ) ),
-                                     b ) );
+
+      __m128 tmp1 = _mm_cmpnlt_ps( k, _mm_setzero_ps() );
+      __m128 tmp2 = _mm_mul_ps( e, d );
+      __m128 tmp3 = _mm_add_ps( tmp2, _mm_sqrt_ps( k ) );
+      __m128 tmp4 = _mm_mul_ps( b, tmp3 );
+      __m128 tmp5 = _mm_mul_ps( e, a );
+      __m128 tmp6 = _mm_sub_ps( tmp5, tmp4 );
+
+      return _mm_and_ps( tmp1, tmp6 );
     }
 
     inline __m128 sse_faceforward_ps( __m128 a, __m128 b, __m128 c )
@@ -828,7 +799,7 @@ namespace mymath
 
     //the following is taken from here:
     //zlib licence
-    //https://github.com/raedwulf/gmath/blob/master
+    // https://github.com/raedwulf/gmath/blob/master
 
     inline __m128 sse_asin_ps( __m128 x )
     {
@@ -863,10 +834,16 @@ namespace mymath
       z = _mm_mul_ps( z, x );
       z = _mm_add_ps( z, x );
 
-      xmm1 = _mm_sub_ps( two_per_pi, _mm_add_ps( z, z ) );
+      xmm1 = _mm_sub_ps( pi_over_two, _mm_add_ps( z, z ) );
       z = _mm_or_ps( _mm_and_ps( flag, xmm1 ), _mm_andnot_ps( flag, z ) );
 
       return _mm_or_ps( sign_bit, z );
+    }
+
+    //pi/2 - asin(x)
+    inline __m128 sse_acos_ps( __m128 x )
+    {
+      return _mm_sub_ps( pi_over_two, sse_asin_ps( x ) );
     }
 
     inline __m128 rcp_ps( __m128 x )
@@ -892,8 +869,8 @@ namespace mymath
       xmm0 = _mm_cmpgt_ps( x, t3pi08 );
       xmm4 = _mm_cmpgt_ps( x, tpi08 );
       xmm1 = _mm_andnot_ps( xmm0, xmm4 );
-      y = _mm_and_ps( xmm0, two_per_pi );
-      y = _mm_or_ps( y, _mm_and_ps( xmm1, four_per_pi ) );
+      y = _mm_and_ps( xmm0, pi_over_two );
+      y = _mm_or_ps( y, _mm_and_ps( xmm1, pi_over_four ) );
       xmm5 = _mm_and_ps( xmm0, _mm_xor_ps( sign_mask, rcp_ps( x ) ) );
       xmm2 = _mm_sub_ps( x, one );
       xmm3 = _mm_add_ps( x, one );
@@ -918,3 +895,4 @@ namespace mymath
 }
 
 #endif
+

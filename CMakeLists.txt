@@ -16,7 +16,7 @@ project(${project_name})
 #so that it talks to us
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-set( use_32_bit true )
+set( use_32_bit false )
 set( use_new_gcc true )
 set( use_sse2 false )
 
