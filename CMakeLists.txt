@@ -16,20 +16,23 @@ project(${project_name})
 #so that it talks to us
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-set( use_32_bit false )
+set( use_32_bit true )
 set( use_new_gcc true )
-set( use_sse2 false )
+set( use_explicit_sse2 false )
 
 #32 bits
 if( use_32_bit )
 	set(CMAKE_CXX_FLAGS "-m32")
 	set(CMAKE_C_FLAGS "-m32")
 	set(CMAKE_SHARED_LINKER_FLAGS "-m32")
+	add_definitions("-march=i686 -msse3")
 endif()
 
-if( use_sse2 )
+if( use_explicit_sse2 )
 	message("With sse2")
-	add_definitions("-msse2 -DMYMATH_USE_SSE2")
+	add_definitions("-DMYMATH_USE_SSE2") #go with our tinkering
+else()
+	add_definitions("-mtune=nocona -mfpmath=sse") #default to compiler optimizations
 endif()
 
 #gcc/4.8.2/bin/gcc
