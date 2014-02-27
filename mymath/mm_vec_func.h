@@ -253,20 +253,20 @@ namespace mymath
   //lessThanEqual
 #define MYMATH_LESSTHANEQUAL_FUNC(t) \
   inline bool lessThanEqual( const impl::vec2i<t>& a, const impl::vec2i<t>& b ) \
-  { return !greaterThan( a, b ); } \
+  { return a.x <= b.x && a.y <= b.y; } \
   inline bool lessThanEqual( const impl::vec3i<t>& a, const impl::vec3i<t>& b ) \
-  { return !greaterThan( a, b ); } \
+  { return a.x <= b.x && a.y <= b.y && a.z <= b.z; } \
   inline bool lessThanEqual( const impl::vec4i<t>& a, const impl::vec4i<t>& b ) \
-  { return !greaterThan( a, b ); }
+  { return a.x <= b.x && a.y <= b.y && a.z <= b.z && a.w <= b.w; }
 
   //greaterThanEqual
 #define MYMATH_GREATERTHANEQUAL_FUNC(t) \
   inline bool greaterThanEqual( const impl::vec2i<t>& a, const impl::vec2i<t>& b ) \
-  { return !lessThan( a, b ); } \
+  { return a.x >= b.x && a.y >= b.y; } \
   inline bool greaterThanEqual( const impl::vec3i<t>& a, const impl::vec3i<t>& b ) \
-  { return !lessThan( a, b ); } \
+  { return a.x >= b.x && a.y >= b.y && a.z >= b.z; } \
   inline bool greaterThanEqual( const impl::vec4i<t>& a, const impl::vec4i<t>& b ) \
-  { return !lessThan( a, b ); }
+  { return a.x >= b.x && a.y >= b.y && a.z >= b.z && a.w >= b.w; }
 
   //radians
 #define MYMATH_RADIANS_FUNC(t) \
