@@ -11,10 +11,14 @@
 #endif
 
 //align variables to X bytes
+#ifdef MYMATH_USE_SSE2
 #ifdef _WIN32
 #define MM_ALIGNED(x) __declspec(align(x))
 #elif __unix__
 #define MM_ALIGNED(x) __attribute__((aligned (x)))
+#endif
+#else
+#define MM_ALIGNED(x)
 #endif
 
 #ifdef MYMATH_USE_SSE2

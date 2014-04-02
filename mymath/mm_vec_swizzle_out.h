@@ -209,28 +209,28 @@ namespace mymath
     };
 
     template<typename ty>
-    template<int a, int b>
-    class vec3i<ty>::swizzle<a, a, a, b>
+    template<int a, int tb>
+    class vec3i<ty>::swizzle<a, a, a, tb>
     {
       private:
         ty v[3];
       public:
         operator vec4i<ty>() const
         {
-          return vec4i<ty>( v[a], v[a], v[a], v[b] );
+          return vec4i<ty>( v[a], v[a], v[a], v[tb] );
         }
     };
 
     template<typename ty>
-    template<int a, int b, int c>
-    class vec3i<ty>::swizzle<b, c, a, a>
+    template<int a, int tb, int c>
+    class vec3i<ty>::swizzle<tb, c, a, a>
     {
       private:
         ty v[3];
       public:
         operator vec4i<ty>() const
         {
-          return vec4i<ty>( v[b], v[c], v[a], v[a] );
+          return vec4i<ty>( v[tb], v[c], v[a], v[a] );
         }
     };
 
@@ -248,15 +248,15 @@ namespace mymath
     };
 
     template<typename ty>
-    template<int a, int b, int c>
-    class vec3i<ty>::swizzle<b, a, a, c>
+    template<int a, int tb, int c>
+    class vec3i<ty>::swizzle<tb, a, a, c>
     {
       private:
         ty v[3];
       public:
         operator vec4i<ty>() const
         {
-          return vec4i<ty>( v[b], v[a], v[a], v[c] );
+          return vec4i<ty>( v[tb], v[a], v[a], v[c] );
         }
     };
   }
