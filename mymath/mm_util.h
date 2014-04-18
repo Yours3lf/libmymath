@@ -7,7 +7,7 @@
 namespace mymath
 {
 #define MYMATH_CREATEROTATION_FUNC(t) \
-  inline impl::mat4i<t> create_rotation( const t& angle, const impl::vec3i<t>& vec ) \
+  MYMATH_INLINE impl::mat4i<t> create_rotation( const t& angle, const impl::vec3i<t>& vec ) \
   { \
     assert( !impl::is_eq( length( vec ), (t)0 ) ); \
     t a = angle; \
@@ -31,25 +31,25 @@ namespace mymath
   }
 
 #define MYMATH_CREATESCALE_FUNC(t) \
-  inline impl::mat4i<t> create_scale( const impl::vec3i<t>& vec ) \
+  MYMATH_INLINE impl::mat4i<t> create_scale( const impl::vec3i<t>& vec ) \
   { return impl::mat4i<t>( vec.x, 0, 0, 0, \
                            0, vec.y, 0, 0, \
                            0, 0, vec.z, 0, \
                            0, 0, 0, 1); }
 
 #define MYMATH_CREATETRANSLATION_FUNC(t) \
-  inline impl::mat4i<t> create_translation( const impl::vec3i<t>& vec ) \
+  MYMATH_INLINE impl::mat4i<t> create_translation( const impl::vec3i<t>& vec ) \
   { return impl::mat4i<t>( 1, 0, 0, 0, \
                            0, 1, 0, 0, \
                            0, 0, 1, 0, \
                            vec.x, vec.y, vec.z, 1 ); }
 
 #define MYMATH_GETANGLE_FUNC(v, t) \
-  inline t get_angle(const impl::v<t>& a, const impl::v<t>& b) \
+  MYMATH_INLINE t get_angle(const impl::v<t>& a, const impl::v<t>& b) \
   { return std::acos( dot( normalize(a), normalize(b) ) ); }
 
 #define MYMATH_RAYINTSPHERE_FUNC(t) \
-  inline t ray_int_sphere( const impl::vec3i<t>& point, const impl::vec3i<t>& ray, const impl::vec3i<t>& sphere_center, const t& sphere_radius ) \
+  MYMATH_INLINE t ray_int_sphere( const impl::vec3i<t>& point, const impl::vec3i<t>& ray, const impl::vec3i<t>& sphere_center, const t& sphere_radius ) \
   { \
     impl::vec3i<t> ray_to_center = sphere_center - point; \
     t a = dot( ray_to_center, ray ); \
@@ -61,11 +61,11 @@ namespace mymath
   }
 
 #define MYMATH_CLOSEENOUGH_FUNC(t) \
-  inline bool close_enough( const t& candidate, const t& compare, const t& epsilon ) \
+  MYMATH_INLINE bool close_enough( const t& candidate, const t& compare, const t& epsilon ) \
   { return ( std::abs( candidate - compare ) < epsilon ); }
 
 #define MYMATH_PROJECTXY_FUNC(t) \
-  inline impl::vec2i<t> project_xy( const impl::mat4i<t>& modelview, const impl::mat4i<t>& projection, const impl::vec4i<t>& viewport, const impl::vec3i<t>& point_in ) \
+  MYMATH_INLINE impl::vec2i<t> project_xy( const impl::mat4i<t>& modelview, const impl::mat4i<t>& projection, const impl::vec4i<t>& viewport, const impl::vec3i<t>& point_in ) \
   { \
     impl::vec4i<t> back( point_in, ( t )0 ), forth; \
     impl::vec2i<t> point_out; \
@@ -86,11 +86,11 @@ namespace mymath
   }
 
 #define MYMATH_FINDNORMAL_FUNC(t) \
-  inline impl::vec3i<t> find_normal(const impl::vec3i<t>& a, const impl::vec3i<t>& b, const impl::vec3i<t>& c ) \
+  MYMATH_INLINE impl::vec3i<t> find_normal(const impl::vec3i<t>& a, const impl::vec3i<t>& b, const impl::vec3i<t>& c ) \
   { return cross( a - b, b - c ); }
 
 #define MYMATH_CATMULLROM_FUNC(t) \
-  inline impl::vec3i<t> catmullrom( const impl::vec3i<t>& p0, const impl::vec3i<t>& p1, const impl::vec3i<t>& p2, const impl::vec3i<t>& p3, const t& e ) \
+  MYMATH_INLINE impl::vec3i<t> catmullrom( const impl::vec3i<t>& p0, const impl::vec3i<t>& p1, const impl::vec3i<t>& p2, const impl::vec3i<t>& p3, const t& e ) \
   { \
     t e2 = e * e; \
     t e3 = e2 * e; \
@@ -100,7 +100,7 @@ namespace mymath
   }
 
 #define MYMATH_CALCTANGENT_FUNC(t) \
-  inline impl::vec3i<t> calc_tangent( const impl::vec3i<t> vertices[3], const impl::vec2i<t> texcoords[3], const impl::vec3i<t>& normal ) \
+  MYMATH_INLINE impl::vec3i<t> calc_tangent( const impl::vec3i<t> vertices[3], const impl::vec2i<t> texcoords[3], const impl::vec3i<t>& normal ) \
   { \
     impl::vec3i<t> dv2v1 = vertices[1] - vertices[0]; \
     impl::vec3i<t> dv3v1 = vertices[2] - vertices[0]; \
@@ -120,7 +120,7 @@ namespace mymath
   }
 
 #define MYMATH_CLOSESTPOINTONRAY_FUNC(t) \
-  inline impl::vec3i<t> closest_point_on_ray( const impl::vec3i<t>& ray_origin, const impl::vec3i<t>& unit_ray_dir, const impl::vec3i<t>& point_in_space ) \
+  MYMATH_INLINE impl::vec3i<t> closest_point_on_ray( const impl::vec3i<t>& ray_origin, const impl::vec3i<t>& unit_ray_dir, const impl::vec3i<t>& point_in_space ) \
   { \
     impl::vec3i<t> v = point_in_space - ray_origin; \
     t e = dot ( unit_ray_dir, v ); \
@@ -128,7 +128,7 @@ namespace mymath
   }
 
 #define MYMATH_PROJECTXYZ_FUNC(t) \
-  inline impl::vec3i<t> project_xyz( const impl::mat4i<t>& modelview, const impl::mat4i<t>& projection, const impl::vec4i<t>& viewport, const impl::vec3i<t>& point_in ) \
+  MYMATH_INLINE impl::vec3i<t> project_xyz( const impl::mat4i<t>& modelview, const impl::mat4i<t>& projection, const impl::vec4i<t>& viewport, const impl::vec3i<t>& point_in ) \
   { \
     impl::vec4i<t> back( point_in, ( t )0 ), forth; \
     impl::vec3i<t> point_out; \
@@ -151,7 +151,7 @@ namespace mymath
   }
 
 #define MYMATH_GETPLANEEQ_FUNC(t) \
-  inline impl::vec4i<t> get_plane_eq( const impl::vec3i<t>& p1, const impl::vec3i<t>& p2, const impl::vec3i<t>& p3 ) \
+  MYMATH_INLINE impl::vec4i<t> get_plane_eq( const impl::vec3i<t>& p1, const impl::vec3i<t>& p2, const impl::vec3i<t>& p3 ) \
   { \
     impl::vec3i<t> v1 = p3 - p1; \
     impl::vec3i<t> v2 = p2 - p1; \
@@ -161,7 +161,7 @@ namespace mymath
   }
 
 #define MYMATH_MAKEPLANARSHADOW_FUNC(t) \
-  inline impl::mat4i<t> make_planar_shadow( const impl::vec4i<t>& plane_eq, const impl::vec3i<t>& light_pos ) \
+  MYMATH_INLINE impl::mat4i<t> make_planar_shadow( const impl::vec4i<t>& plane_eq, const impl::vec3i<t>& light_pos ) \
   { \
     return impl::mat4i<t>( plane_eq[1] * -light_pos[1] + plane_eq[2] * -light_pos[2], -plane_eq[0] * -light_pos[1], -plane_eq[0] * -light_pos[2], ( t )0, \
                            -plane_eq[1] * -light_pos[0], plane_eq[0] * -light_pos[0] + plane_eq[2] * -light_pos[2], -plane_eq[1] * -light_pos[2], ( t )0, \
@@ -191,7 +191,7 @@ namespace mymath
   MYMATH_RAYINTSPHERE_FUNC( double )
 #endif
 
-  inline bool is_pow_2( const unsigned int& val )
+  MYMATH_INLINE bool is_pow_2( const unsigned int& val )
   {
     unsigned int pow2 = 1;
 
@@ -229,7 +229,7 @@ namespace mymath
 #endif
 
   template< typename t >
-  inline impl::mat4i<t> perspective( const t& fovy, const t& aspect, const t& near, const t& far )
+  MYMATH_INLINE impl::mat4i<t> perspective( const t& fovy, const t& aspect, const t& near, const t& far )
   {
     t top = near * std::tan( fovy * ( t )0.5 );
     t bottom = -top;
@@ -248,7 +248,7 @@ namespace mymath
   }
 
   template< typename t >
-  inline impl::mat4i<t> ortographic( const t& left, const t& right, const t& bottom, const t& top, const t& near, const t& far )
+  MYMATH_INLINE impl::mat4i<t> ortographic( const t& left, const t& right, const t& bottom, const t& top, const t& near, const t& far )
   {
     impl::mat4i<t> r;
     r[0].x = ( t )2 / ( right - left );

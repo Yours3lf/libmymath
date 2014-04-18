@@ -9,7 +9,7 @@ namespace mymath
   namespace impl
   {
     template< typename t >
-    class MM_GPU_ALIGNED mat4i
+    class MYMATH_GPU_ALIGNED mat4i
     {
       private:
         /*
@@ -79,11 +79,10 @@ namespace mymath
           vec4i<t> tmp2 = m[1];
           vec4i<t> tmp3 = m[2];
           vec4i<t> tmp4 = m[3];
-
-          m[0] = tmp1 * mat[0].xxxx + tmp2 * mat[0].yyyy + tmp3 * mat[0].zzzz + tmp4 * mat[0].wwww;
-          m[1] = tmp1 * mat[1].xxxx + tmp2 * mat[1].yyyy + tmp3 * mat[1].zzzz + tmp4 * mat[1].wwww;
-          m[2] = tmp1 * mat[2].xxxx + tmp2 * mat[2].yyyy + tmp3 * mat[2].zzzz + tmp4 * mat[2].wwww;
-          m[3] = tmp1 * mat[3].xxxx + tmp2 * mat[3].yyyy + tmp3 * mat[3].zzzz + tmp4 * mat[3].wwww;
+          m[0] = mm::fma(mat[0].wwww, tmp4, fma(mat[0].zzzz, tmp3, fma(mat[0].yyyy, tmp2, mat[0].xxxx * tmp1)));
+          m[1] = mm::fma(mat[1].wwww, tmp4, fma(mat[1].zzzz, tmp3, fma(mat[1].yyyy, tmp2, mat[1].xxxx * tmp1)));
+          m[2] = mm::fma(mat[2].wwww, tmp4, fma(mat[2].zzzz, tmp3, fma(mat[2].yyyy, tmp2, mat[2].xxxx * tmp1)));
+          m[3] = mm::fma(mat[3].wwww, tmp4, fma(mat[3].zzzz, tmp3, fma(mat[3].yyyy, tmp2, mat[3].xxxx * tmp1)));
 
           return *this;
         }

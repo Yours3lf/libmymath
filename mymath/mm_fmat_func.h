@@ -10,69 +10,82 @@
 #include "mm_mat2_impl.h"
 #include "mm_mat3_impl.h"
 #include "mm_mat4_impl.h"
-#include "mm_vec_func.h"
+
+template< typename t >
+MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::mat2i<t>& mat )
+{
+  return output << "( " << mat[0].x << ", " << mat[1].x << "\n  "
+         /*__________*/ << mat[0].y << ", " << mat[1].y << " )\n";
+}
+
+template< typename t >
+MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::mat3i<t>& mat )
+{
+  return output << "( " << mat[0].x << ", " << mat[1].x << ", " << mat[2].x << "\n  "
+         /*__________*/ << mat[0].y << ", " << mat[1].y << ", " << mat[2].y << "\n  "
+         /*__________*/ << mat[0].z << ", " << mat[1].z << ", " << mat[2].z << " )\n";
+}
+
+template< typename t >
+MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::mat4i<t>& mat )
+{
+  return output << "( " << mat[0].x << ", " << mat[1].x << ", " << mat[2].x << ", " << mat[3].x << "\n  "
+         /*__________*/ << mat[0].y << ", " << mat[1].y << ", " << mat[2].y << ", " << mat[3].y << "\n  "
+         /*__________*/ << mat[0].z << ", " << mat[1].z << ", " << mat[2].z << ", " << mat[3].z << "\n  "
+         /*__________*/ << mat[0].w << ", " << mat[1].w << ", " << mat[2].w << ", " << mat[3].w << " )\n";
+}
+
+namespace mymath
+{
+  template< typename t >
+  MYMATH_INLINE impl::mat2i<t> transpose( const impl::mat2i<t>& mat )
+  {
+    impl::vec4i<t> tmp1 = _mm_shuffle_ps( mat[0].d, mat[1].d, MYMATH_SHUFFLE(0, 1, 0, 1) );
+    return impl::mat2i<t>( tmp1.xz, tmp1.yw );
+  }
+
+  template< typename t >
+  MYMATH_INLINE impl::mat3i<t> transpose( const impl::mat3i<t>& mat )
+  {
+    impl::vec4i<t> tmp1 = _mm_shuffle_ps( mat[0].d, mat[1].d, MYMATH_SHUFFLE(0, 1, 0, 1) ); //adbe
+    impl::vec4i<t> tmp2 = mat[2].xyzz;                                                  //cfii
+    impl::vec4i<t> tmp3 = _mm_shuffle_ps( mat[0].d, mat[1].d, MYMATH_SHUFFLE(2, 2, 2, 2) ); //gghh
+
+    return impl::mat3i<t>( _mm_shuffle_ps( tmp1.d, tmp2.d, MYMATH_SHUFFLE( 0, 2, 0, 0 ) ), 
+                           _mm_shuffle_ps( tmp1.d, tmp2.d, MYMATH_SHUFFLE( 1, 3, 1, 1 ) ),
+                           _mm_shuffle_ps( tmp3.d, tmp2.d, MYMATH_SHUFFLE( 0, 2, 2, 3 ) ) );
+  }
+
+  template< typename t >
+  MYMATH_INLINE impl::mat4i<t> transpose( const impl::mat4i<t>& mat )
+  {
+    impl::vec4i<t> tmp1 = _mm_shuffle_ps( mat[0].d, mat[1].d, MYMATH_SHUFFLE(0, 1, 0, 1) );
+    impl::vec4i<t> tmp2 = _mm_shuffle_ps( mat[0].d, mat[1].d, MYMATH_SHUFFLE(2, 3, 2, 3) );
+    impl::vec4i<t> tmp3 = _mm_shuffle_ps( mat[2].d, mat[3].d, MYMATH_SHUFFLE(0, 1, 0, 1) );
+    impl::vec4i<t> tmp4 = _mm_shuffle_ps( mat[2].d, mat[3].d, MYMATH_SHUFFLE(2, 3, 2, 3) );
+
+    return impl::mat4i<t>( _mm_shuffle_ps( tmp1.d, tmp3.d, MYMATH_SHUFFLE(0, 2, 0, 2) ),
+                           _mm_shuffle_ps( tmp1.d, tmp3.d, MYMATH_SHUFFLE(1, 3, 1, 3) ),
+                           _mm_shuffle_ps( tmp2.d, tmp4.d, MYMATH_SHUFFLE(0, 2, 0, 2) ),
+                           _mm_shuffle_ps( tmp2.d, tmp4.d, MYMATH_SHUFFLE(1, 3, 1, 3) ) );
+  }
+}
 
 #define MYMATH_VECMULMAT_FUNC(t) \
   MYMATH_INLINE mm::impl::vec2i<t> operator*( const mm::impl::vec2i<t>& vec, const mm::impl::mat2i<t>& mat ) \
   { \
-    mm::impl::vec4i<t> tmp1 = vec.xxyy; \
-    mm::impl::vec4i<t> tmp2( mat[0], mat[1] ); \
-    tmp1 *= tmp2.xzyw; \
-    return tmp1.xy + tmp1.zw; \
+    mm::impl::mat2i<t> tmp = mm::transpose( mat ); \
+    return tmp * vec; \
   } \
   MYMATH_INLINE mm::impl::vec3i<t> operator*( const mm::impl::vec3i<t>& vec, const mm::impl::mat3i<t>& mat ) \
   { \
-    mm::impl::vec4i<t> tmp1 = mat[0].xxxy; \
-    tmp1 *= vec.xxxy; \
-    mm::impl::vec4i<t> tmp11 = mat[0].yxxz; \
-    tmp11 *= vec.yxxz; \
-    tmp1 *= mm::impl::vec4i<t>(1,1,1,0); \
-    tmp1 += tmp11; \
-    mm::impl::vec4i<t> tmp2 = mat[1].xxxy; \
-    tmp2 *= vec.xxxy; \
-    mm::impl::vec4i<t> tmp21 = mat[1].yxxz; \
-    tmp21 *= vec.yxxz; \
-    tmp2 *= mm::impl::vec4i<t>(1,1,1,0); \
-    tmp2 += tmp21; \
-    mm::impl::vec4i<t> tmp3 = mat[2].xxxy; \
-    tmp3 *= vec.xxxy; \
-    mm::impl::vec4i<t> tmp31 = mat[2].yxxz; \
-    tmp31 *= vec.yxxz; \
-    tmp3 *= mm::impl::vec4i<t>(1,1,1,0); \
-    tmp3 += tmp31; \
-    tmp1 += tmp1.wxxx; \
-    tmp2 += tmp2.wxxx; \
-    tmp3 += tmp3.wxxx; \
-    tmp1 *= mm::impl::vec4i<t>(1,0,0,0); \
-    tmp2 = tmp2.xxxx; \
-    tmp2 *= mm::impl::vec4i<t>(0,1,0,0); \
-    tmp3 = tmp3.xxxx; \
-    tmp3 *= mm::impl::vec4i<t>(0,0,1,0); \
-    return (tmp1 + tmp2 + tmp3).xyz; \
+    mm::impl::mat3i<t> tmp = mm::transpose( mat ); \
+    return tmp * vec; \
   } \
   MYMATH_INLINE mm::impl::vec4i<t> operator*( const mm::impl::vec4i<t>& vec, const mm::impl::mat4i<t>& mat ) \
   { \
-    mm::impl::vec4i<t> tmp1 = vec; \
-    tmp1 *= mat[0]; \
-    tmp1 += tmp1.yxwx; \
-    tmp1 += tmp1.zxxx; \
-    tmp1 *= mm::impl::vec4i<t>(1, 0, 0, 0); \
-    mm::impl::vec4i<t> tmp2 = vec; \
-    tmp2 *= mat[1]; \
-    tmp2 += tmp2.xxwx; \
-    tmp2 += tmp2.xzxx; \
-    tmp2 *= mm::impl::vec4i<t>(0, 1, 0, 0); \
-    mm::impl::vec4i<t> tmp3 = vec; \
-    tmp3 *= mat[2]; \
-    tmp3 += tmp3.xxwx; \
-    tmp3 += tmp3.xxyx; \
-    tmp3 *= mm::impl::vec4i<t>(0, 0, 1, 0); \
-    mm::impl::vec4i<t> tmp4 = vec; \
-    tmp4 *= mat[3]; \
-    tmp4 += tmp4.xxxz; \
-    tmp4 += tmp4.xxxy; \
-    tmp4 *= mm::impl::vec4i<t>(0, 0, 0, 1); \
-    return tmp1 + tmp2 + tmp3 + tmp4; \
+    mm::impl::mat4i<t> tmp = mm::transpose( mat ); \
+    return tmp * vec; \
   }
 
 #define MYMATH_MATMULVEC_FUNC(t) \
@@ -112,12 +125,11 @@
 template< typename t >
 MYMATH_INLINE mm::impl::mat2i<t> operator* ( const mm::impl::mat2i<t>& a, const mm::impl::mat2i<t>& b )
 {
-  mm::impl::vec4i<t> tmp1( a[0], a[0] );
-  mm::impl::vec4i<t> tmp2( b[0].xx, b[1].xx );
-  mm::impl::vec4i<t> tmp3( a[1], a[1] );
-  mm::impl::vec4i<t> tmp4( b[0].yy, b[1].yy );
-  mm::impl::vec4i<t> res = tmp1 * tmp2 + tmp3 * tmp4;
-  return mm::impl::mat2i<t>( res.xy, res.zw );
+  mm::impl::vec2i<t> tmp1 = a[0];
+  mm::impl::vec2i<t> tmp2 = a[1];
+
+  return mm::impl::mat2i<t>( mm::fma(b[0].xx, tmp1, b[0].yy * tmp2), 
+                             mm::fma(b[1].xx, tmp1, b[1].yy * tmp2) );
 }
 
 template< typename t >
@@ -128,9 +140,9 @@ MYMATH_INLINE mm::impl::mat3i<t> operator* ( const mm::impl::mat3i<t>& a, const 
   mm::impl::vec3i<t> tmp2 = a[1];
   mm::impl::vec3i<t> tmp3 = a[2];
 
-  return mm::impl::mat3i<t>( tmp1 * b[0].xxx + tmp2 * b[0].yyy + tmp3 * b[0].zzz,
-                             tmp1 * b[1].xxx + tmp2 * b[1].yyy + tmp3 * b[1].zzz,
-                             tmp1 * b[2].xxx + tmp2 * b[2].yyy + tmp3 * b[2].zzz );
+  return mm::impl::mat3i<t>( mm::fma(b[0].zzz, tmp3, fma(b[0].yyy, tmp2, b[0].xxx * tmp1)),
+                             mm::fma(b[1].zzz, tmp3, fma(b[1].yyy, tmp2, b[1].xxx * tmp1)),
+                             mm::fma(b[2].zzz, tmp3, fma(b[2].yyy, tmp2, b[2].xxx * tmp1)) );
 }
 
 template< typename t >
@@ -141,10 +153,10 @@ MYMATH_INLINE mm::impl::mat4i<t> operator* ( const mm::impl::mat4i<t>& a, const 
   mm::impl::vec4i<t> tmp3 = a[2];
   mm::impl::vec4i<t> tmp4 = a[3];
 
-  return mm::impl::mat4i<t>( tmp1 * b[0].xxxx + tmp2 * b[0].yyyy + tmp3 * b[0].zzzz + tmp4 * b[0].wwww,
-                             tmp1 * b[1].xxxx + tmp2 * b[1].yyyy + tmp3 * b[1].zzzz + tmp4 * b[1].wwww,
-                             tmp1 * b[2].xxxx + tmp2 * b[2].yyyy + tmp3 * b[2].zzzz + tmp4 * b[2].wwww,
-                             tmp1 * b[3].xxxx + tmp2 * b[3].yyyy + tmp3 * b[3].zzzz + tmp4 * b[3].wwww );
+  return mm::impl::mat4i<t>( mm::fma(b[0].wwww, tmp4, fma(b[0].zzzz, tmp3, fma(b[0].yyyy, tmp2, b[0].xxxx * tmp1))),
+                             mm::fma(b[1].wwww, tmp4, fma(b[1].zzzz, tmp3, fma(b[1].yyyy, tmp2, b[1].xxxx * tmp1))),
+                             mm::fma(b[2].wwww, tmp4, fma(b[2].zzzz, tmp3, fma(b[2].yyyy, tmp2, b[2].xxxx * tmp1))),
+                             mm::fma(b[3].wwww, tmp4, fma(b[3].zzzz, tmp3, fma(b[3].yyyy, tmp2, b[3].xxxx * tmp1))) );
 }
 
 template< typename t >
@@ -183,33 +195,8 @@ MYMATH_INLINE mm::impl::mat4i<t> operator*( const t& num, const mm::impl::mat4i<
   return mat * num;
 }
 
-template< typename t >
-MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::mat2i<t>& mat )
-{
-  return output << "( " << mat[0].x << ", " << mat[1].x << "\n  "
-         /*__________*/ << mat[0].y << ", " << mat[1].y << " )\n";
-}
-
-template< typename t >
-MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::mat3i<t>& mat )
-{
-  return output << "( " << mat[0].x << ", " << mat[1].x << ", " << mat[2].x << "\n  "
-         /*__________*/ << mat[0].y << ", " << mat[1].y << ", " << mat[2].y << "\n  "
-         /*__________*/ << mat[0].z << ", " << mat[1].z << ", " << mat[2].z << " )\n";
-}
-
-template< typename t >
-MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::mat4i<t>& mat )
-{
-  return output << "( " << mat[0].x << ", " << mat[1].x << ", " << mat[2].x << ", " << mat[3].x << "\n  "
-         /*__________*/ << mat[0].y << ", " << mat[1].y << ", " << mat[2].y << ", " << mat[3].y << "\n  "
-         /*__________*/ << mat[0].z << ", " << mat[1].z << ", " << mat[2].z << ", " << mat[3].z << "\n  "
-         /*__________*/ << mat[0].w << ", " << mat[1].w << ", " << mat[2].w << ", " << mat[3].w << " )\n";
-}
-
-MYMATH_VECMULMAT_FUNC( float )
-
 MYMATH_MATMULVEC_FUNC( float )
+MYMATH_VECMULMAT_FUNC( float )
 
 MYMATH_VECMULEQUALMAT_FUNC( float )
 
@@ -220,84 +207,6 @@ MYMATH_MATMULVEC_FUNC( double )
 
 namespace mymath
 {
-  template< typename t >
-  MYMATH_INLINE impl::mat2i<t> transpose( const impl::mat2i<t>& mat )
-  {
-    impl::vec4i<t> tmp1 = mat[0].xxyy;
-    tmp1 *= impl::vec4i<t>( 1, 0, 1, 0 );
-    impl::vec4i<t> tmp2 = mat[1].xxyy;
-    tmp2 *= impl::vec4i<t>( 0, 1, 0, 1 );
-    tmp1 += tmp2;
-    return impl::mat2i<t>( tmp1.xy, tmp1.zw );
-  }
-
-  template< typename t >
-  MYMATH_INLINE impl::mat3i<t> transpose( const impl::mat3i<t>& mat )
-  {
-    impl::vec4i<t> tmp1 = mat[0].xxxx;
-    tmp1 *= impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp2 = mat[0].yyyy;
-    tmp2 *= impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp3 = mat[0].zzzz;
-    tmp3 *= impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp4 = mat[1].xxxx;
-    tmp4 *= impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp5 = mat[1].yyyy;
-    tmp5 *= impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp6 = mat[1].zzzz;
-    tmp6 *= impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp7 = mat[2].xxxx;
-    tmp7 *= impl::vec4i<t>( 0, 0, 1, 0 );
-    impl::vec4i<t> tmp8 = mat[2].yyyy;
-    tmp8 *= impl::vec4i<t>( 0, 0, 1, 0 );
-    impl::vec4i<t> tmp9 = mat[2].zzzz;
-    tmp9 *= impl::vec4i<t>( 0, 0, 1, 0 );
-    return impl::mat3i<t>( tmp1.xyz + tmp4.xyz + tmp7.xyz,
-                           tmp2.xyz + tmp5.xyz + tmp8.xyz,
-                           tmp3.xyz + tmp6.xyz + tmp9.xyz );
-  }
-
-  template< typename t >
-  MYMATH_INLINE impl::mat4i<t> transpose( const impl::mat4i<t>& mat )
-  {
-    impl::vec4i<t> tmp1 = mat[0].xxxx;
-    tmp1 *= impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp2 = mat[0].yyyy;
-    tmp2 *= impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp3 = mat[0].zzzz;
-    tmp3 *= impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp4 = mat[0].wwww;
-    tmp4 *= impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp5 = mat[1].xxxx;
-    tmp5 *= impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp6 = mat[1].yyyy;
-    tmp6 *= impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp7 = mat[1].zzzz;
-    tmp7 *= impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp8 = mat[1].wwww;
-    tmp8 *= impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp9 = mat[2].xxxx;
-    tmp9 *= impl::vec4i<t>( 0, 0, 1, 0 );
-    impl::vec4i<t> tmp10 = mat[2].yyyy;
-    tmp10 *= impl::vec4i<t>( 0, 0, 1, 0 );
-    impl::vec4i<t> tmp11 = mat[2].zzzz;
-    tmp11 *= impl::vec4i<t>( 0, 0, 1, 0 );
-    impl::vec4i<t> tmp12 = mat[2].wwww;
-    tmp12 *= impl::vec4i<t>( 0, 0, 1, 0 );
-    impl::vec4i<t> tmp13 = mat[3].xxxx;
-    tmp13 *= impl::vec4i<t>( 0, 0, 0, 1 );
-    impl::vec4i<t> tmp14 = mat[3].yyyy;
-    tmp14 *= impl::vec4i<t>( 0, 0, 0, 1 );
-    impl::vec4i<t> tmp15 = mat[3].zzzz;
-    tmp15 *= impl::vec4i<t>( 0, 0, 0, 1 );
-    impl::vec4i<t> tmp16 = mat[3].wwww;
-    tmp16 *= impl::vec4i<t>( 0, 0, 0, 1 );
-    return impl::mat4i<t>( tmp1 + tmp5 + tmp9 + tmp13,
-                           tmp2 + tmp6 + tmp10 + tmp14,
-                           tmp3 + tmp7 + tmp11 + tmp15,
-                           tmp4 + tmp8 + tmp12 + tmp16 );
-  }
-
   template< typename t >
   MYMATH_INLINE impl::vec4i<t> determinant_helper( const impl::mat2i<t>& mat )
   {
@@ -314,11 +223,9 @@ namespace mymath
   template< typename t >
   MYMATH_INLINE impl::vec4i<t> determinant_helper( const impl::mat3i<t>& mat )
   {
-    impl::vec3i<t> tmp = cross( mat[0], mat[1] );
-    tmp *= mat[2];
-    tmp += tmp.yxx * impl::vec3i<t>( 1, 0, 0 );
-    tmp += tmp.zxx * impl::vec3i<t>( 1, 0, 0 );
-    return tmp.xxxx;
+    impl::vec3i<t> tmp1 = cross( mat[0], mat[1] ); //2 mul, 1 sub, 4 shuffle, 1 mov
+    tmp1 *= mat[2]; //1 mul, 1 mov
+    return tmp1.xxxx + tmp1.yyyy + tmp1.zzzz; //2 add
   }
 
   template< typename t >
@@ -327,14 +234,42 @@ namespace mymath
     return determinant_helper( mat ).x;
   }
 
+//helper for _mm_set_ps()
+#define MYMATH_SSE_SETTER(x, y, z, w) _mm_set_ps(w, z, y, x)
+
   template< typename t >
   MYMATH_INLINE impl::vec4i<t> determinant_helper( const impl::mat4i<t>& mat )
   {
-    impl::vec4i<t> deta = mat[0].xxxx * determinant_helper( impl::mat3i<t>( mat[1].yzw, mat[2].yzw, mat[3].yzw ) );
-    impl::vec4i<t> detb = mat[1].xxxx * determinant_helper( impl::mat3i<t>( mat[0].yzw, mat[2].yzw, mat[3].yzw ) );
-    impl::vec4i<t> detc = mat[2].xxxx * determinant_helper( impl::mat3i<t>( mat[0].yzw, mat[1].yzw, mat[3].yzw ) );
-    impl::vec4i<t> detd = mat[3].xxxx * determinant_helper( impl::mat3i<t>( mat[0].yzw, mat[1].yzw, mat[2].yzw ) );
-    return ( deta - detb + detc - detd ).xxxx;
+    impl::vec4i<t> aa = mat[0].zxxx * mat[1].wyzw; //in, af, aj, an
+    impl::vec4i<t> ee = mat[1].zxxx * mat[0].wyzw; //jm, be, bi, bm
+    impl::vec4i<t> ii = mat[0].zwyy * mat[1].yyzw; //if, mf, ej, en
+
+    //in - jm, af - be, aj - bi, an - bm
+    aa = aa - ee;
+
+    //xx - xx, xx - xx, ej - fi, en - fm
+    ii = ii - ii.xxxy;
+
+    //an - bm, aj - bi, en - fm, xx - xx
+    impl::vec4i<t> jj = _mm_shuffle_ps(aa.d, ii.d, MYMATH_SHUFFLE(3, 2, 3, 3));
+    //-k(en - fm), -k(an - bm), -g(an - bm), -g(aj - bi)
+    ee = jj.zxxy * mat[2].zzyy;
+
+    //in - jm, in - jm, en - fm, ej - fi
+    jj = _mm_shuffle_ps( aa.d, ii.d, MYMATH_SHUFFLE(0, 0, 3, 2) );
+    //g(in - jm), c(in - jm), c(en - fm), c(ej - fi)
+    impl::vec4i<t> ww = jj * mat[2].yxxx; 
+
+    //af - be, aj - bi, ej - fi, ej - fi
+    jj = _mm_shuffle_ps( aa.d, ii.d, MYMATH_SHUFFLE(1, 2, 2, 2) );
+    //o(ej - fi), o(aj - bi), o(af - be), k(af - be)
+    jj = jj.zyxx * mat[2].wwwz; 
+
+    jj = mat[3] * MYMATH_SSE_SETTER(-1, 1, -1, 1) * (ww - ee + jj);
+    jj = jj + jj.wzyx;   //xw, yz, zy, wx
+    jj = jj + jj.zxxz;   //xwzy, yzxw, zyxw, wxzy
+
+    return jj;
   }
 
   template< typename t >
@@ -343,6 +278,7 @@ namespace mymath
     return determinant_helper( mat ).x;
   }
 
+  //TODO optimize this
   template< typename t >
   MYMATH_INLINE impl::mat2i<t> inverse( const impl::mat2i<t>& mat )
   {
@@ -356,6 +292,7 @@ namespace mymath
     return impl::mat2i<t>( tmp1.xy * det.xx, tmp1.zw * det.xx );
   }
 
+  //TODO optimize this
   template< typename t >
   MYMATH_INLINE impl::mat3i<t> inverse( const impl::mat3i<t>& mat )
   {
@@ -381,6 +318,7 @@ namespace mymath
     return impl::mat3i<t>( tmp1.xyz * det.xxx, tmp4.xyz * det.xxx, tmp7.xyz * det.xxx );
   }
 
+  //TODO optimize this
   template< typename t >
   MYMATH_INLINE impl::mat4i<t> inverse( const impl::mat4i<t>& mat )
   {

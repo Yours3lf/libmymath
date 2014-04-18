@@ -1,5 +1,5 @@
-#ifndef mm_fvec2_impl_h
-#define mm_fvec2_impl_h
+#ifndef mm_vec2_impl_h
+#define mm_vec2_impl_h
 
 #include "mm_common.h"
 #include "mm_sse.h"
@@ -9,11 +9,11 @@ namespace mymath
   namespace impl
   {
     template< typename ty >
-    class MM_GPU_ALIGNED vec2i;
+    class MYMATH_GPU_ALIGNED vec2i;
     template< typename ty >
-    class MM_GPU_ALIGNED vec3i;
+    class MYMATH_GPU_ALIGNED vec3i;
     template< typename ty >
-    class MM_GPU_ALIGNED vec4i;
+    class MYMATH_GPU_ALIGNED vec4i;
 
     template<>
     class vec2i<float>
@@ -28,14 +28,14 @@ namespace mymath
             //For cases like swizzle = vec2 and swizzle = swizzle
             const vec2i& operator=( const vec2i& other )
             {
-              v = _mm_shuffle_ps( other.d, other.d, MM_SHUFFLE( at, bt, 0, 0 ) );
+              v = _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, 0, 0 ) );
               return *( vec2i* )this;
             }
 
             //For cases like swizzle *= vec2 and swizzle *= swizzle
             const vec2i& operator*=( const vec2i& other )
             {
-              v = _mm_mul_ps( v, _mm_shuffle_ps( other.d, other.d, MM_SHUFFLE( at, bt, 0, 0 ) ) );
+              v = _mm_mul_ps( v, _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, 0, 0 ) ) );
               return *( vec2i* )this;
             }
 
@@ -43,19 +43,19 @@ namespace mymath
 
             const vec2i& operator+=( const vec2i& other )
             {
-              v = _mm_add_ps( v, _mm_shuffle_ps( other.d, other.d, MM_SHUFFLE( at, bt, 0, 0 ) ) );
+              v = _mm_add_ps( v, _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, 0, 0 ) ) );
               return *( vec2i* )this;
             }
 
             const vec2i& operator-=( const vec2i& other )
             {
-              v = _mm_sub_ps( v, _mm_shuffle_ps( other.d, other.d, MM_SHUFFLE( at, bt, 0, 0 ) ) );
+              v = _mm_sub_ps( v, _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, 0, 0 ) ) );
               return *( vec2i* )this;
             }
 
             operator vec2i() const
             {
-              return vec2i( _mm_shuffle_ps( v, v, MM_SHUFFLE( at, bt, 0, 0 ) ) );
+              return vec2i( _mm_shuffle_ps( v, v, MYMATH_SHUFFLE( at, bt, 0, 0 ) ) );
             }
         };
 
@@ -67,7 +67,7 @@ namespace mymath
           public:
             operator vec2i() const
             {
-              return vec2i( _mm_shuffle_ps( v, v, MM_SHUFFLE( at, at, 0, 0 ) ) );
+              return vec2i( _mm_shuffle_ps( v, v, MYMATH_SHUFFLE( at, at, 0, 0 ) ) );
             }
         };
 
@@ -175,7 +175,7 @@ namespace mymath
       protected:
 
       public:
-#ifndef _WIN32
+#ifdef __GNUC__  //g++
 #pragma GCC diagnostic ignored "-pedantic"
 #endif
         union
@@ -183,19 +183,19 @@ namespace mymath
           struct
           {
             float x, y;
-            float dummy[2];
+            float _dummy[2];
           };
 
           struct
           {
             float r, g;
-            float dummy2[2];
+            float _dummy2[2];
           };
 
           struct
           {
             float s, t;
-            float dummy3[2];
+            float _dummy3[2];
           };
 
 #include "includes/vec2_swizzle_declarations.h"
@@ -203,12 +203,12 @@ namespace mymath
           struct
           {
             float v[2];
-            float dummy4[2];
+            float _dummy4[2];
           };
 
           __m128 d;
         };
-#ifndef _WIN32
+#ifdef __GNUC__  //g++
 #pragma GCC diagnostic pop
 #endif
 
@@ -216,9 +216,9 @@ namespace mymath
 #if MYMATH_STRICT_GLSL == 1
         explicit
 #endif
-        vec2i( const float& num ) : x( num ), y( num ) {}
+        vec2i( const float& num ) { d = _mm_set1_ps(num); }
         vec2i( const __m128& num ) : d( num ) {}
-        vec2i() : x( 0 ), y( 0 ) {}
+        vec2i() { d = impl::zero; }
 
         float& operator[]( const unsigned int& num ) //read-write
         {
@@ -230,12 +230,6 @@ namespace mymath
         {
           assert( num < 2 && this );
           return v[num];
-        }
-
-        const vec2i& operator= ( const vec2i& other )
-        {
-          d = other.d;
-          return *this;
         }
 
         const vec2i& operator*= ( const vec2i& vec )

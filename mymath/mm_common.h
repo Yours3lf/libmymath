@@ -6,27 +6,43 @@
 #include <algorithm>
 #include <assert.h>
 
+#define MYMATH_USE_SSE2
+//#define MYMATH_USE_FMA
+//#define MYMATH_FORCE_INLINE
+
 #ifdef MYMATH_USE_SSE2
 #include "x86intrin.h"
 #endif
 
-//align variables to X bytes
-#ifdef MYMATH_USE_SSE2
-#ifdef _WIN32
-#define MM_ALIGNED(x) __declspec(align(x))
-#elif __unix__
-#define MM_ALIGNED(x) __attribute__((aligned (x)))
+#ifdef MYMATH_FORCE_INLINE
+#ifdef _MSC_VER //msvc++
+#define MYMATH_INLINE __forceinline
+#else //g++ and clang
+#define MYMATH_INLINE __attribute__((always_inline))
 #endif
 #else
-#define MM_ALIGNED(x)
+#define MYMATH_INLINE inline
+#endif
+
+//align variables to X bytes
+#ifdef MYMATH_USE_SSE2
+  #ifdef _MSC_VER //msvc++
+    #define MYMATH_ALIGNED(x) __declspec(align(x))
+  #elif __GNUC__  //g++
+    #define MYMATH_ALIGNED(x) __attribute__((aligned (x)))
+  #elif __clang__ //clang
+    #define MYMATH_ALIGNED(x) __attribute__((__aligned__(x)))
+  #endif
+#else
+  #define MYMATH_ALIGNED(x)
 #endif
 
 #ifdef MYMATH_USE_SSE2
-#define MM_SHUFFLE(x, y, z, w) (_MM_SHUFFLE(w, z, y, x))
+#define MYMATH_SHUFFLE(x, y, z, w) (_MM_SHUFFLE(w, z, y, x))
 #endif
 
 //align variables to 16 bytes (GPU friendly)
-#define MM_GPU_ALIGNED MM_ALIGNED(16)
+#define MYMATH_GPU_ALIGNED MYMATH_ALIGNED(16)
 
 //makes sure only explicit cast is available between vecn and float/double etc.
 #define MYMATH_STRICT_GLSL 0
@@ -79,43 +95,43 @@ namespace mymath
   static const float inv_pi_div_180 = 180.0f / pi;
 
 #define MYMATH_INVERSESQRT( t ) \
-  inline t inversesqrt( const t& a ) \
+  MYMATH_INLINE t inversesqrt( const t& a ) \
   { \
     return 1 / std::sqrt( a ); \
   }
 
 #define MYMATH_STEP( t ) \
-  inline t step( const t& a, const t& b ) \
+  MYMATH_INLINE t step( const t& a, const t& b ) \
   { \
     return b < a ? 0 : 1; \
   }
 
 #define MYMATH_MIX( t ) \
-  inline t mix( const t& a, const t& b, const t& c ) \
+  MYMATH_INLINE t mix( const t& a, const t& b, const t& c ) \
   { \
     return a * ( 1 - c ) + b * c; \
   }
 
 #define MYMATH_FRACT( t ) \
-  inline t fract( const t& a ) \
+  MYMATH_INLINE t fract( const t& a ) \
   { \
     return a - floor( a ); \
   }
 
 #define MYMATH_ATAN( t ) \
-  inline t atan( const t& a, const t& b ) \
+  MYMATH_INLINE t atan( const t& a, const t& b ) \
   { \
     return std::atan( b / a ); \
   }
 
 #define MYMATH_CLAMP( t ) \
-  inline t clamp( const t& a, const t& b, const  t& c ) \
+  MYMATH_INLINE t clamp( const t& a, const t& b, const  t& c ) \
   { \
     return std::min( std::max( a, b ), c ); \
   }
 
 #define MYMATH_SMOOTHSTEP( t ) \
-  inline t smoothstep( const t& a, const t& b, const t& c ) \
+  MYMATH_INLINE t smoothstep( const t& a, const t& b, const t& c ) \
   { \
     float u = ( c - a ) / ( b - a ); \
     u = clamp( u, 0, 1 ); \
@@ -123,23 +139,23 @@ namespace mymath
   }
 
 #define MYMATH_FMA( t ) \
-  inline t fma( const t& a, const t& b, const t& c ) \
+  MYMATH_INLINE t fma( const t& a, const t& b, const t& c ) \
   { \
     return a * b + c; \
   }
 
-  inline float radians( const float& degrees )
+  MYMATH_INLINE float radians( const float& degrees )
   {
     return degrees * pi_div_180;
   }
 
-  inline float degrees( const float& radians )
+  MYMATH_INLINE float degrees( const float& radians )
   {
     return radians * inv_pi_div_180;
   }
 
 #define MYMATH_SIGN( t ) \
-  inline t sign( const t& num ) \
+  MYMATH_INLINE t sign( const t& num ) \
   { \
     if( num > 0 ) \
     { \
@@ -156,37 +172,37 @@ namespace mymath
   }
 
 #define MYMATH_ASINH( t ) \
-  inline t asinh( const t& num ) \
+  MYMATH_INLINE t asinh( const t& num ) \
   { \
     return std::log( num + std::sqrt( num * num + 1 ) ); \
   }
 
 #define MYMATH_ACOSH( t ) \
-  inline t acosh( const t& num ) \
+  MYMATH_INLINE t acosh( const t& num ) \
   { \
     return std::log( num + std::sqrt( num * num - 1 ) ); \
   }
 
 #define MYMATH_ATANH( t ) \
-  inline t atanh( const t& num ) \
+  MYMATH_INLINE t atanh( const t& num ) \
   { \
     return std::log( ( 1 + num ) / ( 1 - num ) ) / 2; \
   }
 
 #define MYMATH_LOG2( t ) \
-  inline t log2( const t& num ) \
+  MYMATH_INLINE t log2( const t& num ) \
   { \
     return std::log( num ) / std::log( 2 ); \
   }
 
 #define MYMATH_TRUNC( t ) \
-  inline t trunc( const t& num ) \
+  MYMATH_INLINE t trunc( const t& num ) \
   { \
     return num < 0 ? -floor( -num ) : floor( num ); \
   }
 
 #define MYMATH_ROUND( t ) \
-  inline t round( const t& num ) \
+  MYMATH_INLINE t round( const t& num ) \
   { \
     if( num < 0 ) \
     { \
@@ -198,7 +214,7 @@ namespace mymath
     } \
   }
 
-  inline bool isnan( const float& num )
+  MYMATH_INLINE bool isnan( const float& num )
   {
 #ifdef _WIN32
     return _isnan( num ) != 0;
@@ -207,7 +223,7 @@ namespace mymath
 #endif
   }
 
-  inline bool isinf( const float& num )
+  MYMATH_INLINE bool isinf( const float& num )
   {
 #ifdef _WIN32
     return _fpclass( num ) == _FPCLASS_NINF || _fpclass( num ) == _FPCLASS_PINF;
@@ -217,13 +233,13 @@ namespace mymath
   }
 
 #define MYMATH_MIN( t ) \
-  inline t min( const t& a, const t& b ) \
+  MYMATH_INLINE t min( const t& a, const t& b ) \
   { \
     return std::min( a, b ); \
   }
 
 #define MYMATH_MAX( t ) \
-  inline t max( const t& a, const t& b ) \
+  MYMATH_INLINE t max( const t& a, const t& b ) \
   { \
     return std::max( a, b ); \
   }
@@ -261,17 +277,17 @@ namespace mymath
   static const double dpi_div_180 = dpi / 180.0;
   static const double dinv_pi_div_180 = 180.0 / dpi;
 
-  inline double radians( const double& degrees )
+  MYMATH_INLINE double radians( const double& degrees )
   {
     return degrees * dpi_div_180;
   }
 
-  inline double degrees( const double& radians )
+  MYMATH_INLINE double degrees( const double& radians )
   {
     return radians * dinv_pi_div_180;
   }
 
-  inline bool isnan( const double& num )
+  MYMATH_INLINE bool isnan( const double& num )
   {
 #ifdef _WIN32
     return _isnan( num ) != 0;
@@ -280,7 +296,7 @@ namespace mymath
 #endif
   }
 
-  inline bool isinf( const double& num )
+  MYMATH_INLINE bool isinf( const double& num )
   {
 #ifdef _WIN32
     return _fpclass( num ) == _FPCLASS_NINF || _fpclass( num ) == _FPCLASS_PINF;

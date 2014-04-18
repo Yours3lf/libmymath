@@ -9,7 +9,7 @@ namespace mymath
   namespace impl
   {
     template< typename t >
-    class MM_GPU_ALIGNED mat2i
+    class MYMATH_GPU_ALIGNED mat2i
     {
       private:
         /*
@@ -62,14 +62,11 @@ namespace mymath
         }
 
         const mat2i& operator*= ( const mat2i& mat )
-        {
-          vec4i<t> tmp1( m[0], m[0] );
-          vec4i<t> tmp2( mat[0].xx, mat[1].xx );
-          vec4i<t> tmp3( m[1], m[1] );
-          vec4i<t> tmp4( mat[0].yy, mat[1].yy );
-          vec4i<t> res = tmp1 * tmp2 + tmp3 * tmp4;
-          m[0] = res.xy;
-          m[1] = res.zw;
+        {       
+          vec2i<t> tmp1 = m[0];
+          vec2i<t> tmp2 = m[1];
+          m[0] = mm::fma(mat[0].xx, tmp1, mat[0].yy * tmp2);
+          m[1] = mm::fma(mat[1].xx, tmp1, mat[1].yy * tmp2);
 
           return *this;
         }
