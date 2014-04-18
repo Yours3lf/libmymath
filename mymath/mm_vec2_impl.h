@@ -70,7 +70,7 @@ namespace mymath
       protected:
 
       public:
-#ifndef _WIN32
+#ifdef __GNUC__  //g++
 #pragma GCC diagnostic ignored "-pedantic"
 #endif
         union
@@ -94,7 +94,7 @@ namespace mymath
 
           ty v[2];
         };
-#ifndef _WIN32
+#ifdef __GNUC__  //g++
 #pragma GCC diagnostic pop
 #endif
 
@@ -115,13 +115,6 @@ namespace mymath
         {
           assert( num < 2 && this );
           return v[num];
-        }
-
-        const vec2i& operator= ( const vec2i& other )
-        {
-          x = other.x;
-          y = other.y;
-          return *this;
         }
 
         const vec2i& operator*= ( const vec2i& vec )

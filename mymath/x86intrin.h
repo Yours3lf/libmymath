@@ -24,8 +24,10 @@
 #ifndef _X86INTRIN_H_INCLUDED
 #define _X86INTRIN_H_INCLUDED
 
-#ifndef _WIN32 //modified here
+#ifndef _MSC_VER //msvc++ //modified here
+#ifndef __clang__ //clang
 #include <ia32intrin.h>
+#endif
 #endif
 
 #ifdef __MMX__

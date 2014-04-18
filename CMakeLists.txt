@@ -17,7 +17,7 @@ project(${project_name})
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set( use_32_bit false )
-set( use_new_gcc true )
+set( use_new_gcc false )
 set( use_explicit_sse2 true )
 
 #32 bits
@@ -121,4 +121,4 @@ if(UNIX)
 	${CMAKE_SOURCE_DIR}/mymath/mymat.h)
 endif()
 
-target_link_libraries(${project_name} ${${project_name}_external_libs})
+#target_link_libraries(${project_name} ${${project_name}_external_libs})

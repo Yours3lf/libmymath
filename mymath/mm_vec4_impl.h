@@ -333,7 +333,7 @@ namespace mymath
       protected:
 
       public:
-#ifndef _WIN32
+#ifdef __GNUC__  //g++
 #pragma GCC diagnostic ignored "-pedantic"
 #endif
         union
@@ -357,7 +357,7 @@ namespace mymath
 
           ty v[4];
         };
-#ifndef _WIN32
+#ifdef __GNUC__  //g++
 #pragma GCC diagnostic pop
 #endif
 
@@ -384,15 +384,6 @@ namespace mymath
         {
           assert( num < 4 && this );
           return v[num];
-        }
-
-        const vec4i& operator= ( const vec4i& other )
-        {
-          x = other.x;
-          y = other.y;
-          z = other.z;
-          w = other.w;
-          return *this;
         }
 
         const vec4i& operator*= ( const vec4i& vec )
@@ -510,7 +501,7 @@ namespace mymath
           return tmp;
         }
 
-        const unsigned int lenght() const
+        const unsigned int length() const
         {
           return 4;
         }
