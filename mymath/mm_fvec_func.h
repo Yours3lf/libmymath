@@ -943,7 +943,7 @@ namespace mymath
     const vec3i<float>& vec3i<float>::swizzle<a, b, c, dd>::operator/=( const vec3i<float>& vec )
     {
       assert( notEqual( vec, vec3i<float>( 0 ) ) );
-      vec4i<float>* tmp = (vec4i<float>*)this;
+      vec3i<float>* tmp = (vec3i<float>*)this;
       tmp->d = _mm_div_ps( tmp->d, vec.d );
       return *( vec3i<float>* )this;
     }
@@ -952,28 +952,32 @@ namespace mymath
     const vec4i<float>& vec4i<float>::swizzle<a, b, c, dd>::operator/=( const vec4i<float>& vec )
     {
       assert( notEqual( vec, vec4i<float>( 0 ) ) );
-      this->d = _mm_div_ps( this->d, vec.d );
+      vec4i<float>* tmp = (vec4i<float>*)this;
+      tmp->d = _mm_div_ps( tmp->d, vec.d );
       return *( vec4i<float>* )this;
     }
 
     const vec2i<float>& vec2i<float>::operator/=( const vec2i<float>& vec )
     {
       assert( notEqual( vec, vec2i<float>( 0 ) ) );
-      this->d = _mm_div_ps( this->d, vec.d );
+      vec2i<float>* tmp = (vec2i<float>*)this;
+      tmp->d = _mm_div_ps( tmp->d, vec.d );
       return *this;
     }
 
     const vec3i<float>& vec3i<float>::operator/=( const vec3i<float>& vec )
     {
       assert( notEqual( vec, vec3i<float>( 0 ) ) );
-      d = _mm_div_ps( d, vec.d );
+      vec3i<float>* tmp = (vec3i<float>*)this;
+      tmp->d = _mm_div_ps( tmp->d, vec.d );
       return *this;
     }
 
     const vec4i<float>& vec4i<float>::operator/=( const vec4i<float>& vec )
     {
       assert( notEqual( vec, vec4i<float>( 0 ) ) );
-      d = _mm_div_ps( d, vec.d );
+      vec4i<float>* tmp = (vec4i<float>*)this;
+      tmp->d = _mm_div_ps( tmp->d, vec.d );
       return *this;
     }
   }

@@ -142,7 +142,7 @@ int main( int argc, char** args )
 
   double freq = 2.66e+9;
 
-  /**/
+  /**
   //benchmarks
   mat4 m;
   vec4 v;
@@ -216,6 +216,7 @@ int main( int argc, char** args )
   a.xy += a.xy;
   a.xy -= a.xy;
 
+  a = vec2(1);
   cout << a.xx
        << a.xxx
        << a.yxx
@@ -262,6 +263,7 @@ int main( int argc, char** args )
   aa.xyz += aa.xyz;
   aa.xyz -= aa.xyz;
 
+  aa = vec3(1);
   cout << aa.xxx
        << aa.yxx
        << aa.xyx
@@ -274,6 +276,7 @@ int main( int argc, char** args )
   aa.xy += aa.xy;
   aa.xy -= aa.xy;
 
+  aa = vec3(1);
   cout << aa.xxxx
        << aa.yxxx
        << aa.xyxx
@@ -286,6 +289,79 @@ int main( int argc, char** args )
        << aa.xyzx
        << aa.xyzy
        << aa.xyyz;
+
+  /*
+   * vec4 tests
+   */
+
+  cout << vec4(1, 2, 3, 4)
+       << vec4(vec3(1, 2, 3), 4)
+       << vec4(1, vec3(2, 3, 4))
+       << vec4(vec2(1, 2), vec2(3, 4))
+       << vec4(vec2(1, 2), 3, 4)
+       << vec4(1, vec2(2, 3), 4)
+       << vec4(1, 2, vec2(3, 4))
+       << vec4(1)
+       << vec4();
+
+  vec4 aaa;
+  aaa[0] = 1;
+
+  aaa *= vec4();
+  aaa /= vec4();
+  aaa += vec4();
+  aaa -= vec4();
+  aaa %= vec4();
+  aaa &= vec4();
+  aaa ^= vec4();
+  aaa |= vec4();
+  ++aaa;
+  aaa++;
+  --aaa;
+  aaa--;
+
+  cout << aaa.length() << endl;
+
+  aaa.xwyz = aaa.ywzx;
+  aaa.xwyz *= aaa.xwzy;
+  aaa.xywz /= aaa.xzwy;
+  aaa.xyzw += aaa.xywz;
+  aaa.xyzw -= aaa.xyzw;
+
+  cout << aaa.xxxx
+       << aaa.yxxx
+       << aaa.xyxx
+       << aaa.xxyx
+       << aaa.xxxy
+       << aaa.xyzz
+       << aaa.xzyz
+       << aaa.xyyz
+       << aaa.xxx
+       << aaa.yxx
+       << aaa.xyx
+       << aaa.xxy
+       << aaa.xyz;
+
+  aaa.xyz = aaa.xzy;
+  aaa.xyz *= aaa.zyx;
+  aaa.xyz /= aaa.xzy;
+  aaa.xyz += aaa.xyz;
+  aaa.xyz -= aaa.xyz;
+
+  cout << aaa.xx;
+
+  aaa.xy = aaa.yx;
+  aaa.xy *= aaa.zy;
+  aaa.xy /= aaa.zy;
+  aaa.xy += aaa.zy;
+  aaa.xy -= aaa.zy;
+
+  new vec2;
+  new vec3;
+  new vec4;
+  new mat2;
+  new mat3;
+  new mat4;
 
   return 0;
 }
