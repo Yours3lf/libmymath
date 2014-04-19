@@ -16,17 +16,21 @@ project(${project_name})
 #so that it talks to us
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-set( use_32_bit false )
+set( use_32_bit true )
 set( use_new_gcc false )
 set( use_explicit_sse2 true )
+set( use_fma false )
+set( use_force_inline true )
 
 #32 bits
 if( use_32_bit )
+  message("With 32 bit")
 	set(CMAKE_CXX_FLAGS "-m32") #compile, link, etc. with 32 bits
 	set(CMAKE_C_FLAGS "-m32")
 	set(CMAKE_SHARED_LINKER_FLAGS "-m32")
 	add_definitions("-march=i686") #go with generic 32 bits
 else()
+  message("With 64 bit")
 	add_definitions("-march=x86-64") #go with generic 64 bits
 endif()
 
@@ -36,6 +40,16 @@ if( use_explicit_sse2 )
 	message("With sse2")
 	add_definitions("-DMYMATH_USE_SSE2") #go with our tinkering
 	add_definitions("-msse3") #need this for explicit sse intrinsics
+endif()
+
+if( use_fma )
+  message("With fma")
+  add_definitions("-DMYMATH_USE_FMA")
+endif()
+
+if( use_force_inline )
+  message("With force inline")
+  add_definitions("-DMYMATH_FORCE_INLINE")
 endif()
 
 #gcc/4.8.2/bin/gcc
@@ -83,8 +97,8 @@ if(WIN32)
 endif()
 
 if(UNIX)
-	#set(${project_name}_external_libs sfml-window sfml-system sfml-graphics GLEW GL tbb gsl gslcblas)
-	set(${project_name}_external_libs sfml-system)
+  set(${project_name}_external_libs sfml-window sfml-system sfml-graphics GLEW GL tbb gsl gslcblas)
+  #set(${project_name}_external_libs sfml-system)
 endif()
 
 if(WIN32)
@@ -121,4 +135,4 @@ if(UNIX)
 	${CMAKE_SOURCE_DIR}/mymath/mymat.h)
 endif()
 
-#target_link_libraries(${project_name} ${${project_name}_external_libs})
+target_link_libraries(${project_name} ${${project_name}_external_libs})

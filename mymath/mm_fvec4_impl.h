@@ -1,5 +1,5 @@
-#ifndef mm_vec4_impl_h
-#define mm_vec4_impl_h
+#ifndef mm_fvec4_impl_h
+#define mm_fvec4_impl_h
 
 #include "mm_common.h"
 #include "mm_fvec2_impl.h"
@@ -349,7 +349,8 @@ namespace mymath
 #endif
         vec4i( const float& num ) { d = _mm_set1_ps(num); }
         vec4i( const __m128& num ) : d( num ) {}
-        vec4i() { d = impl::zero; }
+        //vec4i() { d = impl::zero; }
+        vec4i(){}
 
         float& operator[]( const unsigned int& num )
         {

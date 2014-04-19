@@ -137,12 +137,12 @@ int main( int argc, char** args )
 {
   using namespace mymath;
   using namespace std;
-  
+
   srand(time(0));
 
   double freq = 2.66e+9;
 
-  /**
+  /**/
   //benchmarks
   mat4 m;
   vec4 v;
@@ -227,11 +227,65 @@ int main( int argc, char** args )
        << a.xxyx
        << a.yyxx;
 
+  cout << endl;
+
   /*
    * vec3 tests
    */
 
-  //to be continued
+  cout << vec3(1, 2, 3)
+       << vec3(vec2(1, 2), 3)
+       << vec3(1, vec2(2, 3))
+       << vec3(1)
+       << vec3();
+
+  vec3 aa;
+  aa[0] = 1;
+
+  aa *= vec3();
+  aa /= vec3(1);
+  aa += vec3();
+  aa -= vec3();
+  aa %= vec3();
+  aa &= vec3();
+  aa ^= vec3();
+  aa |= vec3();
+  ++aa;
+  aa++;
+  --aa;
+  aa--;
+  cout << aa.length() << endl;
+
+  aa.xyz = aa.xyz;
+  aa.xyz *= aa.xyz;
+  aa.xyz /= vec3(1).xyz;
+  aa.xyz += aa.xyz;
+  aa.xyz -= aa.xyz;
+
+  cout << aa.xxx
+       << aa.yxx
+       << aa.xyx
+       << aa.xxy
+       << aa.xx;
+
+  aa.xy = aa.xy;
+  aa.xy *= aa.xy;
+  aa.xy /= vec2(1).xy;
+  aa.xy += aa.xy;
+  aa.xy -= aa.xy;
+
+  cout << aa.xxxx
+       << aa.yxxx
+       << aa.xyxx
+       << aa.xxyx
+       << aa.xxxy
+       << aa.xxyy
+       << aa.xyyx
+       << aa.xyzz
+       << aa.xxyz
+       << aa.xyzx
+       << aa.xyzy
+       << aa.xyyz;
 
   return 0;
 }

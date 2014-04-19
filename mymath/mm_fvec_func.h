@@ -1,5 +1,5 @@
-#ifndef mm_vec_func_h
-#define mm_vec_func_h
+#ifndef mm_fvec_func_h
+#define mm_fvec_func_h
 
 #include "mm_common.h"
 #include "mm_sse.h"
@@ -943,7 +943,8 @@ namespace mymath
     const vec3i<float>& vec3i<float>::swizzle<a, b, c, dd>::operator/=( const vec3i<float>& vec )
     {
       assert( notEqual( vec, vec3i<float>( 0 ) ) );
-      this->d = _mm_div_ps( this->d, vec.d );
+      vec4i<float>* tmp = (vec4i<float>*)this;
+      tmp->d = _mm_div_ps( tmp->d, vec.d );
       return *( vec3i<float>* )this;
     }
 

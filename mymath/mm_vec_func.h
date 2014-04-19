@@ -3,6 +3,10 @@
 
 #include "mm_common.h"
 
+#include "mm_vec2_impl.h"
+#include "mm_vec3_impl.h"
+#include "mm_vec4_impl.h"
+
 namespace mymath
 {
   //equal
@@ -23,11 +27,15 @@ namespace mymath
   MYMATH_INLINE bool notEqual( const impl::vec4i<t>& a, const impl::vec4i<t>& b ) \
   { return !equal( a, b ); }
 
+#ifndef MYMATH_USE_SSE2
   MYMATH_EQUAL_FUNC( float )
+#endif
   MYMATH_EQUAL_FUNC( int )
   MYMATH_EQUAL_FUNC( unsigned int )
 
+#ifndef MYMATH_USE_SSE2
   MYMATH_NOTEQUAL_FUNC( float )
+#endif
   MYMATH_NOTEQUAL_FUNC( int )
   MYMATH_NOTEQUAL_FUNC( unsigned int )
 }
@@ -146,23 +154,30 @@ namespace mymath
   MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::vec4i<t>& vec ) \
   { return output << "( " << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << " )\n"; }
 
-
+#ifndef MYMATH_USE_SSE2
 MYMATH_OPERATORMUL_FUNC( float )
+#endif
 MYMATH_OPERATORMUL_FUNC( double )
 MYMATH_OPERATORMUL_FUNC( int )
 MYMATH_OPERATORMUL_FUNC( unsigned int )
 
+#ifndef MYMATH_USE_SSE2
 MYMATH_OPERATORDIV_FUNC( float )
+#endif
 MYMATH_OPERATORDIV_FUNC( double )
 MYMATH_OPERATORDIV_FUNC( int )
 MYMATH_OPERATORDIV_FUNC( unsigned int )
 
+#ifndef MYMATH_USE_SSE2
 MYMATH_OPERATORPLUS_FUNC( float )
+#endif
 MYMATH_OPERATORPLUS_FUNC( double )
 MYMATH_OPERATORPLUS_FUNC( int )
 MYMATH_OPERATORPLUS_FUNC( unsigned int )
 
+#ifndef MYMATH_USE_SSE2
 MYMATH_OPERATORMINUS_FUNC( float )
+#endif
 MYMATH_OPERATORMINUS_FUNC( double )
 MYMATH_OPERATORMINUS_FUNC( int )
 MYMATH_OPERATORMINUS_FUNC( unsigned int )
@@ -171,7 +186,9 @@ MYMATH_OPERATORMINUS_FUNC( unsigned int )
 #pragma warning( push )
 #pragma warning( disable : 4244 )
 #endif
+#ifndef MYMATH_USE_SSE2
 MYMATH_OPERATORMOD_FUNC( float )
+#endif
 MYMATH_OPERATORMOD_FUNC( double )
 MYMATH_OPERATORMOD_FUNC( int )
 MYMATH_OPERATORMOD_FUNC( unsigned int )
@@ -180,36 +197,50 @@ MYMATH_OPERATORMOD_FUNC( unsigned int )
 #pragma warning( disable : 4244 )
 #endif
 
+#ifndef MYMATH_USE_SSE2
 MYMATH_OPERATORBITLEFT_FUNC( float )
+#endif
 MYMATH_OPERATORBITLEFT_FUNC( double )
 MYMATH_OPERATORBITLEFT_FUNC( int )
 MYMATH_OPERATORBITLEFT_FUNC( unsigned int )
 
+#ifndef MYMATH_USE_SSE2
 MYMATH_OPERATORBITRIGHT_FUNC( float )
+#endif
 MYMATH_OPERATORBITRIGHT_FUNC( double )
 MYMATH_OPERATORBITRIGHT_FUNC( int )
 MYMATH_OPERATORBITRIGHT_FUNC( unsigned int )
 
+#ifndef MYMATH_USE_SSE2
 MYMATH_OPERATORBITAND_FUNC( float )
+#endif
 MYMATH_OPERATORBITAND_FUNC( double )
 MYMATH_OPERATORBITAND_FUNC( int )
 MYMATH_OPERATORBITAND_FUNC( unsigned int )
 
+#ifndef MYMATH_USE_SSE2
 MYMATH_OPERATORBITXOR_FUNC( float )
+#endif
 MYMATH_OPERATORBITXOR_FUNC( double )
 MYMATH_OPERATORBITXOR_FUNC( int )
 MYMATH_OPERATORBITXOR_FUNC( unsigned int )
 
+#ifndef MYMATH_USE_SSE2
 MYMATH_OPERATORBITOR_FUNC( float )
+#endif
 MYMATH_OPERATORBITOR_FUNC( double )
 MYMATH_OPERATORBITOR_FUNC( int )
 MYMATH_OPERATORBITOR_FUNC( unsigned int )
 
+#ifndef MYMATH_USE_SSE2
 MYMATH_NEGATE_FUNC( float )
+#endif
 MYMATH_NEGATE_FUNC( double )
 MYMATH_NEGATE_FUNC( int )
 
+#ifndef MYMATH_USE_SSE2
 MYMATH_COUT_FUNC( float )
+#endif
 MYMATH_COUT_FUNC( double )
 MYMATH_COUT_FUNC( int )
 MYMATH_COUT_FUNC( unsigned int )
@@ -526,6 +557,7 @@ namespace mymath
   { return impl::vec3i<t>( a.y * b.z - b.y * a.z, -( a.x * b.z ) + b.x * a.z, a.x * b.y - b.x * a.y ); }
 
   //Trigonometric functions, only vecn and float is required
+  #ifndef MYMATH_USE_SSE2
   MYMATH_STD_VEC_FUNC( sin, float )
 
   MYMATH_STD_VEC_FUNC( cos, float )
@@ -562,113 +594,174 @@ namespace mymath
   MYMATH_STD_VEC_FUNC( log, float )
 
   MYMATH_STD_VEC_FUNC( sqrt, float )
+  #endif
   MYMATH_STD_VEC_FUNC( sqrt, double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_EXP2_FUNC( float )
 
   MYMATH_LOG2_FUNC( float )
 
   MYMATH_INVERSESQRT_FUNC( float )
+  #endif
   MYMATH_INVERSESQRT_FUNC( double )
 
   //Common functions, float, double, vecn and dvecn is required
+  #ifndef MYMATH_USE_SSE2
   MYMATH_STD_VEC_FUNC( abs, float )
+  #endif
   MYMATH_STD_VEC_FUNC( abs, double )
   MYMATH_STD_VEC_FUNC( abs, int )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_STD_VEC_FUNC( floor, float )
+  #endif
   MYMATH_STD_VEC_FUNC( floor, double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_STD_VEC_FUNC( ceil, float )
+  #endif
   MYMATH_STD_VEC_FUNC( ceil, double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_STD_2_VEC_FUNC( min, float )
+  #endif
   MYMATH_STD_2_VEC_FUNC( min, double )
   MYMATH_STD_2_VEC_FUNC( min, int )
   MYMATH_STD_2_VEC_FUNC( min, unsigned int )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_STD_2_VEC_FUNC( max, float )
+  #endif
   MYMATH_STD_2_VEC_FUNC( max, double )
   MYMATH_STD_2_VEC_FUNC( max, int )
   MYMATH_STD_2_VEC_FUNC( max, unsigned int )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_LESSTHAN_FUNC( float )
+  #endif
   MYMATH_LESSTHAN_FUNC( int )
   MYMATH_LESSTHAN_FUNC( unsigned int )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_GREATERTHAN_FUNC( float )
+  #endif
   MYMATH_GREATERTHAN_FUNC( int )
   MYMATH_GREATERTHAN_FUNC( unsigned int )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_LESSTHANEQUAL_FUNC( float )
+  #endif
   MYMATH_LESSTHANEQUAL_FUNC( int )
   MYMATH_LESSTHANEQUAL_FUNC( unsigned int )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_GREATERTHANEQUAL_FUNC( float )
+  #endif
   MYMATH_GREATERTHANEQUAL_FUNC( int )
   MYMATH_GREATERTHANEQUAL_FUNC( unsigned int )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_SIGN_FUNC( float )
+  #endif
   MYMATH_SIGN_FUNC( double )
   MYMATH_SIGN_FUNC( int )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_TRUNC_FUNC( float )
+  #endif
   MYMATH_TRUNC_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_ROUND_FUNC( float )
+  #endif
   MYMATH_ROUND_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_FRACT_FUNC( float )
+  #endif
   MYMATH_FRACT_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_MOD_FUNC( float )
+  #endif
   MYMATH_MOD_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_MIX_FUNC( float )
+  #endif
   MYMATH_MIX_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_STEP_FUNC( float )
+  #endif
   MYMATH_STEP_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_CLAMP_FUNC( float )
+  #endif
   MYMATH_CLAMP_FUNC( double )
   MYMATH_CLAMP_FUNC( int )
   MYMATH_CLAMP_FUNC( unsigned int )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_SMOOTHSTEP_FUNC( float )
+  #endif
   MYMATH_SMOOTHSTEP_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_FMA_FUNC( float )
+  #endif
   MYMATH_FMA_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_DOT_FUNC( float )
+  #endif
   MYMATH_DOT_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_LENGTH_FUNC( float )
+  #endif
   MYMATH_LENGTH_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_DISTANCE_FUNC( float )
+  #endif
   MYMATH_DISTANCE_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_NORMALIZE_FUNC( float )
+  #endif
   MYMATH_NORMALIZE_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_REFLECT_FUNC( float )
+  #endif
   MYMATH_REFLECT_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_REFRACT_FUNC( float )
+  #endif
   MYMATH_REFRACT_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_FACEFORWARD_FUNC( float )
+  #endif
   MYMATH_FACEFORWARD_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_ISNAN_FUNC( float )
+  #endif
   MYMATH_ISNAN_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_ISINF_FUNC( float )
+  #endif
   MYMATH_ISINF_FUNC( double )
 
+  #ifndef MYMATH_USE_SSE2
   MYMATH_CROSS_FUNC( float )
+  #endif
   MYMATH_CROSS_FUNC( double )
 
   namespace impl

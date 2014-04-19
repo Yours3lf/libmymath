@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <assert.h>
 
-#define MYMATH_USE_SSE2
+//#define MYMATH_USE_SSE2
 //#define MYMATH_USE_FMA
 //#define MYMATH_FORCE_INLINE
 

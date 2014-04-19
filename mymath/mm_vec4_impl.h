@@ -1,5 +1,5 @@
-#ifndef mm_vec4i_impl_h
-#define mm_vec4i_impl_h
+#ifndef mm_vec4_impl_h
+#define mm_vec4_impl_h
 
 #include "mm_common.h"
 #include "mm_vec2_impl.h"

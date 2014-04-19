@@ -331,7 +331,7 @@ int main( int argc, char* args[] )
 
 #endif
 
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, screen.x, screen.y, 0, GL_RGBA, GL_FLOAT, &tex[0][0] );
+    glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, screen.x, screen.y, GL_RGBA, GL_FLOAT, &tex[0][0] );
 
     /*
      * DRAW RESULT
