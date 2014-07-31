@@ -1,8 +1,20 @@
 #ifndef mm_mat4_impl_h
 #define mm_mat4_impl_h
 
+//class declaration only
+namespace mymath
+{
+  namespace impl
+  {
+    template< typename t >
+    class MYMATH_GPU_ALIGNED mat4i;
+  }
+}
+
 #include "mm_vec4_impl.h"
 #include "mm_vec_func.h"
+
+#include "mm_mat3_impl.h"
 
 namespace mymath
 {
@@ -34,6 +46,14 @@ namespace mymath
           m[1] = vec4i<t>( m4, m5, m6, m7 );
           m[2] = vec4i<t>( m8, m9, m10, m11 );
           m[3] = vec4i<t>( m12, m13, m14, m15 );
+        }
+
+        mat4i(const mat3i<t>& mat)
+        {
+        	m[0] = vec4i<t>(mat[0], 0);
+        	m[1] = vec4i<t>(mat[1], 0);
+        	m[2] = vec4i<t>(mat[2], 0);
+        	m[3] = vec4i<t>(0, 0, 0, 1);
         }
 
         // 1 column per vector
