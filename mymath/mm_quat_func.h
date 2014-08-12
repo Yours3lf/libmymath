@@ -26,13 +26,13 @@ namespace mymath
   template<typename ty>
   impl::quati<ty> conjugate(const impl::quati<ty>& q)
   {
-	return impl::vec4i < ty > (-1 * q.vector(), q.scalar());
+	return impl::vec4i<ty>(-1 * q.vector(), q.scalar());
   }
 
   template<typename ty>
   impl::quati<ty> inverse(const impl::quati<ty>& q)
   {
-	return impl::quati < ty > (conjugate(q) / dot(q.value, q.value));
+	return impl::quati<ty>(conjugate(q) / dot(q.value, q.value));
 
 	//return conjugate(q);
   }
@@ -56,6 +56,23 @@ namespace mymath
   }
 
   template<typename ty>
+  ty norm(const impl::quati<ty>& q)
+  {
+	return length(q.value);
+  }
+
+  template<typename ty>
+  impl::quati<ty> pow(const impl::quati<ty>& q, const ty& power)
+  {
+	impl::vec3i<ty> vec_normal = normalize(q.vector());
+	ty norm_raised_to_pow = std::pow(norm(q), power);
+	ty theta = std::acos(q.scalar()/norm(q));
+
+	return impl::quati<ty>(vec_normal*norm_raised_to_pow*std::sin(power*theta),
+		norm_raised_to_pow*std::cos(power*theta));
+  }
+
+  template<typename ty>
   impl::mat3i<ty> mat3_cast(const impl::quati<ty>& q)
   {
 	impl::mat3i<ty> m;
@@ -75,10 +92,14 @@ namespace mymath
   template<typename ty>
   impl::mat4i<ty> mat4_cast(const impl::quati<ty>& q)
   {
-	return impl::mat4i < ty > (mat3_cast<ty>(q));
+	return impl::mat4i<ty>(mat3_cast<ty>(q));
   }
 
-//TODO function: mix() - SLERP
+  template<typename ty>
+  impl::quati<ty> mix(const impl::quati<ty>& q1, const impl::quati<ty>& q2, const ty& t)
+  {
+	return q1*pow((inverse(q1)*q2), t);
+  }
 
   template<typename ty>
   impl::quati<ty> normalize(const impl::quati<ty>& q)
