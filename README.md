@@ -16,6 +16,9 @@ Mymath contains 2, 3, and 4 component vector classes and many functions using th
 Mymath is based on the math3d library and contains similar functions. However these functions are modernized, and even some new functions are included. The similarity in the 2.0+ versions is minimal.
 
 Some important things to mention:
- -matrices are stored in COLUMN-MAJOR order (compatible with OpenGL) see: http://en.wikipedia.org/wiki/Column-major_order#Column-major_order
- -vectors are COLUMN-MAJOR vectors
- -all functions use RADIANS, if you need to convert use radians() or degrees()
+- matrices are stored in COLUMN-MAJOR order (compatible with OpenGL) see: http://en.wikipedia.org/wiki/Column-major_order#Column-major_order
+- vectors are COLUMN-MAJOR vectors
+- all functions use RADIANS, if you need to convert use radians() or degrees()
+
+Contributors:
+Artur Kovacs
