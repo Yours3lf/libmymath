@@ -176,6 +176,8 @@ namespace mymath
                            -plane_eq[3] * -light_pos[0], plane_eq[3] * light_pos[1], -plane_eq[3] * -light_pos[2], plane_eq[0] * -light_pos[0] + plane_eq[1] * -light_pos[1] + plane_eq[2] * -light_pos[2] ); \
   }
 
+  MYMATH_UNPROJECT_FUNC( float )
+  
   MYMATH_CREATEROTATION_FUNC( float )
 
   MYMATH_CREATESCALE_FUNC( float )
