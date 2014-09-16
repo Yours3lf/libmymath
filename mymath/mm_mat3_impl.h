@@ -13,8 +13,9 @@ namespace mymath
 
 #include "mm_vec3_impl.h"
 #include "mm_vec_func.h"
-
 #include "mm_mat4_impl.h"
+
+#include "mm_quat_func.h"
 
 namespace mymath
 {
@@ -47,9 +48,18 @@ namespace mymath
 
         mat3i(const mat4i<t>& mat)
         {
-        	m[0] = mat[0].xyz;
-        	m[1] = mat[1].xyz;
-        	m[2] = mat[2].xyz;
+          m[0] = mat[0].xyz;
+          m[1] = mat[1].xyz;
+          m[2] = mat[2].xyz;
+        }
+
+        mat3i(const quati<t>& q)
+        {
+          const mat3i<t> other = mat3_cast(q);
+          for(int i = 0; i < 3; ++i)
+          {
+            m[i] = other[i];
+          }
         }
 
         // 1 column per vector
