@@ -327,6 +327,9 @@ namespace mymath
   {
     assert( determinant( mat ) != 0 );
 
+    impl::vec4i<t> pmpm = MYMATH_SSE_SETTER(1, -1, 1, -1);
+    impl::vec4i<t> mpmp = MYMATH_SSE_SETTER(-1, 1, -1, 1);
+
     mat4 m = transpose(mat);
 
     impl::vec4i<t> shf0yxxx = m[0].yxxx;
@@ -345,64 +348,57 @@ namespace mymath
     impl::vec4i<t> shf3wwwz = m[3].wwwz;
     impl::vec4i<t> shf3zzyy = m[3].zzyy;
 
-    impl::vec4i<t> atmp1 = shf0yxxx * shf1zzyy * shf2wwwz;
-    impl::vec4i<t> atmp2 = shf0wwwz * shf1yxxx * shf2zzyy;
-    impl::vec4i<t> atmp3 = shf0zzyy * shf1wwwz * shf2yxxx;
-    impl::vec4i<t> atmp4 = shf0wwwz * shf1zzyy * shf2yxxx;
-    impl::vec4i<t> atmp5 = shf0zzyy * shf1yxxx * shf2wwwz;
-    impl::vec4i<t> atmp6 = shf0yxxx * shf1wwwz * shf2zzyy;
+    impl::vec4i<t> mul0 = shf0zzyy * shf1wwwz; 
+    impl::vec4i<t> mul1 = shf0yxxx * shf1wwwz; 
 
-    impl::vec4i<t> atmp7 = atmp1 + atmp2 + atmp3;
-    impl::vec4i<t> atmp8 = atmp4 + atmp5 + atmp6;
+    impl::vec4i<t> mul2 = shf2wwwz * shf3yxxx; 
+    impl::vec4i<t> mul3 = shf2wwwz * shf3zzyy; 
 
-    impl::vec4i<t> pmpm = MYMATH_SSE_SETTER(1, -1, 1, -1);
-    impl::vec4i<t> mpmp = MYMATH_SSE_SETTER(-1, 1, -1, 1);
+    impl::vec4i<t> mul4 = shf0yxxx * shf1zzyy; 
+    impl::vec4i<t> mul5 = shf0wwwz * shf1zzyy; 
+
+    impl::vec4i<t> mul6 = shf0wwwz * shf1yxxx; 
+    impl::vec4i<t> mul7 = shf0zzyy * shf1yxxx; 
+
+    impl::vec4i<t> atmp3 = mul0 * shf2yxxx;
+    impl::vec4i<t> atmp6 = mul1 * shf2zzyy;
+
+    impl::vec4i<t> atmp12 = mul0 * shf3yxxx;
+    impl::vec4i<t> atmp15 = mul1 * shf3zzyy;
+
+    impl::vec4i<t> atmp21 = shf0zzyy * mul2;
+    impl::vec4i<t> atmp24 = shf0yxxx * shf2wwwz * shf3zzyy;
+
+    impl::vec4i<t> atmp30 = shf1zzyy * mul2;
+    impl::vec4i<t> atmp33 = shf1yxxx * shf2wwwz * shf3zzyy;
+
+    impl::vec4i<t> atmp7 = fma( mul4, shf2wwwz, fma( mul6, shf2zzyy, atmp3 ) );
+    impl::vec4i<t> atmp8 = fma( mul5, shf2yxxx, fma( mul7, shf2wwwz, atmp6 ) );
+
+    impl::vec4i<t> atmp16 = fma( mul4, shf3wwwz, fma( mul6, shf3zzyy, atmp12 ) );
+    impl::vec4i<t> atmp17 = fma( mul5, shf3yxxx, fma( mul7, shf3wwwz, atmp15 ) );
+
+    impl::vec4i<t> atmp25 = fma( shf0yxxx * shf2zzyy, shf3wwwz, fma( shf0wwwz * shf2yxxx, shf3zzyy, atmp21 ) );
+    impl::vec4i<t> atmp26 = fma( shf0wwwz * shf2zzyy, shf3yxxx, fma( shf0zzyy * shf2yxxx, shf3wwwz, atmp24 ) );
+
+    impl::vec4i<t> atmp34 = fma( shf1yxxx * shf2zzyy, shf3wwwz, fma( shf1wwwz * shf2yxxx, shf3zzyy, atmp30 ) );
+    impl::vec4i<t> atmp35 = fma( shf1wwwz * shf2zzyy, shf3yxxx, fma( shf1zzyy * shf2yxxx, shf3wwwz, atmp33 ) );
 
     //dhlp
     impl::vec4i<t> atmp9 = (atmp7 - atmp8) * mpmp;
 
-    impl::vec4i<t> atmp10 = shf0yxxx * shf1zzyy * shf3wwwz;
-    impl::vec4i<t> atmp11 = shf0wwwz * shf1yxxx * shf3zzyy;
-    impl::vec4i<t> atmp12 = shf0zzyy * shf1wwwz * shf3yxxx;
-    impl::vec4i<t> atmp13 = shf0wwwz * shf1zzyy * shf3yxxx;
-    impl::vec4i<t> atmp14 = shf0zzyy * shf1yxxx * shf3wwwz;
-    impl::vec4i<t> atmp15 = shf0yxxx * shf1wwwz * shf3zzyy;
-
-    impl::vec4i<t> atmp16 = atmp10 + atmp11 + atmp12;
-    impl::vec4i<t> atmp17 = atmp13 + atmp14 + atmp15;
-
     //cgko
-    impl::vec4i<t> atmp18 = (atmp16 - atmp17) * pmpm;
-
-    impl::vec4i<t> atmp19 = shf0yxxx * shf2zzyy * shf3wwwz;
-    impl::vec4i<t> atmp20 = shf0wwwz * shf2yxxx * shf3zzyy;
-    impl::vec4i<t> atmp21 = shf0zzyy * shf2wwwz * shf3yxxx;
-    impl::vec4i<t> atmp22 = shf0wwwz * shf2zzyy * shf3yxxx;
-    impl::vec4i<t> atmp23 = shf0zzyy * shf2yxxx * shf3wwwz;
-    impl::vec4i<t> atmp24 = shf0yxxx * shf2wwwz * shf3zzyy;
-
-    impl::vec4i<t> atmp25 = atmp19 + atmp20 + atmp21;
-    impl::vec4i<t> atmp26 = atmp22 + atmp23 + atmp24;
+    impl::vec4i<t> atmp18 = (atmp16 - atmp17) * pmpm; 
 
     //bfjn
     impl::vec4i<t> atmp27 = (atmp25 - atmp26) * mpmp;
-
-    impl::vec4i<t> atmp28 = shf1yxxx * shf2zzyy * shf3wwwz;
-    impl::vec4i<t> atmp29 = shf1wwwz * shf2yxxx * shf3zzyy;
-    impl::vec4i<t> atmp30 = shf1zzyy * shf2wwwz * shf3yxxx;
-    impl::vec4i<t> atmp31 = shf1wwwz * shf2zzyy * shf3yxxx;
-    impl::vec4i<t> atmp32 = shf1zzyy * shf2yxxx * shf3wwwz;
-    impl::vec4i<t> atmp33 = shf1yxxx * shf2wwwz * shf3zzyy;
-
-    impl::vec4i<t> atmp34 = atmp28 + atmp29 + atmp30;
-    impl::vec4i<t> atmp35 = atmp31 + atmp32 + atmp33;
 
     //aeim
     impl::vec4i<t> atmp36 = (atmp34 - atmp35) * pmpm;
 
     impl::mat4i<t> ret( atmp36, atmp27, atmp18, atmp9 );
 
-    impl::vec4i<t> adet = _mm_rcp_ps( determinant_helper( mat ).d );
+    impl::vec4i<t> adet = _mm_rcp_ps( determinant_helper( m ).d );
 
     ret[0] *= adet;
     ret[1] *= adet;
