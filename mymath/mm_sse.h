@@ -81,6 +81,7 @@ namespace mymath
     static const __m128 atanf_p3 = _mm_set_ps1( -3.33329491539e-1f );
     static const __m128 t3pi08 = _mm_set_ps1( 2.414213562373095f );
     static const __m128 tpi08 = _mm_set_ps1( 0.4142135623730950f );
+    static const __m128 exp2_num = _mm_set1_ps( 0.6931472f );
 
     MYMATH_INLINE __m128 sse_fma_ps( __m128 a, __m128 b, __m128 c )
     {
@@ -163,12 +164,14 @@ namespace mymath
     MYMATH_INLINE __m128 sse_mix_ps( __m128 v1, __m128 v2, __m128 a )
     {
       //v2 * a + (1 - a) * v1
-      __m128 sub0 = _mm_sub_ps( one, a );
-      __m128 mul0 = _mm_mul_ps( v1, sub0 );
+      //__m128 sub0 = _mm_sub_ps( one, a );
+      //__m128 mul0 = _mm_mul_ps( v1, sub0 );
       //__m128 mul1 = _mm_mul_ps( v2, a );
       //__m128 add0 = _mm_add_ps( mul0, mul1 );
       //return add0;
-      return sse_fma_ps( v2, a, mul0 );
+      //v2 * a + v1 - a * v1
+      __m128 tmp0 = sse_fma_ps( sse_neg_ps( a ), v1, v1 );
+      return sse_fma_ps( v2, a, tmp0 );
     }
 
     //TODO sse_nan_ps
@@ -642,7 +645,7 @@ namespace mymath
     MYMATH_INLINE __m128 sse_exp2_ps( __m128 x )
     {
       //2^x
-      return sse_exp_ps( _mm_mul_ps( _mm_set1_ps( 0.6931472f ), x ) );
+      return sse_exp_ps( _mm_mul_ps( exp2_num, x ) );
     }
 
     MYMATH_INLINE __m128 sse_log2_ps( __m128 x )
