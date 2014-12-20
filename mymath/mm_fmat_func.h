@@ -278,44 +278,47 @@ namespace mymath
     return determinant_helper( mat ).x;
   }
 
-  //TODO optimize this
   template< typename t >
   MYMATH_INLINE impl::mat2i<t> inverse( const impl::mat2i<t>& mat )
   {
     assert( determinant( mat ) != 0 );
-    impl::vec4i<t> tmp1 = mat[0].xxxx * impl::vec4i<t>( 0, 0, 0, 1 );
-    impl::vec4i<t> tmp2 = -mat[0].yyyy * impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp3 = -mat[1].xxxx * impl::vec4i<t>( 0, 0, 1, 0 );
-    impl::vec4i<t> tmp4 = mat[1].yyyy * impl::vec4i<t>( 1, 0, 0, 0 );
-    tmp1 = tmp1 + tmp2 + tmp3 + tmp4;
-    impl::vec4i<t> det = impl::vec4i<t>( 1 ) / determinant_helper( mat );
-    return impl::mat2i<t>( tmp1.xy * det.xx, tmp1.zw * det.xx );
+    impl::vec4i<t> tmp1 = _mm_shuffle_ps( mat[0].d, mat[1].d, MYMATH_SHUFFLE(0, 1, 0, 1));
+    impl::vec4i<t> det = _mm_rcp_ps( determinant_helper( mat ).d );
+    tmp1 = tmp1 * MYMATH_SSE_SETTER(1, -1, -1, 1) * det;
+    return impl::mat2i<t>( tmp1.wy, tmp1.zx );
   }
 
-  //TODO optimize this
   template< typename t >
   MYMATH_INLINE impl::mat3i<t> inverse( const impl::mat3i<t>& mat )
   {
     assert( determinant( mat ) != 0 );
 
-    impl::vec4i<t> tmp1 = determinant_helper( impl::mat2i<t>( mat[1].yz, mat[2].yz ) ) * impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp2 = -determinant_helper( impl::mat2i<t>( mat[0].yz, mat[2].yz ) ) * impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp3 = determinant_helper( impl::mat2i<t>( mat[0].yz, mat[1].yz ) ) * impl::vec4i<t>( 0, 0, 1, 0 );
-    tmp1 = tmp1 + tmp2 + tmp3;
+    impl::vec4i<t> atmp2 = mat[1].zzyy * mat[2].yxxy;
+    //ebb * iif - hhe * fcc
+    impl::vec4i<t> atmp1 = impl::sse_fms_ps( impl::vec4i<t>(mat[1].yxxy).d, impl::vec4i<t>(mat[2].zzyy).d, atmp2.d );
 
-    impl::vec4i<t> tmp4 = -determinant_helper( impl::mat2i<t>( mat[1].xz, mat[2].xz ) ) * impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp5 = determinant_helper( impl::mat2i<t>( mat[0].xz, mat[2].xz ) ) * impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp6 = -determinant_helper( impl::mat2i<t>( mat[0].xz, mat[1].xz ) ) * impl::vec4i<t>( 0, 0, 1, 0 );
-    tmp4 = tmp4 + tmp5 + tmp6;
+    impl::vec4i<t> atmp4 = mat[0].zzyy * mat[2].yxxy;
+    //daa * fii - ggd * fcc
+    impl::vec4i<t> atmp3 = impl::sse_fms_ps( impl::vec4i<t>(mat[0].yxxy).d,  impl::vec4i<t>(mat[2].yzzy).d, atmp4.d );
+    
+    impl::vec4i<t> atmp6 = mat[0].zzyy * mat[1].yxxy;
+    //daa * hhe - ggd * ebb
+    impl::vec4i<t> atmp5 = impl::sse_fms_ps( impl::vec4i<t>(mat[0].yxxy).d, impl::vec4i<t>(mat[1].zzyy).d, atmp6.d );
 
-    impl::vec4i<t> tmp7 = determinant_helper( impl::mat2i<t>( mat[1].xy, mat[2].xy ) ) * impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp8 = -determinant_helper( impl::mat2i<t>( mat[0].xy, mat[2].xy ) ) * impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp9 = determinant_helper( impl::mat2i<t>( mat[0].xy, mat[1].xy ) ) * impl::vec4i<t>( 0, 0, 1, 0 );
-    tmp7 = tmp7 + tmp8 + tmp9;
+    atmp1 *= MYMATH_SSE_SETTER(1, -1, 1, 1);
+    atmp3 *= MYMATH_SSE_SETTER(-1, 1, -1, 1);
+    atmp5 *= MYMATH_SSE_SETTER(1, -1, 1, 1);
 
-    impl::vec4i<t> det = impl::vec4i<t>( 1 ) / determinant_helper( mat );
+    impl::mat3i<t> ret( atmp1.xyz, atmp3.xyz, atmp5.xyz );
+    ret = transpose( ret );
 
-    return impl::mat3i<t>( tmp1.xyz * det.xxx, tmp4.xyz * det.xxx, tmp7.xyz * det.xxx );
+    impl::vec4i<t> adet = _mm_rcp_ps( determinant_helper( mat ).d );
+
+    ret[0] *= adet.xxx;
+    ret[1] *= adet.xxx;
+    ret[2] *= adet.xxx;
+
+    return ret;
   }
 
   //TODO optimize this
@@ -324,33 +327,89 @@ namespace mymath
   {
     assert( determinant( mat ) != 0 );
 
-    impl::vec4i<t> tmp1 = determinant_helper( impl::mat3i<t>( mat[1].yzw, mat[2].yzw, mat[3].yzw ) ) * impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp2 = -determinant_helper( impl::mat3i<t>( mat[0].yzw, mat[2].yzw, mat[3].yzw ) ) * impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp3 = determinant_helper( impl::mat3i<t>( mat[0].yzw, mat[1].yzw, mat[3].yzw ) ) * impl::vec4i<t>( 0, 0, 1, 0 );
-    impl::vec4i<t> tmp4 = -determinant_helper( impl::mat3i<t>( mat[0].yzw, mat[1].yzw, mat[2].yzw ) ) * impl::vec4i<t>( 0, 0, 0, 1 );
-    tmp1 = tmp1 + tmp2 + tmp3 + tmp4;
+    mat4 m = transpose(mat);
 
-    impl::vec4i<t> tmp5 = -determinant_helper( impl::mat3i<t>( mat[1].xzw, mat[2].xzw, mat[3].xzw ) ) * impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp6 = determinant_helper( impl::mat3i<t>( mat[0].xzw, mat[2].xzw, mat[3].xzw ) ) * impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp7 = -determinant_helper( impl::mat3i<t>( mat[0].xzw, mat[1].xzw, mat[3].xzw ) ) * impl::vec4i<t>( 0, 0, 1, 0 );
-    impl::vec4i<t> tmp8 = determinant_helper( impl::mat3i<t>( mat[0].xzw, mat[1].xzw, mat[2].xzw ) ) * impl::vec4i<t>( 0, 0, 0, 1 );
-    tmp5 = tmp5 + tmp6 + tmp7 + tmp8;
+    impl::vec4i<t> shf0yxxx = m[0].yxxx;
+    impl::vec4i<t> shf0wwwz = m[0].wwwz;
+    impl::vec4i<t> shf0zzyy = m[0].zzyy;
 
-    impl::vec4i<t> tmp9 = determinant_helper( impl::mat3i<t>( mat[1].xyw, mat[2].xyw, mat[3].xyw ) ) * impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp10 = -determinant_helper( impl::mat3i<t>( mat[0].xyw, mat[2].xyw, mat[3].xyw ) ) * impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp11 = determinant_helper( impl::mat3i<t>( mat[0].xyw, mat[1].xyw, mat[3].xyw ) ) * impl::vec4i<t>( 0, 0, 1, 0 );
-    impl::vec4i<t> tmp12 = -determinant_helper( impl::mat3i<t>( mat[0].xyw, mat[1].xyw, mat[2].xyw ) ) * impl::vec4i<t>( 0, 0, 0, 1 );
-    tmp9 = tmp9 + tmp10 + tmp11 + tmp12;
+    impl::vec4i<t> shf1yxxx = m[1].yxxx;
+    impl::vec4i<t> shf1wwwz = m[1].wwwz;
+    impl::vec4i<t> shf1zzyy = m[1].zzyy;
+    
+    impl::vec4i<t> shf2yxxx = m[2].yxxx;
+    impl::vec4i<t> shf2wwwz = m[2].wwwz;
+    impl::vec4i<t> shf2zzyy = m[2].zzyy;
 
-    impl::vec4i<t> tmp13 = -determinant_helper( impl::mat3i<t>( mat[1].xyz, mat[2].xyz, mat[3].xyz ) ) * impl::vec4i<t>( 1, 0, 0, 0 );
-    impl::vec4i<t> tmp14 = determinant_helper( impl::mat3i<t>( mat[0].xyz, mat[2].xyz, mat[3].xyz ) ) * impl::vec4i<t>( 0, 1, 0, 0 );
-    impl::vec4i<t> tmp15 = -determinant_helper( impl::mat3i<t>( mat[0].xyz, mat[1].xyz, mat[3].xyz ) ) * impl::vec4i<t>( 0, 0, 1, 0 );
-    impl::vec4i<t> tmp16 = determinant_helper( impl::mat3i<t>( mat[0].xyz, mat[1].xyz, mat[2].xyz ) ) * impl::vec4i<t>( 0, 0, 0, 1 );
-    tmp13 = tmp13 + tmp14 + tmp15 + tmp16;
+    impl::vec4i<t> shf3yxxx = m[3].yxxx;
+    impl::vec4i<t> shf3wwwz = m[3].wwwz;
+    impl::vec4i<t> shf3zzyy = m[3].zzyy;
 
-    impl::vec4i<t> det = impl::vec4i<t>( 1 ) / determinant_helper( mat );
+    impl::vec4i<t> atmp1 = shf0yxxx * shf1zzyy * shf2wwwz;
+    impl::vec4i<t> atmp2 = shf0wwwz * shf1yxxx * shf2zzyy;
+    impl::vec4i<t> atmp3 = shf0zzyy * shf1wwwz * shf2yxxx;
+    impl::vec4i<t> atmp4 = shf0wwwz * shf1zzyy * shf2yxxx;
+    impl::vec4i<t> atmp5 = shf0zzyy * shf1yxxx * shf2wwwz;
+    impl::vec4i<t> atmp6 = shf0yxxx * shf1wwwz * shf2zzyy;
 
-    return impl::mat4i<t>( tmp1 * det, tmp5 * det, tmp9 * det, tmp13 * det );
+    impl::vec4i<t> atmp7 = atmp1 + atmp2 + atmp3;
+    impl::vec4i<t> atmp8 = atmp4 + atmp5 + atmp6;
+
+    impl::vec4i<t> pmpm = MYMATH_SSE_SETTER(1, -1, 1, -1);
+    impl::vec4i<t> mpmp = MYMATH_SSE_SETTER(-1, 1, -1, 1);
+
+    //dhlp
+    impl::vec4i<t> atmp9 = (atmp7 - atmp8) * mpmp;
+
+    impl::vec4i<t> atmp10 = shf0yxxx * shf1zzyy * shf3wwwz;
+    impl::vec4i<t> atmp11 = shf0wwwz * shf1yxxx * shf3zzyy;
+    impl::vec4i<t> atmp12 = shf0zzyy * shf1wwwz * shf3yxxx;
+    impl::vec4i<t> atmp13 = shf0wwwz * shf1zzyy * shf3yxxx;
+    impl::vec4i<t> atmp14 = shf0zzyy * shf1yxxx * shf3wwwz;
+    impl::vec4i<t> atmp15 = shf0yxxx * shf1wwwz * shf3zzyy;
+
+    impl::vec4i<t> atmp16 = atmp10 + atmp11 + atmp12;
+    impl::vec4i<t> atmp17 = atmp13 + atmp14 + atmp15;
+
+    //cgko
+    impl::vec4i<t> atmp18 = (atmp16 - atmp17) * pmpm;
+
+    impl::vec4i<t> atmp19 = shf0yxxx * shf2zzyy * shf3wwwz;
+    impl::vec4i<t> atmp20 = shf0wwwz * shf2yxxx * shf3zzyy;
+    impl::vec4i<t> atmp21 = shf0zzyy * shf2wwwz * shf3yxxx;
+    impl::vec4i<t> atmp22 = shf0wwwz * shf2zzyy * shf3yxxx;
+    impl::vec4i<t> atmp23 = shf0zzyy * shf2yxxx * shf3wwwz;
+    impl::vec4i<t> atmp24 = shf0yxxx * shf2wwwz * shf3zzyy;
+
+    impl::vec4i<t> atmp25 = atmp19 + atmp20 + atmp21;
+    impl::vec4i<t> atmp26 = atmp22 + atmp23 + atmp24;
+
+    //bfjn
+    impl::vec4i<t> atmp27 = (atmp25 - atmp26) * mpmp;
+
+    impl::vec4i<t> atmp28 = shf1yxxx * shf2zzyy * shf3wwwz;
+    impl::vec4i<t> atmp29 = shf1wwwz * shf2yxxx * shf3zzyy;
+    impl::vec4i<t> atmp30 = shf1zzyy * shf2wwwz * shf3yxxx;
+    impl::vec4i<t> atmp31 = shf1wwwz * shf2zzyy * shf3yxxx;
+    impl::vec4i<t> atmp32 = shf1zzyy * shf2yxxx * shf3wwwz;
+    impl::vec4i<t> atmp33 = shf1yxxx * shf2wwwz * shf3zzyy;
+
+    impl::vec4i<t> atmp34 = atmp28 + atmp29 + atmp30;
+    impl::vec4i<t> atmp35 = atmp31 + atmp32 + atmp33;
+
+    //aeim
+    impl::vec4i<t> atmp36 = (atmp34 - atmp35) * pmpm;
+
+    impl::mat4i<t> ret( atmp36, atmp27, atmp18, atmp9 );
+
+    impl::vec4i<t> adet = _mm_rcp_ps( determinant_helper( mat ).d );
+
+    ret[0] *= adet;
+    ret[1] *= adet;
+    ret[2] *= adet;
+    ret[3] *= adet;
+
+    return ret;
   }
 
   template< typename t >

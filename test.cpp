@@ -120,17 +120,17 @@ void fill_mat_rand( float* f, int l )
       *(f + c * l + d) = rand() % 101 / 100.0f;
 }
 
-std::ostream& operator<<( std::ostream& o, glm::simdVec4 v )
+std::ostream& operator<<( std::ostream& o, const glm::simdVec4& v )
 {
   return o << "( " << v.x << ", " << v.y << ", " << v.z << ", " << v.w << " )\n";
 }
 
-std::ostream& operator<<( std::ostream& o, glm::simdMat4 m )
+std::ostream& operator<<( std::ostream& o, const glm::simdMat4& m )
 {
   return o      << "( " << m[0].x << ", " << m[1].x << ", " << m[2].x << ", " << m[3].x << "\n  "
-         /*__________*/ << m[0].y << ", " << m[1].y << ", " << m[2].y << ", " << m[3].y << "\n  "
-         /*__________*/ << m[0].z << ", " << m[1].z << ", " << m[2].z << ", " << m[3].z << "\n  "
-         /*__________*/ << m[0].w << ", " << m[1].w << ", " << m[2].w << ", " << m[3].w << " )\n";
+          << m[0].y << ", " << m[1].y << ", " << m[2].y << ", " << m[3].y << "\n  "
+          << m[0].z << ", " << m[1].z << ", " << m[2].z << ", " << m[3].z << "\n  "
+         << m[0].w << ", " << m[1].w << ", " << m[2].w << ", " << m[3].w << " )\n";
 }
 
 int main( int argc, char** args )
@@ -140,9 +140,9 @@ int main( int argc, char** args )
 
   srand(time(0));
 
-  double freq = 2.66e+9;
+  double freq = 3.4e+9;
 
-  /**
+  /**/
   //benchmarks
   mat4 m;
   vec4 v;
@@ -150,20 +150,24 @@ int main( int argc, char** args )
   fill_vec_rand(&v.x, v.length());
   fill_mat_rand(&m[0].x, m[0].length());
 
+  cout << inverse( inverse( m ) ) << m;
+
   benchmark( m, v, freq, []( mat4& a, vec4& b )
   {
-    b = determinant_helper( a );
+    a = inverse( a );
   } );
 
   glm::simdMat4 gm;
   glm::simdVec4 gv;
 
-  fill_vec_rand(&gv.x, 4);
-  fill_mat_rand(&gm[0].x, 4);
+  //fill_vec_rand(&gv.x, 4);
+  //fill_mat_rand(&gm[0].x, 4);
+  memcpy(&gm, &m, sizeof(mat4));
+  memcpy(&gv, &v, sizeof(vec4));
 
   benchmark( gm, gv, freq, []( glm::simdMat4& a, glm::simdVec4& b )
   {
-    b = glm::detail::sse_det_ps( &a[0].Data );
+    glm::detail::sse_inverse_fast_ps( &a[0].Data, &a[0].Data );
   } );
 
   cout << m << v;
@@ -174,9 +178,10 @@ int main( int argc, char** args )
    * vec2 tests
    */
 
+  /**
   cout << vec2( 1, 2 )
        << vec2( 1 )
-       << vec2();
+       << vec2(1);
 
   vec2 a;
   a[0] = 1;
@@ -229,11 +234,13 @@ int main( int argc, char** args )
        << a.yyxx;
 
   cout << endl;
+  /**/
 
   /*
    * vec3 tests
    */
 
+  /**
   cout << vec3(1, 2, 3)
        << vec3(vec2(1, 2), 3)
        << vec3(1, vec2(2, 3))
@@ -289,11 +296,13 @@ int main( int argc, char** args )
        << aa.xyzx
        << aa.xyzy
        << aa.xyyz;
+  /**/
 
   /*
    * vec4 tests
    */
 
+  /**
   cout << vec4(1, 2, 3, 4)
        << vec4(vec3(1, 2, 3), 4)
        << vec4(1, vec3(2, 3, 4))
@@ -304,17 +313,17 @@ int main( int argc, char** args )
        << vec4(1)
        << vec4();
 
-  vec4 aaa;
+  vec4 aaa = vec4(0);
   aaa[0] = 1;
 
-  aaa *= vec4();
-  aaa /= vec4();
-  aaa += vec4();
-  aaa -= vec4();
-  aaa %= vec4();
-  aaa &= vec4();
-  aaa ^= vec4();
-  aaa |= vec4();
+  aaa *= vec4(1);
+  aaa /= vec4(1);
+  aaa += vec4(1);
+  aaa -= vec4(1);
+  aaa %= vec4(1);
+  aaa &= vec4(1);
+  aaa ^= vec4(1);
+  aaa |= vec4(1);
   ++aaa;
   aaa++;
   --aaa;
@@ -344,6 +353,7 @@ int main( int argc, char** args )
 
   aaa.xyz = aaa.xzy;
   aaa.xyz *= aaa.zyx;
+  aaa = vec4(1);
   aaa.xyz /= aaa.xzy;
   aaa.xyz += aaa.xyz;
   aaa.xyz -= aaa.xyz;
@@ -352,6 +362,7 @@ int main( int argc, char** args )
 
   aaa.xy = aaa.yx;
   aaa.xy *= aaa.zy;
+  aaa = vec4(1);
   aaa.xy /= aaa.zy;
   aaa.xy += aaa.zy;
   aaa.xy -= aaa.zy;
@@ -362,6 +373,9 @@ int main( int argc, char** args )
   new mat2;
   new mat3;
   new mat4;
+
+  cout << endl;
+  /**/
 
   return 0;
 }

@@ -36,6 +36,8 @@ namespace mymath
       protected:
 
       public:
+        static const mat3i<t> identity;
+
         // 1 column vector per row
         mat3i( const t& m0, const t& m1, const t& m2,
                const t& m3, const t& m4, const t& m5,
@@ -55,11 +57,7 @@ namespace mymath
 
         mat3i(const quati<t>& q)
         {
-          const mat3i<t> other = mat3_cast(q);
-          for(int i = 0; i < 3; ++i)
-          {
-            m[i] = other[i];
-          }
+          *this = mat3_cast(q);
         }
 
         // 1 column per vector
@@ -78,11 +76,7 @@ namespace mymath
         }
 
         mat3i()
-        {
-          m[0] = vec3i<t>( 1, 0, 0 );
-          m[1] = vec3i<t>( 0, 1, 0 );
-          m[2] = vec3i<t>( 0, 0, 1 );
-        }
+        {}
 
         vec3i<t>& operator[]( const unsigned int& num )
         {
@@ -146,6 +140,9 @@ namespace mymath
           return tmp;
         }
     };
+
+    template< typename t >
+    mat3i<t> mat3i<t>::identity = mat3(1);
   }
 }
 

@@ -96,6 +96,19 @@ namespace mymath
 #endif
     }
 
+    MYMATH_INLINE __m128 sse_fms_ps( __m128 a, __m128 b, __m128 c )
+    {
+#ifdef MYMATH_USE_FMA
+      //fma instruction could be used here, but only recent processors support it
+      //only on haswell+
+      //and piledriver+
+      //and bulldozer+
+      return _mm_fmsub_ps( a, b, c );
+#else
+      return _mm_sub_ps( _mm_mul_ps( a, b ), c );
+#endif
+    }
+
     MYMATH_INLINE __m128 sse_neg_ps( __m128 x )
     {
       return _mm_xor_ps( x, sign_mask );
@@ -626,7 +639,7 @@ namespace mymath
       //log( x + sqrt( x^2 - 1 ) )
       //__m128 sqr = _mm_mul_ps( x, x );
       //sqr = _mm_sub_ps( sqr, one );
-      __m128 sqr = sse_fma_ps( x, x, sse_neg_ps(one) ); 
+      __m128 sqr = sse_fms_ps( x, x, one ); 
       sqr = _mm_sqrt_ps( sqr );
       sqr = _mm_add_ps( sqr, x );
       return sse_log_ps( sqr );
@@ -724,9 +737,7 @@ namespace mymath
 
     MYMATH_INLINE __m128 sse_dot_ps_helper( __m128 a, __m128 b )
     {
-      __m128 l = _mm_mul_ps( a, b );
-      l = _mm_add_ps( l, _mm_shufd( l, MYMATH_SHUFFLE(2, 3, 0, 1) ) );
-      l = _mm_add_ss( l, _mm_shufd( l, MYMATH_SHUFFLE(1, 0, 1, 0) ) );
+      __m128 l = _mm_dp_ps(a, b, 0xff);
       return _mm_shuffle_ps( l, l, MYMATH_SHUFFLE( 0, 0, 0, 0 ) );
     }
 
