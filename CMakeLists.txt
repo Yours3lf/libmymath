@@ -2,7 +2,7 @@
 
 #cmake ver req
 cmake_minimum_required(VERSION 2.6)
- 
+
 #on win you have to do it manually
 if(UNIX)
 	add_subdirectory(precompile)
@@ -102,7 +102,7 @@ if(UNIX)
 endif()
 
 if(WIN32)
-	set(${project_name}_external_libs optimized sfml-window debug sfml-window-d optimized sfml-system debug sfml-system-d 
+	set(${project_name}_external_libs optimized sfml-window debug sfml-window-d optimized sfml-system debug sfml-system-d
 	optimized sfml-graphics debug sfml-graphics-d OpenGL32 GLEW32 tbb tbbproxy tbbmalloc tbbmalloc_proxy tbb_preview)
 endif()
 

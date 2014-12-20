@@ -1,5 +1,7 @@
 --- Changelog of mymath library ---
 
+After v2.0.0 mymath was moved to github, see the commit log for changes.
+
 v2.0.0
  -I've decided to follow GLSL conventions, syntax etc. From now on code written using mymath should be copy-pasteable between GLSL and mymath.
  -added 2x2 matrix class
