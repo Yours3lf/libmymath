@@ -19,7 +19,9 @@ namespace mymath
 #include "mm_mat4_impl.h"
 
 #include <cmath>
+#include <math.h>
 
+//TODO replace scalar operations w/ vector
 namespace mymath
 {
   namespace impl
@@ -37,43 +39,39 @@ namespace mymath
 	  type_vec4 value;
 
 	  quati():value(0, 0, 0, 1){} //no rotation
-	  quati(const type_vec4& vec):value(vec){}
-	  quati(const type_vec3& vec):value(vec, 0){}
-	  quati(const type_vec3& vector, const ty& scalar):value(vector, scalar){}
-	  quati(const mat3i<ty>& m)
+	  quati(const type_vec4& vec) : value(vec){}
+	  quati(const type_vec3& vector, const ty& scalar) : value(vector, scalar){}
+	  
+    quati(const mat3i<ty>& m)
 	  {
-		value = quat_cast(m).value;
+		  value = quat_cast(m).value;
 	  }
+
 	  quati(const mat4i<ty>& m)
 	  {
-		value = quat_cast(m).value;
+		  value = quat_cast(m).value;
 	  }
 
-	  quati(const ty& angle, const type_vec3& axis) :
-		  value(normalize(axis) * std::sin(angle * 0.5), std::cos(angle * 0.5))
-	  {}
-
-	  type_vec3 vector() const
+	  quati(const ty& angle, const type_vec3& axis)
 	  {
-		return value.xyz;
-	  }
-	  const ty& scalar() const
-	  {
-		return value.w;
-	  }
+      float a = angle * 0.5;
+      float s, c;
+      sincosf(a, &s, &c);
+      value = type_vec4(normalize(axis) * s, c);
+    }
 
 	  //Grassman product
 	  const quati& operator*=(const quati& other)
 	  {
-		const type_vec3&	pv = this->vector();
-		const ty&			ps = this->scalar();
-		const type_vec3&	qv = other.vector();
-		const ty&			qs = other.scalar();
+		  const type_vec3&	pv = value.xyz;
+		  const ty&			ps = value.w;
+		  const type_vec3&	qv = other.xyz;
+		  const ty&			qs = other.w;
 
-		*this = type_vec4(type_vec3(ps * qv + qs * pv + cross(pv, qv)),
+		  *this = type_vec4(type_vec3(ps * qv + qs * pv + cross(pv, qv)),
 			ps * qs - dot(pv, qv));
 
-		return *this;
+		  return *this;
 	  }
 	};
   }
