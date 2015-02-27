@@ -37,7 +37,7 @@ namespace mymath
       protected:
 
       public:
-        static const mat4i<t> identity;
+        static mat4i<t> identity;
 
         // 1 column vector per row
         mat4i( const t& m0, const t& m1, const t& m2,  const t& m3,
