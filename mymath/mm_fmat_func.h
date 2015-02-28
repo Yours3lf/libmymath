@@ -153,10 +153,10 @@ MYMATH_INLINE mm::impl::mat4i<t> operator* ( const mm::impl::mat4i<t>& a, const 
   mm::impl::vec4i<t> tmp3 = a[2];
   mm::impl::vec4i<t> tmp4 = a[3];
 
-  return mm::impl::mat4i<t>( mm::fma(b[0].wwww, tmp4, fma(b[0].zzzz, tmp3, fma(b[0].yyyy, tmp2, b[0].xxxx * tmp1))),
-                             mm::fma(b[1].wwww, tmp4, fma(b[1].zzzz, tmp3, fma(b[1].yyyy, tmp2, b[1].xxxx * tmp1))),
-                             mm::fma(b[2].wwww, tmp4, fma(b[2].zzzz, tmp3, fma(b[2].yyyy, tmp2, b[2].xxxx * tmp1))),
-                             mm::fma(b[3].wwww, tmp4, fma(b[3].zzzz, tmp3, fma(b[3].yyyy, tmp2, b[3].xxxx * tmp1))) );
+  return mm::impl::mat4i<t>( mm::fma(b[0].wwww, tmp4, mm::fma(b[0].zzzz, tmp3, mm::fma(b[0].yyyy, tmp2, b[0].xxxx * tmp1))),
+                             mm::fma(b[1].wwww, tmp4, mm::fma(b[1].zzzz, tmp3, mm::fma(b[1].yyyy, tmp2, b[1].xxxx * tmp1))),
+                             mm::fma(b[2].wwww, tmp4, mm::fma(b[2].zzzz, tmp3, mm::fma(b[2].yyyy, tmp2, b[2].xxxx * tmp1))),
+                             mm::fma(b[3].wwww, tmp4, mm::fma(b[3].zzzz, tmp3, mm::fma(b[3].yyyy, tmp2, b[3].xxxx * tmp1))) );
 }
 
 template< typename t >
