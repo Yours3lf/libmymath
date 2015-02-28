@@ -428,11 +428,11 @@ namespace mymath
   //step
 #define MYMATH_STEP_FUNC(t) \
   MYMATH_INLINE impl::vec2i<t> step( const impl::vec2i<t>& a, const impl::vec2i<t>& b ) \
-  { return impl::vec2i<t>( b.x < a.x, b.y < a.y ); } \
+  { return impl::vec2i<t>( a.x <= b.x, a.y <= b.y ); } \
   MYMATH_INLINE impl::vec3i<t> step( const impl::vec3i<t>& a, const impl::vec3i<t>& b ) \
-  { return impl::vec3i<t>( b.x < a.x, b.y < a.y, b.z < a.z ); } \
+  { return impl::vec3i<t>( a.x <= b.x, a.y <= b.y, a.z <= b.z ); } \
   MYMATH_INLINE impl::vec4i<t> step( const impl::vec4i<t>& a, const impl::vec4i<t>& b ) \
-  { return impl::vec4i<t>( b.x < a.x, b.y < a.y, b.z < a.z, b.w < a.w ); }
+  { return impl::vec4i<t>( a.x <= b.x, a.y <= b.y, a.z <= b.z, a.w <= b.w ); }
 
   //clamp
 #define MYMATH_CLAMP_FUNC(t) \
