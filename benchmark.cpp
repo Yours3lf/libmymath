@@ -142,6 +142,8 @@ int main( int argc, char** args )
 
   double freq = 3.4e+9;
 
+  camera<float> c;
+
   /**/
   //benchmarks
   mat4 m;
@@ -376,6 +378,9 @@ int main( int argc, char** args )
 
   cout << endl;
   /**/
+
+  //int a;
+  //cin >> a;
 
   return 0;
 }

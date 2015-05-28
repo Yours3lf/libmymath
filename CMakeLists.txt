@@ -18,9 +18,9 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set( use_32_bit true )
 set( use_new_gcc false )
-set( use_explicit_sse2 true )
+set( use_explicit_sse2 false )
 set( use_fma false )
-set( use_force_inline true )
+set( use_force_inline false )
 
 #32 bits
 if( use_32_bit )
@@ -107,7 +107,8 @@ if(WIN32)
 endif()
 
 #adding the project's exe
-add_executable(${project_name} test)
+add_executable(${project_name} unit_test)
+#add_executable(${project_name} benchmark)
 #add_executable(${project_name} glsl_code/main)
 #add_executable(${project_name} new_raytracer/main)
 #add_executable(${project_name} old_raytracer/main)

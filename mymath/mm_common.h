@@ -65,7 +65,7 @@
 
 namespace mymath
 {
-  static const float epsilon = 0.00001f;
+  static const float epsilon = 0.0001f; //should be 0.00001f
   static const double depsilon = 0.00000001;
 
   namespace impl
@@ -115,7 +115,7 @@ namespace mymath
 #define MYMATH_FRACT( t ) \
   MYMATH_INLINE t fract( const t& a ) \
   { \
-    return a - floor( a ); \
+    return a - trunc( a ); \
   }
 
 #define MYMATH_ATAN( t ) \
@@ -328,5 +328,3 @@ namespace mymath
 namespace mm = mymath;
 
 #endif
-
-
