@@ -767,38 +767,38 @@ namespace mymath
   namespace impl
   {
     template<typename ty>
-    template<int a, int b, int c, int d>
-    const vec2i<ty>& vec2i<ty>::swizzle<a, b, c, d>::operator/=( const vec2i<ty>& other )
+    template<int at, int bt, int ct, int dt>
+    const vec2i<ty>& vec2i<ty>::swizzle<at, bt, ct, dt>::operator/=( const vec2i<ty>& other )
     {
       assert( notEqual( other, vec2i<ty>( 0 ) ) );
       vec2i<ty> tmp( ( ty )1 / other.x, ( ty )1 / other.y );
-      v[a] *= tmp.x;
-      v[b] *= tmp.y;
+      v[at] *= tmp.x;
+      v[bt] *= tmp.y;
       return *( vec2i<ty>* )this;
     }
 
     template<typename ty>
-    template<int a, int b, int c, int d>
-    const vec3i<ty>& vec3i<ty>::swizzle<a, b, c, d>::operator/=( const vec3i<ty>& other )
+    template<int at, int bt, int ct, int dt>
+    const vec3i<ty>& vec3i<ty>::swizzle<at, bt, ct, dt>::operator/=( const vec3i<ty>& other )
     {
       assert( notEqual( other, vec3i<ty>( 0 ) ) );
       vec3i<ty> tmp( ( ty )1 / other.x, ( ty )1 / other.y, ( ty )1 / other.z );
-      v[a] *= tmp.x;
-      v[b] *= tmp.y;
-      v[c] *= tmp.z;
+      v[at] *= tmp.x;
+      v[bt] *= tmp.y;
+      v[ct] *= tmp.z;
       return *( vec3i<ty>* )this;
     }
 
     template<typename ty>
-    template<int a, int b, int c, int d>
-    const vec4i<ty>& vec4i<ty>::swizzle<a, b, c, d>::operator/=( const vec4i<ty>& other )
+    template<int at, int bt, int ct, int dt>
+    const vec4i<ty>& vec4i<ty>::swizzle<at, bt, ct, dt>::operator/=( const vec4i<ty>& other )
     {
       assert( notEqual( other, vec4i<ty>( 0 ) ) );
       vec4i<ty> tmp( ( ty )1 / other.x, ( ty )1 / other.y, ( ty )1 / other.z, ( ty )1 / other.w );
-      v[a] *= tmp.x;
-      v[b] *= tmp.y;
-      v[c] *= tmp.z;
-      v[d] *= tmp.w;
+      v[at] *= tmp.x;
+      v[bt] *= tmp.y;
+      v[ct] *= tmp.z;
+      v[dt] *= tmp.w;
       return *( vec4i<ty>* )this;
     }
 

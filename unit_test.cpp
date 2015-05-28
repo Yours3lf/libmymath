@@ -113,6 +113,123 @@ int main( int argc, char** args )
   UNIT_TEST( mm::max( 1, -2 ) == 1 );
   UNIT_TEST( mm::max( 1, 0 ) == 1 );
 
+  //vec2 tests
+  vec2 a = vec2( 1, 2 );
+  UNIT_TEST( mm::equal( a.yx = a.xy, vec2( 2, 1 ) ) );
+  a = vec2( 1, 2 );
+  UNIT_TEST( mm::equal( a.yx *= a.xy, vec2( 2, 2 ) ) );
+  a = vec2( 1, 2 );
+  UNIT_TEST( mm::equal( a.yx /= a.yx, vec2( 1, 1 ) ) );
+  a = vec2( 1, 2 );
+  UNIT_TEST( mm::equal( a.yx += a.xy, vec2( 3, 3 ) ) );
+  a = vec2( 1, 2 );
+  UNIT_TEST( mm::equal( a.yx -= a.yx, vec2( 0, 0 ) ) );
+  a = vec2( 1, 2 );
+  UNIT_TEST( mm::equal( a.xx = a.xx, vec2( 1, 1 ) ) );
+
+  UNIT_TEST( mm::equal( a = uvec2( 1, 2 ), vec2( 1, 2 ) ) );
+  UNIT_TEST( mm::equal( a = ivec2( 1, 2 ), vec2( 1, 2 ) ) );
+  UNIT_TEST( mm::equal( a = vec2( uvec2( 1, 2 ) ), vec2( 1, 2 ) ) );
+  UNIT_TEST( mm::equal( a = vec2( ivec2( 1, 2 ) ), vec2( 1, 2 ) ) );
+
+  //vec3 tests
+  vec3 b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.zyx = b.xyz, vec3( 3, 2, 1 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.zyx *= b.xyz, vec3( 3, 4, 3 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.zyx /= b.zyx, vec3( 1, 1, 1 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.zyx += b.xyz, vec3( 4, 4, 4 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.zyx -= b.zyx, vec3( 0, 0, 0 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.xxx = b.xxx, vec3( 1, 1, 1 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.yxx = b.yxx, vec3( 2, 1, 1 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.xyx = b.xyx, vec3( 1, 2, 1 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.xxy = b.xxy, vec3( 1, 1, 2 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.xx = b.xx, vec2( 1, 1 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.xy = b.xx, vec2( 1, 1 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.xy *= b.yy, vec2( 2, 4 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.xy /= b.xy, vec2( 1, 1 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.xy += b.xy, vec2( 2, 4 ) ) );
+  b = vec3( 1, 2, 3 );
+  UNIT_TEST( mm::equal( b.xy -= b.xy, vec2( 0, 0 ) ) );
+
+  UNIT_TEST( mm::equal( b = uvec3( 1, 2, 3 ), vec3( 1, 2, 3 ) ) );
+  UNIT_TEST( mm::equal( b = ivec3( 1, 2, 3 ), vec3( 1, 2, 3 ) ) );
+  UNIT_TEST( mm::equal( b = vec3( uvec3( 1, 2, 3 ) ), vec3( 1, 2, 3 ) ) );
+  UNIT_TEST( mm::equal( b = vec3( ivec3( 1, 2, 3 ) ), vec3( 1, 2, 3 ) ) );
+
+  //vec4 tests
+  vec4 c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.wzyx = c.xyzw, vec4( 4, 3, 2, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.wzyx *= c.xyzw, vec4( 4, 6, 6, 4 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.wzyx /= c.wzyx, vec4( 1, 1, 1, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.wzyx += c.xyzw, vec4( 5, 5, 5, 5 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.wzyx -= c.wzyx, vec4( 0, 0, 0, 0 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xxxx = c.xxxx, vec4( 1, 1, 1, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.yxxx = c.yxxx, vec4( 2, 1, 1, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xyxx = c.xyxx, vec4( 1, 2, 1, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xxyx = c.xxyx, vec4( 1, 1, 2, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xxxy = c.xxxy, vec4( 1, 1, 1, 2 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.zyxx = c.zyxx, vec4( 3, 2, 1, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.zxyx = c.zxyx, vec4( 3, 1, 2, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.zxxy = c.zxxy, vec4( 3, 1, 1, 2 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.yxx = c.yxx, vec3( 2, 1, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xyx = c.xyx, vec3( 1, 2, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xxy = c.xxy, vec3( 1, 1, 2 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.zyx = c.zyx, vec3( 3, 2, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xyz *= c.xyz, vec3( 1, 4, 9 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xyz /= c.xyz, vec3( 1, 1, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xyz += c.xyz, vec3( 2, 4, 6 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xyz -= c.xyz, vec3( 0, 0, 0 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xx = c.xx, vec2( 1, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xy = c.xx, vec2( 1, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xy *= c.yy, vec2( 2, 4 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xy /= c.xy, vec2( 1, 1 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xy += c.xy, vec2( 2, 4 ) ) );
+  c = vec4( 1, 2, 3, 4 );
+  UNIT_TEST( mm::equal( c.xy -= c.xy, vec2( 0, 0 ) ) );
+
+  UNIT_TEST( mm::equal( c = uvec4( 1, 2, 3, 4 ), vec4( 1, 2, 3, 4 ) ) );
+  UNIT_TEST( mm::equal( c = ivec4( 1, 2, 3, 4 ), vec4( 1, 2, 3, 4 ) ) );
+  UNIT_TEST( mm::equal( c = vec4( uvec4( 1, 2, 3, 4 ) ), vec4( 1, 2, 3, 4 ) ) );
+  UNIT_TEST( mm::equal( c = vec4( ivec4( 1, 2, 3, 4 ) ), vec4( 1, 2, 3, 4 ) ) );
+
   system( "PAUSE" );
 
   return 0;
