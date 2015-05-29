@@ -133,6 +133,7 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( a = vec2( ivec2( 1, 2 ) ), vec2( 1, 2 ) ) ) );
 
   //vec3 tests
+  //TODO test basic functions
   vec3 b = vec3( 1, 2, 3 );
   UNIT_TEST( mm::all( mm::equal( b.zyx = b.xyz, vec3( 3, 2, 1 ) ) ) );
   b = vec3( 1, 2, 3 );
@@ -170,6 +171,7 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( b = vec3( ivec3( 1, 2, 3 ) ), vec3( 1, 2, 3 ) ) ) );
 
   //vec4 tests
+  //TODO test basic functions
   vec4 c = vec4( 1, 2, 3, 4 );
   UNIT_TEST( mm::all( mm::equal( c.wzyx = c.xyzw, vec4( 4, 3, 2, 1 ) ) ) );
   c = vec4( 1, 2, 3, 4 );
@@ -260,6 +262,10 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( b.yxxz, vec4( 2, 1, 1, 3 ) ) ) );
 
   //vec func tests
+  //TODO test 
+  //logic functions
+  //negate
+  //compare functions
   a = vec2( 1, 2 );
   b = vec3( 1, 2, 3 );
   c = vec4( 1, 2, 3, 4 );
@@ -389,7 +395,203 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( mm::acosh( vec3( 2 ) ), vec3( 1.3170 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::acosh( vec4( 2 ) ), vec4( 1.3170 ) ) ) );
 
-  //atanh
+  UNIT_TEST( mm::all( mm::equal( mm::atanh( vec2( -0.5 ) ), vec2( -0.5493 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atanh( vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atanh( vec2( 0.5 ) ), vec2( 0.5493 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atanh( vec3( -0.5 ) ), vec3( -0.5493 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atanh( vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atanh( vec3( 0.5 ) ), vec3( 0.5493 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atanh( vec4( -0.5 ) ), vec4( -0.5493 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atanh( vec4( 0 ) ), vec4( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atanh( vec4( 0.5 ) ), vec4( 0.5493 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::pow( vec2( 0.5 ), vec2( 2 ) ), vec2( 0.25 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::pow( vec2( 0.5 ), vec2( -2 ) ), vec2( 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::pow( vec2( 0.5 ), vec2( 0 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::pow( vec3( 0.5 ), vec3( 2 ) ), vec3( 0.25 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::pow( vec3( 0.5 ), vec3( -2 ) ), vec3( 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::pow( vec3( 0.5 ), vec3( 0 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::pow( vec4( 0.5 ), vec4( 2 ) ), vec4( 0.25 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::pow( vec4( 0.5 ), vec4( -2 ) ), vec4( 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::pow( vec4( 0.5 ), vec4( 0 ) ), vec4( 1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::exp( vec2( 3 ) ), vec2( 20.0855 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp( vec2( -3 ) ), vec2( 0.0498 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp( vec2( 0 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp( vec3( 3 ) ), vec3( 20.0855 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp( vec3( -3 ) ), vec3( 0.0498 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp( vec3( 0 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp( vec4( 3 ) ), vec4( 20.0855 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp( vec4( -3 ) ), vec4( 0.0498 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp( vec4( 0 ) ), vec4( 1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::log( vec2( 10 ) ), vec2( 2.3026 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::log( vec3( 10 ) ), vec3( 2.3026 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::log( vec4( 10 ) ), vec4( 2.3026 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::sqrt( vec2( 4 ) ), vec2( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sqrt( vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sqrt( vec3( 4 ) ), vec3( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sqrt( vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sqrt( vec4( 4 ) ), vec4( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sqrt( vec4( 0 ) ), vec4( 0 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::exp2( vec2( 2 ) ), vec2( 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp2( vec2( -2 ) ), vec2( 0.25 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp2( vec2( 0 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp2( vec3( 2 ) ), vec3( 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp2( vec3( -2 ) ), vec3( 0.25 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp2( vec3( 0 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp2( vec4( 2 ) ), vec4( 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp2( vec4( -2 ) ), vec4( 0.25 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::exp2( vec4( 0 ) ), vec4( 1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::inversesqrt( vec2( 4 ) ), vec2( 0.5 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::inversesqrt( vec3( 4 ) ), vec3( 0.5 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::inversesqrt( vec4( 4 ) ), vec4( 0.5 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::abs( vec2( 2 ) ), vec2( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::abs( vec2( -2 ) ), vec2( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::abs( vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::abs( vec3( 2 ) ), vec3( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::abs( vec3( -2 ) ), vec3( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::abs( vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::abs( vec4( 2 ) ), vec4( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::abs( vec4( -2 ) ), vec4( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::abs( vec4( 0 ) ), vec4( 0 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::floor( vec2( 1.2 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::floor( vec2( 1.9 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::floor( vec2( -1.2 ) ), vec2( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::floor( vec2( -1.9 ) ), vec2( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::floor( vec3( 1.2 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::floor( vec3( 1.9 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::floor( vec3( -1.2 ) ), vec3( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::floor( vec3( -1.9 ) ), vec3( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::floor( vec4( 1.2 ) ), vec4( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::floor( vec4( 1.9 ) ), vec4( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::floor( vec4( -1.2 ) ), vec4( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::floor( vec4( -1.9 ) ), vec4( -2 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::ceil( vec2( 1.2 ) ), vec2( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::ceil( vec2( 1.9 ) ), vec2( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::ceil( vec2( -1.2 ) ), vec2( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::ceil( vec2( -1.9 ) ), vec2( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::ceil( vec3( 1.2 ) ), vec3( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::ceil( vec3( 1.9 ) ), vec3( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::ceil( vec3( -1.2 ) ), vec3( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::ceil( vec3( -1.9 ) ), vec3( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::ceil( vec4( 1.2 ) ), vec4( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::ceil( vec4( 1.9 ) ), vec4( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::ceil( vec4( -1.2 ) ), vec4( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::ceil( vec4( -1.9 ) ), vec4( -1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::min( vec2( 1 ), vec2( 2 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::min( vec2( 1 ), vec2( -2 ) ), vec2( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::min( vec2( 1 ), vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::min( vec3( 1 ), vec3( 2 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::min( vec3( 1 ), vec3( -2 ) ), vec3( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::min( vec3( 1 ), vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::min( vec4( 1 ), vec4( 2 ) ), vec4( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::min( vec4( 1 ), vec4( -2 ) ), vec4( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::min( vec4( 1 ), vec4( 0 ) ), vec4( 0 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::max( vec2( 1 ), vec2( 2 ) ), vec2( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::max( vec2( 1 ), vec2( -2 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::max( vec2( 1 ), vec2( 0 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::max( vec3( 1 ), vec3( 2 ) ), vec3( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::max( vec3( 1 ), vec3( -2 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::max( vec3( 1 ), vec3( 0 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::max( vec4( 1 ), vec4( 2 ) ), vec4( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::max( vec4( 1 ), vec4( -2 ) ), vec4( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::max( vec4( 1 ), vec4( 0 ) ), vec4( 1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::sign( vec2( -2 ) ), vec2( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sign( vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sign( vec2( 1 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sign( vec3( -2 ) ), vec3( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sign( vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sign( vec3( 1 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sign( vec4( -2 ) ), vec4( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sign( vec4( 0 ) ), vec4( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sign( vec4( 1 ) ), vec4( 1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::trunc( vec2( 1.2 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::trunc( vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::trunc( vec2( -1.2 ) ), vec2( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::trunc( vec3( 1.2 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::trunc( vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::trunc( vec3( -1.2 ) ), vec3( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::trunc( vec4( 1.2 ) ), vec4( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::trunc( vec4( 0 ) ), vec4( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::trunc( vec4( -1.2 ) ), vec4( -1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::round( vec2( 1.2 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::round( vec2( 1.9 ) ), vec2( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::round( vec2( -1.2 ) ), vec2( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::round( vec2( -1.9 ) ), vec2( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::round( vec3( 1.2 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::round( vec3( 1.9 ) ), vec3( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::round( vec3( -1.2 ) ), vec3( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::round( vec3( -1.9 ) ), vec3( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::round( vec4( 1.2 ) ), vec4( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::round( vec4( 1.9 ) ), vec4( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::round( vec4( -1.2 ) ), vec4( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::round( vec4( -1.9 ) ), vec4( -2 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::fract( vec2( 1.2 ) ), vec2( 0.2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fract( vec2( -1.2 ) ), vec2( -0.2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fract( vec3( 1.2 ) ), vec3( 0.2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fract( vec3( -1.2 ) ), vec3( -0.2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fract( vec4( 1.2 ) ), vec4( 0.2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fract( vec4( -1.2 ) ), vec4( -0.2 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::mod( vec2( 1.2 ), vec2( 0.8 ) ), vec2( 0.4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::mod( vec2( 1.2 ), vec2( -0.8 ) ), vec2( -0.4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::mod( vec3( 1.2 ), vec3( 0.8 ) ), vec3( 0.4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::mod( vec3( 1.2 ), vec3( -0.8 ) ), vec3( -0.4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::mod( vec4( 1.2 ), vec4( 0.8 ) ), vec4( 0.4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::mod( vec4( 1.2 ), vec4( -0.8 ) ), vec4( -0.4 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::mix( vec2( 0.5 ), vec2( 0.4 ), vec2( 0.5 ) ), vec2( 0.45 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::mix( vec2( 0.5 ), vec2( -0.4 ), vec2( 0.5 ) ), vec2( 0.05 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::mix( vec3( 0.5 ), vec3( 0.4 ), vec3( 0.5 ) ), vec3( 0.45 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::mix( vec3( 0.5 ), vec3( -0.4 ), vec3( 0.5 ) ), vec3( 0.05 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::mix( vec4( 0.5 ), vec4( 0.4 ), vec4( 0.5 ) ), vec4( 0.45 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::mix( vec4( 0.5 ), vec4( -0.4 ), vec4( 0.5 ) ), vec4( 0.05 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::step( vec2( 2 ), vec2( -1 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::step( vec2( -1 ), vec2( 2 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::step( vec3( 2 ), vec3( -1 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::step( vec3( -1 ), vec3( 2 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::step( vec4( 2 ), vec4( -1 ) ), vec4( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::step( vec4( -1 ), vec4( 2 ) ), vec4( 1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::clamp( vec2( -2 ), vec2( -1 ), vec2( 1 ) ), vec2( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::clamp( vec2( 2 ), vec2( -1 ), vec2( 1 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::clamp( vec3( -2 ), vec3( -1 ), vec3( 1 ) ), vec3( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::clamp( vec3( 2 ), vec3( -1 ), vec3( 1 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::clamp( vec4( -2 ), vec4( -1 ), vec4( 1 ) ), vec4( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::clamp( vec4( 2 ), vec4( -1 ), vec4( 1 ) ), vec4( 1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::smoothstep( vec2( 1 ), vec2( 2 ), vec2( 1.6 ) ), vec2( 0.648f ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::smoothstep( vec3( 1 ), vec3( 2 ), vec3( 1.6 ) ), vec3( 0.648f ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::smoothstep( vec4( 1 ), vec4( 2 ), vec4( 1.6 ) ), vec4( 0.648f ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::fma( vec2( 2 ), vec2( 3 ), vec2( 4 ) ), vec2( 10 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fma( vec2( 2 ), vec2( -3 ), vec2( 4 ) ), vec2( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fma( vec2( 2 ), vec2( 0 ), vec2( 4 ) ), vec2( 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fma( vec3( 2 ), vec3( 3 ), vec3( 4 ) ), vec3( 10 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fma( vec3( 2 ), vec3( -3 ), vec3( 4 ) ), vec3( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fma( vec3( 2 ), vec3( 0 ), vec3( 4 ) ), vec3( 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fma( vec4( 2 ), vec4( 3 ), vec4( 4 ) ), vec4( 10 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fma( vec4( 2 ), vec4( -3 ), vec4( 4 ) ), vec4( -2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::fma( vec4( 2 ), vec4( 0 ), vec4( 4 ) ), vec4( 4 ) ) ) );
+
+  //dot
+  UNIT_TEST( mm::dot( vec2( 1 ), vec2( 2 ) ) == 4 );
+  UNIT_TEST( mm::dot( vec2( 1, 0 ), vec2( -1, 0 ) ) == -1 );
+  UNIT_TEST( mm::dot( vec2( 1, 0 ), vec2( 1, 0 ) ) == 1 );
 
   system( "PAUSE" );
 

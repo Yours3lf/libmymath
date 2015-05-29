@@ -408,20 +408,20 @@ namespace mymath
   //fract
 #define MYMATH_FRACT_FUNC(t) \
   MYMATH_INLINE impl::vec2i<t> fract( const impl::vec2i<t>& vec ) \
-  { return vec - floor( vec ); } \
+  { return vec - trunc( vec ); } \
   MYMATH_INLINE impl::vec3i<t> fract( const impl ::vec3i<t>& vec ) \
-  { return vec - floor( vec ); } \
+  { return vec - trunc( vec ); } \
   MYMATH_INLINE impl::vec4i<t> fract( const impl::vec4i<t>& vec ) \
-  { return vec - floor( vec ); }
+  { return vec - trunc( vec ); }
 
   //mod
 #define MYMATH_MOD_FUNC(t) \
   MYMATH_INLINE impl::vec2i<t> mod( const impl::vec2i<t>& a, const impl::vec2i<t>& b ) \
-  { return impl::vec2i<t>( ( int )a.x % ( int )b.x, ( int )a.y % ( int )b.y ); } \
+  { return a - b * floor(a/b); } \
   MYMATH_INLINE impl::vec3i<t> mod( const impl::vec3i<t>& a, const impl::vec3i<t>& b ) \
-  { return impl::vec3i<t>( ( int )a.x % ( int )b.x, ( int )a.y % ( int )b.y, ( int )a.z % ( int )b.z ); } \
+  { return a - b * floor(a/b); } \
   MYMATH_INLINE impl::vec4i<t> mod( const impl::vec4i<t>& a, const impl::vec4i<t>& b ) \
-  { return impl::vec4i<t>( ( int )a.x % ( int )b.x, ( int )a.y % ( int )b.y, ( int )a.z % ( int )b.z, ( int )a.w % ( int )b.w ); }
+  { return a - b * floor(a/b); }
 
   //mix
 #define MYMATH_MIX_FUNC(t) \
