@@ -230,6 +230,38 @@ int main( int argc, char** args )
   UNIT_TEST( mm::equal( c = vec4( uvec4( 1, 2, 3, 4 ) ), vec4( 1, 2, 3, 4 ) ) );
   UNIT_TEST( mm::equal( c = vec4( ivec4( 1, 2, 3, 4 ) ), vec4( 1, 2, 3, 4 ) ) );
 
+  //swizzle out tests
+  a = vec2( 1, 2 );
+  b = vec3( 1, 2, 3 );
+  c = vec4( 1, 2, 3, 4 );
+  //don't believe intellisense, this is valid code
+  UNIT_TEST( mm::equal( a.xxx, vec3( 1, 1, 1 ) ) );
+  UNIT_TEST( mm::equal( a.yxx, vec3( 2, 1, 1 ) ) );
+  UNIT_TEST( mm::equal( a.xyx, vec3( 1, 2, 1 ) ) );
+  UNIT_TEST( mm::equal( a.xxy, vec3( 1, 1, 2 ) ) );
+  UNIT_TEST( mm::equal( a.xxxx, vec4( 1, 1, 1, 1 ) ) );
+  UNIT_TEST( mm::equal( a.yxxx, vec4( 2, 1, 1, 1 ) ) );
+  UNIT_TEST( mm::equal( a.xyxx, vec4( 1, 2, 1, 1 ) ) );
+  UNIT_TEST( mm::equal( a.xxyx, vec4( 1, 1, 2, 1 ) ) );
+  UNIT_TEST( mm::equal( a.xxxy, vec4( 1, 1, 1, 2 ) ) );
+  UNIT_TEST( mm::equal( a.xyxy, vec4( 1, 2, 1, 2 ) ) );
+  UNIT_TEST( mm::equal( a.xyxy, vec4( 1, 2, 1, 2 ) ) );
+  UNIT_TEST( mm::equal( a.xxyy, vec4( 1, 1, 2, 2 ) ) );
+  UNIT_TEST( mm::equal( b.xxxx, vec4( 1, 1, 1, 1 ) ) );
+  UNIT_TEST( mm::equal( b.yxxx, vec4( 2, 1, 1, 1 ) ) );
+  UNIT_TEST( mm::equal( b.xyxx, vec4( 1, 2, 1, 1 ) ) );
+  UNIT_TEST( mm::equal( b.xxyx, vec4( 1, 1, 2, 1 ) ) );
+  UNIT_TEST( mm::equal( b.xxxy, vec4( 1, 1, 1, 2 ) ) );
+  UNIT_TEST( mm::equal( b.xyxy, vec4( 1, 2, 1, 2 ) ) );
+  UNIT_TEST( mm::equal( b.xyxy, vec4( 1, 2, 1, 2 ) ) );
+  UNIT_TEST( mm::equal( b.xxyy, vec4( 1, 1, 2, 2 ) ) );
+  UNIT_TEST( mm::equal( b.yzxx, vec4( 2, 3, 1, 1 ) ) );
+  UNIT_TEST( mm::equal( b.yxzx, vec4( 2, 1, 3, 1 ) ) );
+  UNIT_TEST( mm::equal( b.yxxz, vec4( 2, 1, 1, 3 ) ) );
+
+  //vec func tests
+
+
   system( "PAUSE" );
 
   return 0;
