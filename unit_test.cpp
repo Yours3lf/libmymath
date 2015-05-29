@@ -285,7 +285,111 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( b-b, vec3( 0, 0, 0 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( c-c, vec4( 0, 0, 0, 0 ) ) ) );
 
-  //todo std vec functions
+  UNIT_TEST( mm::all( mm::equal( mm::sin( vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sin( vec2( pi/2 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sin( vec2( -pi / 2 ) ), vec2( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sin( vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sin( vec3( pi / 2 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sin( vec3( -pi / 2 ) ), vec3( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sin( vec4( 0 ) ), vec4( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sin( vec4( pi / 2 ) ), vec4( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sin( vec4( -pi / 2 ) ), vec4( -1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::cos( vec2( 0 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cos( vec2( pi ) ), vec2( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cos( vec2( pi / 2 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cos( vec3( 0 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cos( vec3( pi ) ), vec3( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cos( vec3( pi / 2 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cos( vec4( 0 ) ), vec4( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cos( vec4( pi ) ), vec4( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cos( vec4( pi / 2 ) ), vec4( 0 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::tan( vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tan( vec2( pi/6 ) ), vec2( 0.57735f ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tan( vec2( -pi/6 ) ), vec2( -0.57735f ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tan( vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tan( vec3( pi / 6 ) ), vec3( 0.57735f ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tan( vec3( -pi / 6 ) ), vec3( -0.57735f ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tan( vec4( 0 ) ), vec4( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tan( vec4( pi / 6 ) ), vec4( 0.57735f ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tan( vec4( -pi / 6 ) ), vec4( -0.57735f ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::asin( vec2( -0.5 ) ), vec2( -0.5236 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asin( vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asin( vec2( 0.5 ) ), vec2( 0.5236 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asin( vec3( -0.5 ) ), vec3( -0.5236 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asin( vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asin( vec3( 0.5 ) ), vec3( 0.5236 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asin( vec4( -0.5 ) ), vec4( -0.5236 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asin( vec4( 0 ) ), vec4( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asin( vec4( 0.5 ) ), vec4( 0.5236 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::acos( vec2( -0.5 ) ), vec2( 2.0944 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::acos( vec2( 0 ) ), vec2( 1.5708 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::acos( vec2( 0.5 ) ), vec2( 1.0472 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::acos( vec3( -0.5 ) ), vec3( 2.0944 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::acos( vec3( 0 ) ), vec3( 1.5708 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::acos( vec3( 0.5 ) ), vec3( 1.0472 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::acos( vec4( -0.5 ) ), vec4( 2.0944 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::acos( vec4( 0 ) ), vec4( 1.5708 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::acos( vec4( 0.5 ) ), vec4( 1.0472 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::atan( vec2( -0.5 ) ), vec2( -0.4636 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atan( vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atan( vec2( 0.5 ) ), vec2( 0.4636 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atan( vec3( -0.5 ) ), vec3( -0.4636 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atan( vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atan( vec3( 0.5 ) ), vec3( 0.4636 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atan( vec4( -0.5 ) ), vec4( -0.4636 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atan( vec4( 0 ) ), vec4( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::atan( vec4( 0.5 ) ), vec4( 0.4636 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::sinh( vec2( -0.5 ) ), vec2( -0.5211 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sinh( vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sinh( vec2( 0.5 ) ), vec2( 0.5211 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sinh( vec3( -0.5 ) ), vec3( -0.5211 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sinh( vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sinh( vec3( 0.5 ) ), vec3( 0.5211 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sinh( vec4( -0.5 ) ), vec4( -0.5211 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sinh( vec4( 0 ) ), vec4( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sinh( vec4( 0.5 ) ), vec4( 0.5211 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::cosh( vec2( -0.5 ) ), vec2( 1.1276 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cosh( vec2( 0 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cosh( vec2( 0.5 ) ), vec2( 1.1276 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cosh( vec3( -0.5 ) ), vec3( 1.1276 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cosh( vec3( 0 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cosh( vec3( 0.5 ) ), vec3( 1.1276 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cosh( vec4( -0.5 ) ), vec4( 1.1276 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cosh( vec4( 0 ) ), vec4( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::cosh( vec4( 0.5 ) ), vec4( 1.1276 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::tanh( vec2( -0.5 ) ), vec2( -0.4621 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tanh( vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tanh( vec2( 0.5 ) ), vec2( 0.4621 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tanh( vec3( -0.5 ) ), vec3( -0.4621 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tanh( vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tanh( vec3( 0.5 ) ), vec3( 0.4621 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tanh( vec4( -0.5 ) ), vec4( -0.4621 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tanh( vec4( 0 ) ), vec4( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tanh( vec4( 0.5 ) ), vec4( 0.4621 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::asinh( vec2( -0.5 ) ), vec2( -0.4812 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asinh( vec2( 0 ) ), vec2( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asinh( vec2( 0.5 ) ), vec2( 0.4812 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asinh( vec3( -0.5 ) ), vec3( -0.4812 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asinh( vec3( 0 ) ), vec3( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asinh( vec3( 0.5 ) ), vec3( 0.4812 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asinh( vec4( -0.5 ) ), vec4( -0.4812 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asinh( vec4( 0 ) ), vec4( 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::asinh( vec4( 0.5 ) ), vec4( 0.4812 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::acosh( vec2( 2 ) ), vec2( 1.3170 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::acosh( vec3( 2 ) ), vec3( 1.3170 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::acosh( vec4( 2 ) ), vec4( 1.3170 ) ) ) );
+
+  //atanh
 
   system( "PAUSE" );
 
