@@ -114,6 +114,7 @@ int main( int argc, char** args )
   UNIT_TEST( mm::max( 1, 0 ) == 1 );
 
   //vec2 tests
+  //TODO test basic functions
   vec2 a = vec2( 1, 2 );
   UNIT_TEST( mm::all( mm::equal( a.yx = a.xy, vec2( 2, 1 ) ) ) );
   a = vec2( 1, 2 );
@@ -588,10 +589,61 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( mm::fma( vec4( 2 ), vec4( -3 ), vec4( 4 ) ), vec4( -2 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::fma( vec4( 2 ), vec4( 0 ), vec4( 4 ) ), vec4( 4 ) ) ) );
 
-  //dot
   UNIT_TEST( mm::dot( vec2( 1 ), vec2( 2 ) ) == 4 );
   UNIT_TEST( mm::dot( vec2( 1, 0 ), vec2( -1, 0 ) ) == -1 );
   UNIT_TEST( mm::dot( vec2( 1, 0 ), vec2( 1, 0 ) ) == 1 );
+  UNIT_TEST( mm::dot( vec3( 1 ), vec3( 2 ) ) == 6 );
+  UNIT_TEST( mm::dot( vec3( 1, 0, 0 ), vec3( -1, 0, 0 ) ) == -1 );
+  UNIT_TEST( mm::dot( vec3( 1, 0, 0 ), vec3( 1, 0, 0 ) ) == 1 );
+  UNIT_TEST( mm::dot( vec4( 1 ), vec4( 2 ) ) == 8 );
+  UNIT_TEST( mm::dot( vec4( 1, 0, 0, 0 ), vec4( -1, 0, 0, 0 ) ) == -1 );
+  UNIT_TEST( mm::dot( vec4( 1, 0, 0, 0 ), vec4( 1, 0, 0, 0 ) ) == 1 );
+
+  UNIT_TEST( mm::impl::is_eq( mm::length( vec2( 1, 2 ) ), std::sqrt(5.0f) ) );
+  UNIT_TEST( mm::impl::is_eq( mm::length( vec3( 2, 3, 4 ) ), std::sqrt( 29.0f ) ) );
+  UNIT_TEST( mm::impl::is_eq( mm::length( vec4( 2, 3, 4, 5 ) ), std::sqrt( 54.0f ) ) );
+
+  UNIT_TEST( mm::impl::is_eq( mm::distance( vec2( 1, 2 ), vec2( 1, 3 ) ), 1 ) );
+  UNIT_TEST( mm::impl::is_eq( mm::distance( vec2( 1, -2 ), vec2( 1, 3 ) ), 5 ) );
+  UNIT_TEST( mm::impl::is_eq( mm::distance( vec3( 1, 2, 4 ), vec3( 1, 3, 4 ) ), 1 ) );
+  UNIT_TEST( mm::impl::is_eq( mm::distance( vec3( 1, -2, 4 ), vec3( 1, 3, 4 ) ), 5 ) );
+  UNIT_TEST( mm::impl::is_eq( mm::distance( vec4( 1, 2, 4, 5 ), vec4( 1, 3, 4, 5 ) ), 1 ) );
+  UNIT_TEST( mm::impl::is_eq( mm::distance( vec4( 1, -2, 4, 5 ), vec4( 1, 3, 4, 5 ) ), 5 ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::normalize( vec2( 1 ) ), vec2( 0.7071 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::normalize( vec3( 1 ) ), vec3( 0.57735 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::normalize( vec4( 1 ) ), vec4( 0.5 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::reflect( vec2( -1 ), vec2( 0, 1 ) ), vec2( -1, 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::reflect( vec3( -1 ), vec3( 0, 1, 0 ) ), vec3( -1, 1, -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::reflect( vec4( -1 ), vec4( 0, 1, 0, 0 ) ), vec4( -1, 1, -1, -1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::refract( vec2( -1 ), vec2( 0, 1 ), 0.5 ), vec2(-0.5, -1.0) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::refract( vec3( -1 ), vec3( 0, 1, 0 ), 0.5 ), vec3( -0.5, -1.0, -0.5 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::refract( vec4( -1 ), vec4( 0, 1, 0, 0 ), 0.5 ), vec4( -0.5, -1.0, -0.5, -0.5 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::faceforward( vec2( -1 ), vec2( 1 ), vec2( 0, 1 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::faceforward( vec2( 1 ), vec2( -1 ), vec2( 0, 1 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::faceforward( vec3( -1 ), vec3( 1 ), vec3( 0, 1, 0 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::faceforward( vec3( 1 ), vec3( -1 ), vec3( 0, 1, 0 ) ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::faceforward( vec4( -1 ), vec4( 1 ), vec4( 0, 1, 0, 0 ) ), vec4( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::faceforward( vec4( 1 ), vec4( -1 ), vec4( 0, 1, 0, 0 ) ), vec4( 1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::isnan( vec2( nanf(0) ) ), bvec2( true ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::isnan( vec2( 0 ) ), bvec2( false ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::isnan( vec3( nanf( 0 ) ) ), bvec3( true ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::isnan( vec3( 0 ) ), bvec3( false ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::isnan( vec4( nanf( 0 ) ) ), bvec4( true ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::isnan( vec4( 0 ) ), bvec4( false ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::isinf( vec2( INFINITY ) ), bvec2( true ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::isinf( vec2( 0 ) ), bvec2( false ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::isinf( vec3( INFINITY ) ), bvec3( true ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::isinf( vec3( 0 ) ), bvec3( false ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::isinf( vec4( INFINITY ) ), bvec4( true ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::isinf( vec4( 0 ) ), bvec4( false ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( mm::cross( vec3( 1, 0, 0 ), vec3( 0, 1, 0 ) ), vec3( 0, 0, 1 ) ) ) );
 
   system( "PAUSE" );
 

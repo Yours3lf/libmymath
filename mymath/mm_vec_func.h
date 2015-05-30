@@ -63,12 +63,14 @@ namespace mymath
 #endif
   MYMATH_EQUAL_FUNC( int )
   MYMATH_EQUAL_FUNC( unsigned int )
+  MYMATH_EQUAL_FUNC( bool )
 
 #ifndef MYMATH_USE_SSE2
   MYMATH_NOTEQUAL_FUNC( float )
 #endif
   MYMATH_NOTEQUAL_FUNC( int )
   MYMATH_NOTEQUAL_FUNC( unsigned int )
+  MYMATH_NOTEQUAL_FUNC( bool )
 }
 
 //operator*
@@ -521,13 +523,13 @@ namespace mymath
 
   //refract
 #define MYMATH_REFRACT_FUNC(t) \
-  MYMATH_INLINE impl::vec2i<t> refract( const impl::vec2i<t>& a, const impl::vec2i<t>& b, const impl::vec2i<t>& c ) \
+  MYMATH_INLINE impl::vec2i<t> refract( const impl::vec2i<t>& a, const impl::vec2i<t>& b, t c ) \
   { t k = ( impl::vec2i<t>( 1 ) - c * c * impl::vec2i<t>( ( t )1 - dot( a, b ) * dot( a, b ) ) ).x; \
     return k < ( t )0 ? impl::vec2i<t>( 0 ) : c * a - ( c * impl::vec2i<t>( dot( a, b ) ) + impl::vec2i<t>( std::sqrt( k ) ) ) * b; } \
-  MYMATH_INLINE impl::vec3i<t> refract( const impl::vec3i<t>& a, const impl::vec3i<t>& b, const impl::vec3i<t>& c ) \
+  MYMATH_INLINE impl::vec3i<t> refract( const impl::vec3i<t>& a, const impl::vec3i<t>& b, t c ) \
   { t k = ( impl::vec3i<t>( 1 ) - c * c * impl::vec3i<t>( ( t )1 - dot( a, b ) * dot( a, b ) ) ).x; \
     return k < ( t )0 ? impl::vec3i<t>( 0 ) : c * a - ( c * impl::vec3i<t>( dot( a, b ) ) + impl::vec3i<t>( std::sqrt( k ) ) ) * b; } \
-  MYMATH_INLINE impl::vec4i<t> refract( const impl::vec4i<t>& a, const impl::vec4i<t>& b, const impl::vec4i<t>& c ) \
+  MYMATH_INLINE impl::vec4i<t> refract( const impl::vec4i<t>& a, const impl::vec4i<t>& b, t c ) \
   { t k = ( impl::vec4i<t>( 1 ) - c * c * impl::vec4i<t>( ( t )1 - dot( a, b ) * dot( a, b ) ) ).x; \
     return k < ( t )0 ? impl::vec4i<t>( 0 ) : c * a - ( c * impl::vec4i<t>( dot( a, b ) ) + impl::vec4i<t>( std::sqrt( k ) ) ) * b; } \
 
@@ -542,21 +544,21 @@ namespace mymath
 
   //isnan
 #define MYMATH_ISNAN_FUNC(t) \
-  MYMATH_INLINE bool isnan( const impl::vec2i<t>& vec ) \
-  { return isnan( vec.x ) || isnan( vec.y ); } \
-  MYMATH_INLINE bool isnan( const impl::vec3i<t>& vec ) \
-  {  return isnan( vec.x ) || isnan( vec.y ) || isnan( vec.z ); } \
-  MYMATH_INLINE bool isnan( const impl::vec4i<t>& vec ) \
-  { return isnan( vec.x ) || isnan( vec.y ) || isnan( vec.z ) || isnan( vec.w ); }
+  MYMATH_INLINE impl::vec2i<bool> isnan( const impl::vec2i<t>& vec ) \
+  { return impl::vec2i<bool>( isnan( vec.x ), isnan( vec.y ) ); } \
+  MYMATH_INLINE impl::vec3i<bool> isnan( const impl::vec3i<t>& vec ) \
+  {  return impl::vec3i<bool>( isnan( vec.x ), isnan( vec.y ), isnan( vec.z ) ); } \
+  MYMATH_INLINE impl::vec4i<bool> isnan( const impl::vec4i<t>& vec ) \
+  { return impl::vec4i<bool>( isnan( vec.x ), isnan( vec.y ), isnan( vec.z ), isnan( vec.w ) ); }
 
   //isinf
 #define MYMATH_ISINF_FUNC(t) \
-  MYMATH_INLINE bool isinf( const impl::vec2i<t>& vec ) \
-  { return isinf( vec.x ) || isinf( vec.y ); } \
-  MYMATH_INLINE bool isinf( const impl::vec3i<t>& vec ) \
-  { return isinf( vec.x ) || isinf( vec.y ) || isinf( vec.z ); } \
-  MYMATH_INLINE bool isinf( const impl::vec4i<t>& vec ) \
-  { return isinf( vec.x ) || isinf( vec.y ) || isinf( vec.z ) || isinf( vec.w ); }
+  MYMATH_INLINE impl::vec2i<bool> isinf( const impl::vec2i<t>& vec ) \
+  { return impl::vec2i<bool>( isinf( vec.x ), isinf( vec.y ) ); } \
+  MYMATH_INLINE impl::vec3i<bool> isinf( const impl::vec3i<t>& vec ) \
+  { return impl::vec3i<bool>( isinf( vec.x ), isinf( vec.y ), isinf( vec.z ) ); } \
+  MYMATH_INLINE impl::vec4i<bool> isinf( const impl::vec4i<t>& vec ) \
+  { return impl::vec4i<bool>( isinf( vec.x ), isinf( vec.y ), isinf( vec.z ), isinf( vec.w ) ); }
 
 //cross only vec3
 #define MYMATH_CROSS_FUNC(t) \
