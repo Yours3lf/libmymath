@@ -260,7 +260,6 @@ int main( int argc, char** args )
   UNIT_TEST( b.length() == 3 );
 
   //vec4 tests
-  //TODO test basic functions
   vec4 c = vec4( 1, 2, 3, 4 );
   UNIT_TEST( mm::all( mm::equal( c.wzyx = c.xyzw, vec4( 4, 3, 2, 1 ) ) ) );
   c = vec4( 1, 2, 3, 4 );
@@ -407,10 +406,54 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( b.yxxz, vec4( 2, 1, 1, 3 ) ) ) );
 
   //vec func tests
-  //TODO test 
-  //logic functions
-  //negate
-  //compare functions
+  UNIT_TEST( mm::all( mm::equal( mm::not( bvec2( true, false ) ), bvec2( false, true ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::not( bvec3( true, false, true ) ), bvec3( false, true, false ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::not( bvec4( true, false, true, false ) ), bvec4( false, true, false, true ) ) ) );
+  UNIT_TEST( mm::all( mm::notEqual( mm::not( bvec2( true, false ) ), bvec2( true, false ) ) ) );
+  UNIT_TEST( mm::all( mm::notEqual( mm::not( bvec3( true, false, true ) ), bvec3( true, false, true ) ) ) );
+  UNIT_TEST( mm::all( mm::notEqual( mm::not( bvec4( true, false, true, false ) ), bvec4( true, false, true, false ) ) ) );
+  UNIT_TEST( mm::any( bvec2( true, false ) ) == true );
+  UNIT_TEST( mm::any( bvec3( true, false, false ) ) == true );
+  UNIT_TEST( mm::any( bvec4( true, false, false, false ) ) == true );
+  UNIT_TEST( mm::any( bvec2( false, false ) ) == false );
+  UNIT_TEST( mm::any( bvec3( false, false, false ) ) == false );
+  UNIT_TEST( mm::any( bvec4( false, false, false, false ) ) == false );
+  UNIT_TEST( mm::all( bvec2( true, false ) ) == false );
+  UNIT_TEST( mm::all( bvec3( true, false, false ) ) == false );
+  UNIT_TEST( mm::all( bvec4( true, false, false, false ) ) == false );
+  UNIT_TEST( mm::all( bvec2( true, true ) ) == true );
+  UNIT_TEST( mm::all( bvec3( true, true, true ) ) == true );
+  UNIT_TEST( mm::all( bvec4( true, true, true, true ) ) == true );
+
+  UNIT_TEST( mm::all( mm::equal( -vec2( 1 ), vec2( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( -vec3( 1 ), vec3( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( -vec4( 1 ), vec4( -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( -vec2( -1 ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( -vec3( -1 ), vec3( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( -vec4( -1 ), vec4( 1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::lessThan( vec2( 1, 2 ), vec2( 2, 3 ) ) ) );
+  UNIT_TEST( mm::all( mm::lessThan( vec2( -3, 2 ), vec2( 2, 3 ) ) ) );
+  UNIT_TEST( mm::all( mm::lessThan( vec3( 1, 2, 3 ), vec3( 2, 3, 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::lessThan( vec3( -3, 2, 3 ), vec3( 2, 3, 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::lessThan( vec4( 1, 2, 3, 4 ), vec4( 2, 3, 4, 5 ) ) ) );
+  UNIT_TEST( mm::all( mm::lessThan( vec4( -3, 2, 3, 4 ), vec4( 2, 3, 4, 5 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::greaterThan( vec2( 2, 3 ), vec2( 1, 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::greaterThan( vec3( 2, 3, 4 ), vec3( 1, 2, 3 ) ) ) );
+  UNIT_TEST( mm::all( mm::greaterThan( vec4( 2, 3, 4, 5 ), vec4( 1, 2, 3, 4 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::lessThanEqual( vec2( 2, 2 ), vec2( 2, 3 ) ) ) );
+  UNIT_TEST( mm::all( mm::lessThanEqual( vec2( -3, 2 ), vec2( 2, 3 ) ) ) );
+  UNIT_TEST( mm::all( mm::lessThanEqual( vec3( 2, 2, 3 ), vec3( 2, 3, 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::lessThanEqual( vec3( -3, 2, 3 ), vec3( 2, 3, 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::lessThanEqual( vec4( 2, 2, 3, 4 ), vec4( 2, 3, 4, 5 ) ) ) );
+  UNIT_TEST( mm::all( mm::lessThanEqual( vec4( -3, 2, 3, 4 ), vec4( 2, 3, 4, 5 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::greaterThanEqual( vec2( 1, 3 ), vec2( 1, 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::greaterThanEqual( vec3( 1, 3, 4 ), vec3( 1, 2, 3 ) ) ) );
+  UNIT_TEST( mm::all( mm::greaterThanEqual( vec4( 1, 3, 4, 5 ), vec4( 1, 2, 3, 4 ) ) ) );
+
   a = vec2( 1, 2 );
   b = vec3( 1, 2, 3 );
   c = vec4( 1, 2, 3, 4 );
