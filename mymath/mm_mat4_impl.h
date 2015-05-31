@@ -67,11 +67,11 @@ namespace mymath
           m[2].xy = m1[0];
           m[3].xy = m1[1];
 
-          m[0].zw = m3[0];
-          m[1].zw = m3[1];
+          m[0].zw = m2[0];
+          m[1].zw = m2[1];
 
-          m[2].zw = m4[0];
-          m[3].zw = m4[1];
+          m[2].zw = m3[0];
+          m[3].zw = m3[1];
         }
 
         mat4i(const quati<t>& q)
@@ -173,4 +173,3 @@ namespace mymath
 }
 
 #endif
-

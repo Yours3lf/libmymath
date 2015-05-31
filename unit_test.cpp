@@ -36,6 +36,27 @@ public:
 #define STRINGIFY(S) (#S)
 #define UNIT_TEST(S) unit_test::test(S, STRINGIFY(S))
 
+bool MAT2_EQUAL( mat2 A, mat2 B )
+{
+  return ( mm::all( mm::equal( A[0], B[0] ) ) &&
+    mm::all( mm::equal( A[1], B[1] ) ) );
+}
+
+bool MAT3_EQUAL( mat3 A, mat3 B )
+{
+  return ( mm::all( mm::equal( A[0], B[0] ) ) &&
+    mm::all( mm::equal( A[1], B[1] ) ) &&
+    mm::all( mm::equal( A[2], B[2] ) ) );
+}
+
+bool MAT4_EQUAL( mat4 A, mat4 B )
+{
+  return ( mm::all( mm::equal( A[0], B[0] ) ) && 
+    mm::all( mm::equal( A[1], B[1] ) ) && 
+    mm::all( mm::equal( A[2], B[2] ) ) && 
+    mm::all( mm::equal( A[3], B[3] ) ) );
+}
+
 int main( int argc, char** args )
 {
   //common.h tests
@@ -831,6 +852,75 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( mm::isinf( vec4( 0 ) ), bvec4( false ) ) ) );
 
   UNIT_TEST( mm::all( mm::equal( mm::cross( vec3( 1, 0, 0 ), vec3( 0, 1, 0 ) ), vec3( 0, 0, 1 ) ) ) );
+
+  //mat2 tests
+  //generated in Matlab using:
+  //randn( 2 ), randn( 3 ), randn( 4 )
+  mat2 ma = mat2::identity;
+  mat3 mb = mat3::identity;
+  mat4 mc = mat4::identity;
+
+  UNIT_TEST( MAT2_EQUAL(ma, mat2(vec2(1,0), vec2(0,1))) );
+  UNIT_TEST( MAT2_EQUAL( ma, mat2( 1 ) ) );
+
+  UNIT_TEST( ma[0].x == 1 );
+  UNIT_TEST( ma[0].y == 0 );
+  
+  ma = mat2( 0.2147, 1.0665,
+    0.16, 2.6088 );
+
+  UNIT_TEST( MAT2_EQUAL( ( ma *= mm::inverse( ma ) ), mat2::identity ) );
+  UNIT_TEST( MAT2_EQUAL( ( ma *= 2 ), mat2( 2 ) ) );
+  UNIT_TEST( MAT2_EQUAL( ( ++ma ), mat2( 3, 1, 1, 3 ) ) );
+  UNIT_TEST( MAT2_EQUAL( ( ma++ ), mat2( 3, 1, 1, 3 ) ) );
+  UNIT_TEST( MAT2_EQUAL( ( --ma ), mat2( 3, 1, 1, 3 ) ) );
+  UNIT_TEST( MAT2_EQUAL( ( ma-- ), mat2( 3, 1, 1, 3 ) ) );
+
+  //mat3 tests
+  //TODO tests
+  //mat3(quat) constructor
+  UNIT_TEST( MAT3_EQUAL( mb, mat3( vec3( 1, 0, 0 ), vec3( 0, 1, 0 ), vec3( 0, 0, 1 ) ) ) );
+  UNIT_TEST( MAT3_EQUAL( mb, mat3( 1 ) ) );
+
+  UNIT_TEST( mb[1].x == 0 );
+  UNIT_TEST( mb[1].y == 1 );
+
+  UNIT_TEST( MAT3_EQUAL( mat3( 2 ), mat3( mat4( 2 ) ) ) );
+
+  mb = mat3( 0.0313, -2.0781, -1.6148,
+    0.5045, 0.5253, -0.7856,
+    -1.1963, -0.6228, -0.2589 );
+
+  UNIT_TEST( MAT3_EQUAL( ( mb *= mm::inverse( mb ) ), mat3::identity ) );
+  UNIT_TEST( MAT3_EQUAL( ( mb *= 2 ), mat3( 2 ) ) );
+  UNIT_TEST( MAT3_EQUAL( ( ++mb ), mat3( 3, 1, 1, 1, 3, 1, 1, 1, 3 ) ) );
+  UNIT_TEST( MAT3_EQUAL( ( mb++ ), mat3( 3, 1, 1, 1, 3, 1, 1, 1, 3 ) ) );
+  UNIT_TEST( MAT3_EQUAL( ( --mb ), mat3( 3, 1, 1, 1, 3, 1, 1, 1, 3 ) ) );
+  UNIT_TEST( MAT3_EQUAL( ( mb-- ), mat3( 3, 1, 1, 1, 3, 1, 1, 1, 3 ) ) );
+
+  //mat4 tests
+  //TODO tests
+  //mat4(quat) constructor
+  UNIT_TEST( MAT4_EQUAL( mc, mat4( vec4( 1, 0, 0, 0 ), vec4( 0, 1, 0, 0 ), vec4( 0, 0, 1, 0 ), vec4( 0, 0, 0, 1 ) ) ) );
+  UNIT_TEST( MAT4_EQUAL( mc, mat4( 1 ) ) );
+  
+  UNIT_TEST( mc[2].y == 0 );
+  UNIT_TEST( mc[2].z == 1 );
+
+  UNIT_TEST( MAT4_EQUAL( mat4( 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1 ), mat4( mat3( 2 ) ) ) );
+  UNIT_TEST( MAT4_EQUAL( mat4( 2 ), mat4( mat2( 2 ), mat2( 0 ), mat2( 0 ), mat2( 2 ) ) ) );
+  
+  mc = mat4( 0.3854, -0.0806, -0.8362, 0.4866,
+    -1.2877, -1.8971, 0.6112, -1.3552,
+    1.6993, -1.5248, -0.0907, 0.6628,
+    -1.2859, 0.1765, -0.4029, 0.0235 );
+  
+  UNIT_TEST( MAT4_EQUAL( ( mc *= mm::inverse( mc ) ), mat4::identity ) );
+  UNIT_TEST( MAT4_EQUAL( ( mc *= 2 ), mat4( 2 ) ) );
+  UNIT_TEST( MAT4_EQUAL( ( ++mc ), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
+  UNIT_TEST( MAT4_EQUAL( ( mc++ ), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
+  UNIT_TEST( MAT4_EQUAL( ( --mc ), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
+  UNIT_TEST( MAT4_EQUAL( ( mc-- ), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
 
   system( "PAUSE" );
 
