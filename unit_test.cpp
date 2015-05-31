@@ -114,7 +114,6 @@ int main( int argc, char** args )
   UNIT_TEST( mm::max( 1, 0 ) == 1 );
 
   //vec2 tests
-  //TODO test basic functions
   vec2 a = vec2( 1, 2 );
   UNIT_TEST( mm::all( mm::equal( a.yx = a.xy, vec2( 2, 1 ) ) ) );
   a = vec2( 1, 2 );
@@ -132,6 +131,48 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( a = ivec2( 1, 2 ), vec2( 1, 2 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( a = vec2( uvec2( 1, 2 ) ), vec2( 1, 2 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( a = vec2( ivec2( 1, 2 ) ), vec2( 1, 2 ) ) ) );
+
+  a = vec2( 1, 2 );
+  UNIT_TEST( a.x == 1 );
+  UNIT_TEST( a.y == 2 );
+  UNIT_TEST( a.r == 1 );
+  UNIT_TEST( a.g == 2 );
+  UNIT_TEST( a.s == 1 );
+  UNIT_TEST( a.t == 2 );
+  UNIT_TEST( mm::all( mm::equal( vec2( 1, 1 ), vec2( 1 ) ) ) );
+  UNIT_TEST( a[0] == 1 );
+  UNIT_TEST( a[1] == 2 );
+  UNIT_TEST( mm::all( mm::equal( ( a *= 2 ), vec2( 2, 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( a /= 2 ), vec2( 1, 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( a += a ), vec2( 2, 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( a -= a ), vec2( 0, 0 ) ) ) );
+  ivec2 ai = ivec2( 10 );
+  uvec2 au = uvec2( 10 );
+  UNIT_TEST( mm::all( mm::equal( ( ai %= ivec2( 3 ) ), ivec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( au %= uvec2( 3 ) ), uvec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( ai <<= ivec2( 1 ) ), ivec2( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( au <<= uvec2( 1 ) ), uvec2( 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( ai >>= ivec2( 1 ) ), ivec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( au >>= uvec2( 1 ) ), uvec2( 1 ) ) ) );
+  ai = ivec2( 255 );
+  au = uvec2( 255 );
+  UNIT_TEST( mm::all( mm::equal( ( ai &= ivec2( 259 ) ), ivec2( 3 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( au &= uvec2( 259 ) ), uvec2( 3 ) ) ) );
+  ai = ivec2( 255 );
+  au = uvec2( 255 );
+  UNIT_TEST( mm::all( mm::equal( ( ai ^= ivec2( 259 ) ), ivec2( 508 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( au ^= uvec2( 259 ) ), uvec2( 508 ) ) ) );
+  ai = ivec2( 255 );
+  au = uvec2( 255 );
+  UNIT_TEST( mm::all( mm::equal( ( ai |= ivec2( 259 ) ), ivec2( 511 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( au |= uvec2( 259 ) ), uvec2( 511 ) ) ) );
+
+  a = vec2( 1, 2 );
+  UNIT_TEST( mm::all( mm::equal( ++a, vec2( 2, 3 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( a++, vec2( 2, 3 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( --a, vec2( 2, 3 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( a--, vec2( 2, 3 ) ) ) );
+  UNIT_TEST( a.length() == 2 );
 
   //vec3 tests
   //TODO test basic functions
