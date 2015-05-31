@@ -61,7 +61,7 @@ namespace mymath
 
 #define MYMATH_FINDNORMAL_FUNC(t) \
   MYMATH_INLINE impl::vec3i<t> find_normal(const impl::vec3i<t>& a, const impl::vec3i<t>& b, const impl::vec3i<t>& c ) \
-  { return cross( a - b, b - c ); }
+  { return normalize( cross( a - b, b - c ) ); }
 
 #define MYMATH_CALCTANGENT_FUNC(t) \
   MYMATH_INLINE impl::vec3i<t> calc_tangent( const impl::vec3i<t> vertices[3], const impl::vec2i<t> texcoords[3], const impl::vec3i<t>& normal ) \
@@ -84,7 +84,7 @@ namespace mymath
   }
 
   MYMATH_UNPROJECT_FUNC( float )
-  
+
   MYMATH_CREATEROTATION_FUNC( float )
 
   MYMATH_CREATESCALE_FUNC( float )
@@ -106,6 +106,9 @@ namespace mymath
 
   MYMATH_INLINE bool is_pow_2( const unsigned int& val )
   {
+    if( val == 0 )
+      return true; 
+
     unsigned int pow2 = 1;
 
     while( val > pow2 )

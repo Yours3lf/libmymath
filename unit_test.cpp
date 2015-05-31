@@ -51,9 +51,9 @@ bool MAT3_EQUAL( mat3 A, mat3 B )
 
 bool MAT4_EQUAL( mat4 A, mat4 B )
 {
-  return ( mm::all( mm::equal( A[0], B[0] ) ) && 
-    mm::all( mm::equal( A[1], B[1] ) ) && 
-    mm::all( mm::equal( A[2], B[2] ) ) && 
+  return ( mm::all( mm::equal( A[0], B[0] ) ) &&
+    mm::all( mm::equal( A[1], B[1] ) ) &&
+    mm::all( mm::equal( A[2], B[2] ) ) &&
     mm::all( mm::equal( A[3], B[3] ) ) );
 }
 
@@ -62,7 +62,7 @@ int main( int argc, char** args )
   //common.h tests
   for( float eps = mm::epsilon, i = mm::epsilon; i < 100; i += ( eps *= 2 ) )
   {
-    UNIT_TEST( mm::impl::is_eq( mm::inversesqrt( i ), 1.0f / std::sqrt(i) ) );
+    UNIT_TEST( mm::impl::is_eq( mm::inversesqrt( i ), 1.0f / std::sqrt( i ) ) );
   }
 
   UNIT_TEST( mm::step( 2, -1 ) == 0 );
@@ -120,7 +120,7 @@ int main( int argc, char** args )
   UNIT_TEST( mm::round( 1.9f ) == 2 );
   UNIT_TEST( mm::round( 0 ) == 0 );
 
-  UNIT_TEST( mm::isnan( nanf(0) ) == true );
+  UNIT_TEST( mm::isnan( nanf( 0 ) ) == true );
   UNIT_TEST( mm::isnan( 0 ) == false );
 
   UNIT_TEST( mm::isinf( INFINITY ) == true );
@@ -243,8 +243,8 @@ int main( int argc, char** args )
   UNIT_TEST( b.t == 2 );
   UNIT_TEST( b.q == 3 );
   UNIT_TEST( mm::all( mm::equal( vec3( 1, 1, 1 ), vec3( 1 ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( vec3( 1, 2, 3 ), vec3( vec2(1, 2), 3 ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( vec3( 1, 2, 3 ), vec3( 1, vec2( 2,3 ) ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( vec3( 1, 2, 3 ), vec3( vec2( 1, 2 ), 3 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( vec3( 1, 2, 3 ), vec3( 1, vec2( 2, 3 ) ) ) ) );
   UNIT_TEST( b[0] == 1 );
   UNIT_TEST( b[1] == 2 );
   UNIT_TEST( b[2] == 3 );
@@ -273,7 +273,7 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( ( bi |= ivec3( 259 ) ), ivec3( 511 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( ( bu |= uvec3( 259 ) ), uvec3( 511 ) ) ) );
 
-  b = vec3( 1, 2,3 );
+  b = vec3( 1, 2, 3 );
   UNIT_TEST( mm::all( mm::equal( ++b, vec3( 2, 3, 4 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( b++, vec3( 2, 3, 4 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( --b, vec3( 2, 3, 4 ) ) ) );
@@ -484,24 +484,24 @@ int main( int argc, char** args )
   a = vec2( 1, 2 );
   b = vec3( 1, 2, 3 );
   c = vec4( 1, 2, 3, 4 );
-  UNIT_TEST( mm::all( mm::equal( a/a, vec2( 1, 1 ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( b/b, vec3( 1, 1, 1 ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( c/c, vec4( 1, 1, 1, 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( a / a, vec2( 1, 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( b / b, vec3( 1, 1, 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( c / c, vec4( 1, 1, 1, 1 ) ) ) );
   a = vec2( 1, 2 );
   b = vec3( 1, 2, 3 );
   c = vec4( 1, 2, 3, 4 );
-  UNIT_TEST( mm::all( mm::equal( a+a, vec2( 2, 4 ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( b+b, vec3( 2, 4, 6 ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( c+c, vec4( 2, 4, 6, 8 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( a + a, vec2( 2, 4 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( b + b, vec3( 2, 4, 6 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( c + c, vec4( 2, 4, 6, 8 ) ) ) );
   a = vec2( 1, 2 );
   b = vec3( 1, 2, 3 );
   c = vec4( 1, 2, 3, 4 );
-  UNIT_TEST( mm::all( mm::equal( a-a, vec2( 0, 0 ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( b-b, vec3( 0, 0, 0 ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( c-c, vec4( 0, 0, 0, 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( a - a, vec2( 0, 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( b - b, vec3( 0, 0, 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( c - c, vec4( 0, 0, 0, 0 ) ) ) );
 
   UNIT_TEST( mm::all( mm::equal( mm::sin( vec2( 0 ) ), vec2( 0 ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( mm::sin( vec2( pi/2 ) ), vec2( 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::sin( vec2( pi / 2 ) ), vec2( 1 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::sin( vec2( -pi / 2 ) ), vec2( -1 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::sin( vec3( 0 ) ), vec3( 0 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::sin( vec3( pi / 2 ) ), vec3( 1 ) ) ) );
@@ -521,8 +521,8 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( mm::cos( vec4( pi / 2 ) ), vec4( 0 ) ) ) );
 
   UNIT_TEST( mm::all( mm::equal( mm::tan( vec2( 0 ) ), vec2( 0 ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( mm::tan( vec2( pi/6 ) ), vec2( 0.57735f ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( mm::tan( vec2( -pi/6 ) ), vec2( -0.57735f ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tan( vec2( pi / 6 ) ), vec2( 0.57735f ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::tan( vec2( -pi / 6 ) ), vec2( -0.57735f ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::tan( vec3( 0 ) ), vec3( 0 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::tan( vec3( pi / 6 ) ), vec3( 0.57735f ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::tan( vec3( -pi / 6 ) ), vec3( -0.57735f ) ) ) );
@@ -807,7 +807,7 @@ int main( int argc, char** args )
   UNIT_TEST( mm::dot( vec4( 1, 0, 0, 0 ), vec4( -1, 0, 0, 0 ) ) == -1 );
   UNIT_TEST( mm::dot( vec4( 1, 0, 0, 0 ), vec4( 1, 0, 0, 0 ) ) == 1 );
 
-  UNIT_TEST( mm::impl::is_eq( mm::length( vec2( 1, 2 ) ), std::sqrt(5.0f) ) );
+  UNIT_TEST( mm::impl::is_eq( mm::length( vec2( 1, 2 ) ), std::sqrt( 5.0f ) ) );
   UNIT_TEST( mm::impl::is_eq( mm::length( vec3( 2, 3, 4 ) ), std::sqrt( 29.0f ) ) );
   UNIT_TEST( mm::impl::is_eq( mm::length( vec4( 2, 3, 4, 5 ) ), std::sqrt( 54.0f ) ) );
 
@@ -826,7 +826,7 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( mm::reflect( vec3( -1 ), vec3( 0, 1, 0 ) ), vec3( -1, 1, -1 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::reflect( vec4( -1 ), vec4( 0, 1, 0, 0 ) ), vec4( -1, 1, -1, -1 ) ) ) );
 
-  UNIT_TEST( mm::all( mm::equal( mm::refract( vec2( -1 ), vec2( 0, 1 ), 0.5 ), vec2(-0.5, -1.0) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::refract( vec2( -1 ), vec2( 0, 1 ), 0.5 ), vec2( -0.5, -1.0 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::refract( vec3( -1 ), vec3( 0, 1, 0 ), 0.5 ), vec3( -0.5, -1.0, -0.5 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::refract( vec4( -1 ), vec4( 0, 1, 0, 0 ), 0.5 ), vec4( -0.5, -1.0, -0.5, -0.5 ) ) ) );
 
@@ -837,7 +837,7 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( mm::faceforward( vec4( -1 ), vec4( 1 ), vec4( 0, 1, 0, 0 ) ), vec4( 1 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::faceforward( vec4( 1 ), vec4( -1 ), vec4( 0, 1, 0, 0 ) ), vec4( 1 ) ) ) );
 
-  UNIT_TEST( mm::all( mm::equal( mm::isnan( vec2( nanf(0) ) ), bvec2( true ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mm::isnan( vec2( nanf( 0 ) ) ), bvec2( true ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::isnan( vec2( 0 ) ), bvec2( false ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::isnan( vec3( nanf( 0 ) ) ), bvec3( true ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mm::isnan( vec3( 0 ) ), bvec3( false ) ) ) );
@@ -860,12 +860,12 @@ int main( int argc, char** args )
   mat3 mb = mat3::identity;
   mat4 mc = mat4::identity;
 
-  UNIT_TEST( MAT2_EQUAL(ma, mat2(vec2(1,0), vec2(0,1))) );
+  UNIT_TEST( MAT2_EQUAL( ma, mat2( vec2( 1, 0 ), vec2( 0, 1 ) ) ) );
   UNIT_TEST( MAT2_EQUAL( ma, mat2( 1 ) ) );
 
   UNIT_TEST( ma[0].x == 1 );
   UNIT_TEST( ma[0].y == 0 );
-  
+
   ma = mat2( 0.2147, 1.0665,
     0.16, 2.6088 );
 
@@ -903,18 +903,18 @@ int main( int argc, char** args )
   //mat4(quat) constructor
   UNIT_TEST( MAT4_EQUAL( mc, mat4( vec4( 1, 0, 0, 0 ), vec4( 0, 1, 0, 0 ), vec4( 0, 0, 1, 0 ), vec4( 0, 0, 0, 1 ) ) ) );
   UNIT_TEST( MAT4_EQUAL( mc, mat4( 1 ) ) );
-  
+
   UNIT_TEST( mc[2].y == 0 );
   UNIT_TEST( mc[2].z == 1 );
 
   UNIT_TEST( MAT4_EQUAL( mat4( 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1 ), mat4( mat3( 2 ) ) ) );
   UNIT_TEST( MAT4_EQUAL( mat4( 2 ), mat4( mat2( 2 ), mat2( 0 ), mat2( 0 ), mat2( 2 ) ) ) );
-  
+
   mc = mat4( 0.3854, -0.0806, -0.8362, 0.4866,
     -1.2877, -1.8971, 0.6112, -1.3552,
     1.6993, -1.5248, -0.0907, 0.6628,
     -1.2859, 0.1765, -0.4029, 0.0235 );
-  
+
   UNIT_TEST( MAT4_EQUAL( ( mc *= mm::inverse( mc ) ), mat4::identity ) );
   UNIT_TEST( MAT4_EQUAL( ( mc *= 2 ), mat4( 2 ) ) );
   UNIT_TEST( MAT4_EQUAL( ( ++mc ), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
@@ -938,9 +938,9 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( mb * b, vec3( 30, 36, 42 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( mc * c, vec4( 90, 100, 110, 120 ) ) ) );
 
-  UNIT_TEST( mm::all( mm::equal( (a *= ma), vec2( 5, 11 ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( (b *= mb), vec3( 14, 32, 50 ) ) ) );
-  UNIT_TEST( mm::all( mm::equal( (c *= mc), vec4( 30, 70, 110, 150 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( a *= ma ), vec2( 5, 11 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( b *= mb ), vec3( 14, 32, 50 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( ( c *= mc ), vec4( 30, 70, 110, 150 ) ) ) );
 
   UNIT_TEST( MAT2_EQUAL( ma * ma, mat2( 7, 10, 15, 22 ) ) );
   UNIT_TEST( MAT3_EQUAL( mb * mb, mat3( 30, 36, 42, 66, 81, 96, 102, 126, 150 ) ) );
@@ -961,6 +961,77 @@ int main( int argc, char** args )
   UNIT_TEST( MAT2_EQUAL( matrixCompMult( ma, ma ), mat2( 1, 4, 9, 16 ) ) );
   UNIT_TEST( MAT3_EQUAL( matrixCompMult( mb, mb ), mat3( 1, 4, 9, 16, 25, 36, 49, 64, 81 ) ) );
   UNIT_TEST( MAT4_EQUAL( matrixCompMult( mc, mc ), mat4( 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256 ) ) );
+
+  //util functions
+  mm::camera<float> cam;
+  mm::frame<float> f;
+  f.set_perspective( radians( 45 ), 1, 1, 100 );
+  mat4 inv_mvp = inverse( f.projection_matrix * cam.get_matrix() );
+  UNIT_TEST( mm::all( mm::equal( unproject( vec3( 0.0, 0.0, -1.0 ), inv_mvp ), vec3( 0, 0, -1 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( create_rotation( radians( 90 ), vec3( 0, 0, 1 ) ) * vec4( 1, 0, 0, 1 ), vec4( 0, 1, 0, 1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( create_scale( vec3( 2 ) ) * vec4( 2 ), vec4( 4, 4, 4, 2 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( create_translation( vec3( 1, 0, 0 ) ) * vec4( 0, 1, 0, 1 ), vec4( 1, 1, 0, 1 ) ) ) );
+
+  UNIT_TEST( mm::impl::is_eq( get_angle( vec2( 1, 0 ), vec2( 0, 1 ) ), radians( 90 ) ) );
+  UNIT_TEST( mm::impl::is_eq( get_angle( vec3( 1, 0, 0 ), vec3( 0, 1, 0 ) ), radians( 90 ) ) );
+  UNIT_TEST( mm::impl::is_eq( get_angle( vec4( 1, 0, 0, 0 ), vec4( 0, 1, 0, 0 ) ), radians( 90 ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( find_normal( vec3( 1, 0, 0 ), vec3( -1, 0, 0 ), vec3( 1, 0, 1 ) ), vec3( 0, 1, 0 ) ) ) );
+
+  vec3 vertices[3] = { vec3( 1, 0, 0 ), vec3( -1, 0, 0 ), vec3( 1, 0, 1 ) };
+  vec2 texcoords[3] = { vec2( 1, 0 ), vec2( 0, 0 ), vec2( 0, 1 ) };
+  UNIT_TEST( mm::all( mm::equal( calc_tangent( vertices, texcoords, vec3( 0, 1, 0 ) ), vec3( 1, 0, 0 ) ) ) );
+
+  UNIT_TEST( is_pow_2( 2 ) == true );
+  UNIT_TEST( is_pow_2( 3 ) == false );
+  UNIT_TEST( is_pow_2( 0 ) == true );
+
+  //frame functions
+  //TODO
+  //how do you test this???
+
+  //camera functions
+  cam.lookat( vec3( 1, 0, 0 ), vec3( 0, 0, 0 ), vec3( 0, 1, 0 ) );
+  mat4 cam_mat = cam.get_matrix();
+  UNIT_TEST( MAT4_EQUAL( cam_mat, mat4( 0, 0, -1, 0, 0, 1, 0, 0, 1, 0, 0, 0, -1, 0, 0, 1 ) ) );
+
+  cam.translate( vec3( -1, 0, 0 ) );
+  UNIT_TEST( mm::all( mm::equal( cam.pos, vec3( 0 ) ) ) );
+
+  cam.move_forward( 1 );
+  UNIT_TEST( mm::all( mm::equal( cam.pos, vec3( -1, 0, 0 ) ) ) );
+
+  cam.move_up( 1 );
+  UNIT_TEST( mm::all( mm::equal( cam.pos, vec3( -1, 1, 0 ) ) ) );
+
+  cam.move_right( 1 );
+  UNIT_TEST( mm::all( mm::equal( cam.pos, vec3( -1, 1, -1 ) ) ) );
+
+  cam = camera<float>();
+  cam.rotate_x( radians( 90 ) );
+  UNIT_TEST( mm::all( mm::equal( cam.view_dir, vec3( 0, -1, 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( cam.up_vector, vec3( 0, 0, -1 ) ) ) );
+
+  cam = camera<float>();
+  cam.rotate_y( radians( 90 ) );
+  UNIT_TEST( mm::all( mm::equal( cam.view_dir, vec3( -1, 0, 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( cam.up_vector, vec3( 0, 1, 0 ) ) ) );
+
+  cam = camera<float>();
+  cam.rotate_z( radians( 90 ) );
+  UNIT_TEST( mm::all( mm::equal( cam.view_dir, vec3( 0, 0, -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( cam.up_vector, vec3( 1, 0, 0 ) ) ) );
+
+  cam = camera<float>();
+  cam.rotate( radians( 90 ), vec3( 1, 1, 0 ) );
+  UNIT_TEST( mm::all( mm::equal( cam.view_dir, vec3( -0.7071, 0.7071, 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( cam.up_vector, vec3( 0.5, 0.5, 0.7071 ) ) ) );
+
+  cam.set_from_matrix( cam_mat );
+  UNIT_TEST( mm::all( mm::equal( cam.view_dir, vec3( -1, 0, 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( cam.up_vector, vec3( 0, 1, 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( cam.pos, vec3( 1, 0, 0 ) ) ) );
 
   system( "PAUSE" );
 

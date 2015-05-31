@@ -15,6 +15,15 @@ namespace mymath
       impl::vec3i<t> view_dir;
       impl::vec3i<t> up_vector;
 
+      void lookat( const impl::vec3i<t>& eye, const impl::vec3i<t>& lookat, const impl::vec3i<t>& up )
+      {
+        view_dir = normalize( lookat - eye );
+        up_vector = normalize( up );
+        pos = eye;
+        impl::vec3i<t> right = normalize( cross( view_dir, up_vector ) );
+        up_vector = normalize( cross( right, view_dir ) );
+      }
+
       void translate( const impl::vec3i<t>& vec )
       {
         pos += vec;
