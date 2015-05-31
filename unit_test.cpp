@@ -922,6 +922,46 @@ int main( int argc, char** args )
   UNIT_TEST( MAT4_EQUAL( ( --mc ), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
   UNIT_TEST( MAT4_EQUAL( ( mc-- ), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
 
+  //mat func tests
+  a = vec2( 1, 2 );
+  b = vec3( 1, 2, 3 );
+  c = vec4( 1, 2, 3, 4 );
+  ma = mat2( 1, 2, 3, 4 );
+  mb = mat3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
+  mc = mat4( 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 );
+
+  UNIT_TEST( mm::all( mm::equal( a * ma, vec2( 5, 11 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( b * mb, vec3( 14, 32, 50 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( c * mc, vec4( 30, 70, 110, 150 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( ma * a, vec2( 7, 10 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mb * b, vec3( 30, 36, 42 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( mc * c, vec4( 90, 100, 110, 120 ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( (a *= ma), vec2( 5, 11 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( (b *= mb), vec3( 14, 32, 50 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( (c *= mc), vec4( 30, 70, 110, 150 ) ) ) );
+
+  UNIT_TEST( MAT2_EQUAL( ma * ma, mat2( 7, 10, 15, 22 ) ) );
+  UNIT_TEST( MAT3_EQUAL( mb * mb, mat3( 30, 36, 42, 66, 81, 96, 102, 126, 150 ) ) );
+  UNIT_TEST( MAT4_EQUAL( mc * mc, mat4( 90, 100, 110, 120, 202, 228, 254, 280, 314, 356, 398, 440, 426, 484, 542, 600 ) ) );
+
+  UNIT_TEST( MAT2_EQUAL( ma * (float)2, mat2( 2, 4, 6, 8 ) ) );
+  UNIT_TEST( MAT3_EQUAL( mb * (float)2, mat3( 2, 4, 6, 8, 10, 12, 14, 16, 18 ) ) );
+  UNIT_TEST( MAT4_EQUAL( mc * (float)2, mat4( 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32 ) ) );
+
+  UNIT_TEST( MAT2_EQUAL( ma, mm::transpose( mm::transpose( ma ) ) ) );
+  UNIT_TEST( MAT3_EQUAL( mb, mm::transpose( mm::transpose( mb ) ) ) );
+  UNIT_TEST( MAT4_EQUAL( mc, mm::transpose( mm::transpose( mc ) ) ) );
+
+  UNIT_TEST( determinant( ma ) == -2 );
+  UNIT_TEST( determinant( mb ) == 0 );
+  UNIT_TEST( determinant( mc ) == 0 );
+
+  UNIT_TEST( MAT2_EQUAL( matrixCompMult( ma, ma ), mat2( 1, 4, 9, 16 ) ) );
+  UNIT_TEST( MAT3_EQUAL( matrixCompMult( mb, mb ), mat3( 1, 4, 9, 16, 25, 36, 49, 64, 81 ) ) );
+  UNIT_TEST( MAT4_EQUAL( matrixCompMult( mc, mc ), mat4( 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256 ) ) );
+
   system( "PAUSE" );
 
   return 0;
