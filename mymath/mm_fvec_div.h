@@ -126,25 +126,25 @@ namespace mymath
     {
       assert( all( notEqual( vec, vec2i<float>( 0 ) ) ) );
       vec2i<float>* tmp = (vec2i<float>*)this;
-      tmp->d = _mm_div_ps( _mm_shuffle_ps( v, v, MYMATH_SHUFFLE( ta, tb, 0, 0 ) ), vec.d );
+      tmp->d = _mm_div_ps( v, _mm_shuffle_ps( vec.d, vec.d, MYMATH_SHUFFLE( ta, tb, 0, 0 ) ) );
       return *( vec2i<float>* )this;
     }
 
-    template<int ta, int tb, int tc, int td>
-    const vec3i<float>& vec3i<float>::swizzle<ta, tb, tc, td>::operator/=( const vec3i<float>& vec )
+    template<int at, int bt, int ct, int dt>
+    const vec3i<float>& vec3i<float>::swizzle<at, bt, ct, dt>::operator/=( const vec3i<float>& vec )
     {
       assert( all( notEqual( vec, vec3i<float>( 0 ) ) ) );
       vec3i<float>* tmp = (vec3i<float>*)this;
-      tmp->d = _mm_div_ps( _mm_shuffle_ps( v, v, MYMATH_SHUFFLE( ta, tb, tc, 0 ) ), vec.d );
+      tmp->d = _mm_div_ps( v, _mm_shuffle_ps( vec.d, vec.d, MM_MASK_HELPER_VEC3_VEC3() ) );
       return *( vec3i<float>* )this;
     }
 
-    template<int ta, int tb, int tc, int td>
-    const vec4i<float>& vec4i<float>::swizzle<ta, tb, tc, td>::operator/=( const vec4i<float>& vec )
+    template<int at, int bt, int ct, int dt>
+    const vec4i<float>& vec4i<float>::swizzle<at, bt, ct, dt>::operator/=( const vec4i<float>& vec )
     {
       assert( all( notEqual( vec, vec4i<float>( 0 ) ) ) );
       vec4i<float>* tmp = (vec4i<float>*)this;
-      tmp->d = _mm_div_ps( _mm_shuffle_ps( v, v, MYMATH_SHUFFLE( ta, tb, tc, td ) ), vec.d );
+      tmp->d = _mm_div_ps( v, _mm_shuffle_ps( vec.d, vec.d, MM_MASK_HELPER_VEC4_VEC4() ) );
       return *( vec4i<float>* )this;
     }
 

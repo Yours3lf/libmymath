@@ -18,17 +18,21 @@ namespace mymath
           private:
             __m128 v;
           public:
+#define MM_MASK_HELPER_VEC3_VEC3() ( at == 0 ? bt == 1 ? MYMATH_SHUFFLE( 0, 1, 2, 0 ) : MYMATH_SHUFFLE( 0, 2, 1, 0 ) : \
+                                     at == 1 ? bt == 0 ? MYMATH_SHUFFLE( 1, 0, 2, 0 ) : MYMATH_SHUFFLE( 2, 0, 1, 0 ) : \
+                                               bt == 0 ? MYMATH_SHUFFLE( 1, 2, 0, 0 ) : MYMATH_SHUFFLE( 2, 1, 0, 0 ) )
+
             //For cases like swizzle = vec2i and swizzle = swizzle
             const vec3i& operator=( const vec3i& other )
             {
-              v = _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, ct, 0 ) );
+              v = _mm_shuffle_ps( other.d, other.d, MM_MASK_HELPER_VEC3_VEC3() );
               return *( vec3i* )this;
             }
 
             //For cases like swizzle *= vec2i and swizzle *= swizzle
             const vec3i& operator*=( const vec3i& other )
             {
-              v = _mm_mul_ps( v, _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, ct, 0 ) ) );
+              v = _mm_mul_ps( v, _mm_shuffle_ps( other.d, other.d, MM_MASK_HELPER_VEC3_VEC3() ) );
               return *( vec3i* )this;
             }
 
@@ -36,13 +40,13 @@ namespace mymath
 
             const vec3i& operator+=( const vec3i& other )
             {
-              v = _mm_add_ps( v, _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, ct, 0 ) ) );
+              v = _mm_add_ps( v, _mm_shuffle_ps( other.d, other.d, MM_MASK_HELPER_VEC3_VEC3() ) );
               return *( vec3i* )this;
             }
 
             const vec3i& operator-=( const vec3i& other )
             {
-              v = _mm_sub_ps( v, _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, ct, 0 ) ) );
+              v = _mm_sub_ps( v, _mm_shuffle_ps( other.d, other.d, MM_MASK_HELPER_VEC3_VEC3() ) );
               return *( vec3i* )this;
             }
 
