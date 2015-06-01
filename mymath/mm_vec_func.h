@@ -814,6 +814,7 @@ namespace mymath
     template<typename ty>
     const vec2i<ty>& vec2i<ty>::operator/= ( const vec2i<ty>& vec )
     {
+      assert( all( notEqual( vec, vec2i<ty>( 0 ) ) ) );
       vec2i<ty> tmp = vec2i<ty>( 1 ) / vec;
       x *= tmp.x;
       y *= tmp.y;
@@ -823,6 +824,7 @@ namespace mymath
     template<typename ty>
     const vec3i<ty>& vec3i<ty>::operator/= ( const vec3i<ty>& vec )
     {
+      assert( all( notEqual( vec, vec3i<ty>( 0 ) ) ) );
       vec3i<ty> tmp = vec3i<ty>( 1 ) / vec;
       x *= tmp.x;
       y *= tmp.y;
@@ -833,6 +835,7 @@ namespace mymath
     template<typename ty>
     const vec4i<ty>& vec4i<ty>::operator/= ( const vec4i<ty>& vec )
     {
+      assert( all( notEqual( vec, vec4i<ty>( 0 ) ) ) );
       vec4i<ty> tmp = vec4i<ty>( 1 ) / vec;
       x *= tmp.x;
       y *= tmp.y;

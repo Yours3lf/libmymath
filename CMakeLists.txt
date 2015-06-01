@@ -18,9 +18,14 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set( use_32_bit true )
 set( use_new_gcc false )
-set( use_explicit_sse2 false )
-set( use_fma false )
-set( use_force_inline false )
+
+#set( use_explicit_sse2 false )
+#set( use_fma false )
+#set( use_force_inline false )
+
+set( use_explicit_sse2 true )
+set( use_fma true )
+set( use_force_inline true )
 
 #32 bits
 if( use_32_bit )

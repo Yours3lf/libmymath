@@ -317,6 +317,8 @@ namespace mymath
         vec3i( const __m128& num ) : d( num ) {}
         //vec3i() { d = impl::zero; }
         vec3i(){}
+        vec3i( const vec3i<int>& v );
+        vec3i( const vec3i<unsigned>& v );
 
         float& operator[]( const unsigned int& num )
         {
@@ -347,47 +349,6 @@ namespace mymath
         const vec3i& operator-= ( const vec3i& vec )
         {
           d = _mm_sub_ps( d, vec.d );
-          return *this;
-        }
-
-        const vec3i& operator%= ( const vec3i& vec )
-        {
-          d = sse_mod_ps( d, vec.d );
-          return *this;
-        }
-
-        //TODO
-        /*const vec3i& operator<<= ( const vec3i& vec )
-        {
-          x = ( int )x << ( int )vec.x;
-          y = ( int )y << ( int )vec.y;
-          z = ( int )z << ( int )vec.z;
-          return *this;
-        }
-
-        const vec3i& operator>>= ( const vec3i& vec )
-        {
-          x = ( int )x >> ( int )vec.x;
-          y = ( int )y >> ( int )vec.y;
-          z = ( int )z >> ( int )vec.z;
-          return *this;
-        }*/
-
-        const vec3i& operator&= ( const vec3i& vec )
-        {
-          d = _mm_and_ps( d, vec.d );
-          return *this;
-        }
-
-        const vec3i& operator^= ( const vec3i& vec )
-        {
-          d = _mm_xor_ps( d, vec.d );
-          return *this;
-        }
-
-        const vec3i& operator|= ( const vec3i& vec )
-        {
-          d = _mm_or_ps( d, vec.d );
           return *this;
         }
 

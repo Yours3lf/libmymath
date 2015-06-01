@@ -36,20 +36,20 @@ public:
 #define STRINGIFY(S) (#S)
 #define UNIT_TEST(S) unit_test::test(S, STRINGIFY(S))
 
-bool MAT2_EQUAL( mat2 A, mat2 B )
+bool MAT2_EQUAL( const mat2& A, const mat2& B )
 {
   return ( mm::all( mm::equal( A[0], B[0] ) ) &&
     mm::all( mm::equal( A[1], B[1] ) ) );
 }
 
-bool MAT3_EQUAL( mat3 A, mat3 B )
+bool MAT3_EQUAL( const mat3& A, const mat3& B )
 {
   return ( mm::all( mm::equal( A[0], B[0] ) ) &&
     mm::all( mm::equal( A[1], B[1] ) ) &&
     mm::all( mm::equal( A[2], B[2] ) ) );
 }
 
-bool MAT4_EQUAL( mat4 A, mat4 B )
+bool MAT4_EQUAL( const mat4& A, const mat4& B )
 {
   return ( mm::all( mm::equal( A[0], B[0] ) ) &&
     mm::all( mm::equal( A[1], B[1] ) ) &&

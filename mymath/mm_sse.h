@@ -669,7 +669,7 @@ namespace mymath
 
     MYMATH_INLINE __m128 sse_inversesqrt_ps( __m128 x )
     {
-      return _mm_rsqrt_ps( x );
+      return _mm_div_ps(one, _mm_sqrt_ps(x));//the precision of _mm_rsqrt_ps( x ) is not enough...
     }
 
     MYMATH_INLINE __m128 sse_sign_ps( __m128 x )
@@ -710,7 +710,7 @@ namespace mymath
 
     MYMATH_INLINE __m128 sse_fract_ps( __m128 x )
     {
-      return _mm_sub_ps( x, sse_floor_ps( x ) );
+      return _mm_sub_ps( x, sse_trunc_ps( x ) );
     }
 
     MYMATH_INLINE __m128 sse_step_ps( __m128 a, __m128 b )
@@ -727,30 +727,21 @@ namespace mymath
                          _mm_sub_ps( three, _mm_add_ps( cc, cc ) ) );
     }
 
-    //WARNING: it's slow to switch to floats
-    MYMATH_INLINE float sse_dot_ps( __m128 a, __m128 b )
-    {
-      __m128 l = _mm_mul_ps( a, b );
-      l = _mm_add_ps( l, _mm_shufd( l, MYMATH_SHUFFLE(2, 3, 0, 1) ) );
-      return _mm_cvtss_f32( _mm_add_ss( l, _mm_shufd( l, MYMATH_SHUFFLE(1, 0, 1, 0) ) ) );
-    }
-
+    template< int mask >
     MYMATH_INLINE __m128 sse_dot_ps_helper( __m128 a, __m128 b )
     {
-      __m128 l = _mm_dp_ps(a, b, 0xff);
+      __m128 l = _mm_dp_ps( a, b, mask );
       return _mm_shuffle_ps( l, l, MYMATH_SHUFFLE( 0, 0, 0, 0 ) );
     }
 
     //WARNING: it's slow to switch to floats
-    MYMATH_INLINE float sse_length_ps( __m128 x )
+    template< int mask >
+    MYMATH_INLINE float sse_dot_ps( __m128 a, __m128 b )
     {
-      __m128 l = _mm_mul_ps( x, x );
-      l = _mm_add_ps( l, _mm_shufd( l, MYMATH_SHUFFLE(2, 3, 0, 1) ) );
-      return _mm_cvtss_f32( _mm_sqrt_ss( _mm_add_ss( l,
-                                         _mm_shufd( l, MYMATH_SHUFFLE(1, 0, 1, 0) ) ) ) );
+      return _mm_cvtss_f32( sse_dot_ps_helper<mask>(a,b) );
     }
 
-    MYMATH_INLINE __m128 sse_length_ps_helper( __m128 x )
+    MYMATH_INLINE __m128 sse_length_ps_helper_vec4( __m128 x )
     {
       __m128 l = _mm_mul_ps( x, x );
       l = _mm_add_ps( l, _mm_shufd( l, MYMATH_SHUFFLE(2, 3, 0, 1) ) );
@@ -759,13 +750,9 @@ namespace mymath
     }
 
     //WARNING: it's slow to switch to floats
-    MYMATH_INLINE float sse_distance_ps( __m128 a, __m128 b )
+    MYMATH_INLINE float sse_length_ps( __m128 x )
     {
-      __m128 l = _mm_sub_ps( a, b );
-      l = _mm_mul_ps( l, l );
-      l = _mm_add_ps( l, _mm_shufd( l, MYMATH_SHUFFLE(2, 3, 0, 1) ) );
-      return _mm_cvtss_f32( _mm_sqrt_ss( _mm_add_ss( l,
-                                         _mm_shufd( l, MYMATH_SHUFFLE(1, 0, 1, 0) ) ) ) );
+      return _mm_cvtss_f32( sse_length_ps_helper( x ) );
     }
 
     MYMATH_INLINE __m128 sse_distance_ps_helper( __m128 a, __m128 b )
@@ -775,6 +762,12 @@ namespace mymath
       l = _mm_add_ps( l, _mm_shufd( l, MYMATH_SHUFFLE(2, 3, 0, 1) ) );
       l = _mm_sqrt_ss( _mm_add_ss( l, _mm_shufd( l, MYMATH_SHUFFLE(1, 0, 1, 0) ) ) );
       return _mm_shuffle_ps( l, l, MYMATH_SHUFFLE( 0, 0, 0, 0 ) );
+    }
+
+    //WARNING: it's slow to switch to floats
+    MYMATH_INLINE float sse_distance_ps( __m128 a, __m128 b )
+    {
+      return _mm_cvtss_f32( sse_distance_ps_helper( a, b ) );
     }
 
     MYMATH_INLINE __m128 sse_normalize_ps( __m128 x )

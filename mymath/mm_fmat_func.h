@@ -140,9 +140,9 @@ MYMATH_INLINE mm::impl::mat3i<t> operator* ( const mm::impl::mat3i<t>& a, const 
   mm::impl::vec3i<t> tmp2 = a[1];
   mm::impl::vec3i<t> tmp3 = a[2];
 
-  return mm::impl::mat3i<t>( mm::fma(b[0].zzz, tmp3, fma(b[0].yyy, tmp2, b[0].xxx * tmp1)),
-                             mm::fma(b[1].zzz, tmp3, fma(b[1].yyy, tmp2, b[1].xxx * tmp1)),
-                             mm::fma(b[2].zzz, tmp3, fma(b[2].yyy, tmp2, b[2].xxx * tmp1)) );
+  return mm::impl::mat3i<t>( mm::fma(b[0].zzz, tmp3, mm::fma(b[0].yyy, tmp2, b[0].xxx * tmp1)),
+    mm::fma( b[1].zzz, tmp3, mm::fma( b[1].yyy, tmp2, b[1].xxx * tmp1 ) ),
+    mm::fma( b[2].zzz, tmp3, mm::fma( b[2].yyy, tmp2, b[2].xxx * tmp1 ) ) );
 }
 
 template< typename t >
