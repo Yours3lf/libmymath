@@ -119,36 +119,50 @@ namespace mymath
           private:
             __m128 v;
           public:
+            //this basically helps shuffle the other's components to the right place
+            //so instead of shuffling the member v, we shuffle other so that v is modified correctly
+            //TODO replace w/ constexpr when available
+#define MM_MASK_HELPER_VEC3_VEC2() ( at == 0 ? bt == 1 ? MYMATH_SHUFFLE( 0, 1, 2, 0 ) : MYMATH_SHUFFLE( 0, 2, 1, 0 ) : \
+                                     at == 1 ? bt == 0 ? MYMATH_SHUFFLE( 1, 0, 2, 0 ) : MYMATH_SHUFFLE( 2, 0, 1, 0 ) : \
+                                               bt == 0 ? MYMATH_SHUFFLE( 1, 2, 0, 0 ) : MYMATH_SHUFFLE( 2, 1, 0, 0 ) )
+
             //For cases like swizzle = vec2i and swizzle = swizzle
             const vec2i<float>& operator=( const vec2i<float>& other )
             {
-              v = _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, 0, 0 ) );
+              //shuffle the other variable, and the rest of v (or 0 or 1) into one variable
+              //so that we can shuffle them afterwards to the right place
+              __m128 l = _mm_shuffle_ps( other.d, v, MYMATH_SHUFFLE( 0, 1, 3-at-bt, 3-at-bt ) );
+              v = _mm_shuffle_ps( l, l, MM_MASK_HELPER_VEC3_VEC2() );
               return *( vec2i<float>* )this;
             }
 
             //For cases like swizzle *= vec2i and swizzle *= swizzle
             const vec2i<float>& operator*=( const vec2i<float>& other )
             {
-              v = _mm_mul_ps( v, _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, 0, 0 ) ) );
+              __m128 l = _mm_shuffle_ps( other.d, impl::one, MYMATH_SHUFFLE( 0, 1, 3, 3 ) );
+              v = _mm_mul_ps( v, _mm_shuffle_ps( l, l, MM_MASK_HELPER_VEC3_VEC2() ) );
               return *( vec2i<float>* )this;
             }
 
             const vec2i<float>& operator/=( const vec2i<float>& other )
             {
               assert( !impl::is_eq( other.x, ( float )0 ) && !impl::is_eq( other.y, ( float )0 ) );
-              v = _mm_div_ps( v, _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, 0, 0 ) ) );
+              __m128 l = _mm_shuffle_ps( other.d, impl::one, MYMATH_SHUFFLE( 0, 1, 3, 3 ) );
+              v = _mm_div_ps( v, _mm_shuffle_ps( l, l, MM_MASK_HELPER_VEC3_VEC2() ) );
               return *( vec2i<float>* )this;
             }
 
             const vec2i<float>& operator+=( const vec2i<float>& other )
             {
-              v = _mm_add_ps( v, _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, 0, 0 ) ) );
+              __m128 l = _mm_shuffle_ps( other.d, impl::zero, MYMATH_SHUFFLE( 0, 1, 3, 3 ) );
+              v = _mm_add_ps( v, _mm_shuffle_ps( l, l, MM_MASK_HELPER_VEC3_VEC2() ) );
               return *( vec2i<float>* )this;
             }
 
             const vec2i<float>& operator-=( const vec2i<float>& other )
             {
-              v = _mm_sub_ps( v, _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, 0, 0 ) ) );
+              __m128 l = _mm_shuffle_ps( other.d, impl::zero, MYMATH_SHUFFLE( 0, 1, 3, 3 ) );
+              v = _mm_sub_ps( v, _mm_shuffle_ps( l, l, MM_MASK_HELPER_VEC3_VEC2() ) );
               return *( vec2i<float>* )this;
             }
 

@@ -283,7 +283,7 @@ namespace mymath
   {
     assert( determinant( mat ) != 0 );
     impl::vec4i<t> tmp1 = _mm_shuffle_ps( mat[0].d, mat[1].d, MYMATH_SHUFFLE(0, 1, 0, 1));
-    impl::vec4i<t> det = _mm_rcp_ps( determinant_helper( mat ).d );
+    impl::vec4i<t> det = _mm_div_ps( impl::one, determinant_helper( mat ).d );
     tmp1 = tmp1 * MYMATH_SSE_SETTER(1, -1, -1, 1) * det;
     return impl::mat2i<t>( tmp1.wy, tmp1.zx );
   }
@@ -312,7 +312,7 @@ namespace mymath
     impl::mat3i<t> ret( atmp1.xyz, atmp3.xyz, atmp5.xyz );
     ret = transpose( ret );
 
-    impl::vec4i<t> adet = _mm_rcp_ps( determinant_helper( mat ).d );
+    impl::vec4i<t> adet = _mm_div_ps( impl::one, determinant_helper( mat ).d );
 
     ret[0] *= adet.xxx;
     ret[1] *= adet.xxx;
@@ -398,7 +398,7 @@ namespace mymath
 
     impl::mat4i<t> ret( atmp36, atmp27, atmp18, atmp9 );
 
-    impl::vec4i<t> adet = _mm_rcp_ps( determinant_helper( m ).d );
+    impl::vec4i<t> adet = _mm_div_ps( impl::one, determinant_helper( m ).d );
 
     ret[0] *= adet;
     ret[1] *= adet;
