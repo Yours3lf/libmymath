@@ -39,6 +39,11 @@
 
 #ifdef MYMATH_USE_SSE2
 #define MYMATH_SHUFFLE(x, y, z, w) (_MM_SHUFFLE(w, z, y, x))
+
+#define MM_SHUFFLE_TENPOWA(x) (1000u * ( x==3u ) + 100u * ( x==2u ) + 10u * ( x==1u ) + 1u * ( x==0u  ))
+#define MM_SHUFFLE_ENCODE(Ap,Bp,Cp,Dp) (MM_SHUFFLE_TENPOWA( 3u - Bp ) + 2 * MM_SHUFFLE_TENPOWA( 3u - Cp ) + 3 * MM_SHUFFLE_TENPOWA( 3u - Dp ))
+#define MM_SHUFFLE_DECODE(X) (( ( X % 10u ) << ( 6u ) | ( ( X % 100u - X % 10u ) / 10u ) << ( 4u ) | ( ( X % 1000u - X % 100u ) / 100u ) << ( 2u ) | ( X / 1000u ) ))
+#define MM_SHUFFLE_SWIZZLE_HELPER(x,y,z,w) (MM_SHUFFLE_DECODE(MM_SHUFFLE_ENCODE(x,y,z,w)))
 #endif
 
 //align variables to 16 bytes (GPU friendly)

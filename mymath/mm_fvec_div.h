@@ -135,7 +135,7 @@ namespace mymath
     {
       assert( all( notEqual( vec, vec3i<float>( 0 ) ) ) );
       vec3i<float>* tmp = (vec3i<float>*)this;
-      tmp->d = _mm_div_ps( v, _mm_shuffle_ps( vec.d, vec.d, MM_MASK_HELPER_VEC3_VEC3() ) );
+      tmp->d = _mm_div_ps( v, _mm_shuffle_ps( vec.d, vec.d, MM_SHUFFLE_SWIZZLE_HELPER( at, bt, ct, 0 ) ) );
       return *( vec3i<float>* )this;
     }
 
@@ -144,7 +144,7 @@ namespace mymath
     {
       assert( all( notEqual( vec, vec4i<float>( 0 ) ) ) );
       vec4i<float>* tmp = (vec4i<float>*)this;
-      tmp->d = _mm_div_ps( v, _mm_shuffle_ps( vec.d, vec.d, MM_MASK_HELPER_VEC4_VEC4() ) );
+      tmp->d = _mm_div_ps( v, _mm_shuffle_ps( vec.d, vec.d, MM_SHUFFLE_SWIZZLE_HELPER( at, bt, ct, dt ) ) );
       return *( vec4i<float>* )this;
     }
 
