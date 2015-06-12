@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 //console coloring stuff
@@ -59,7 +60,7 @@ bool MAT4_EQUAL( const mat4& A, const mat4& B )
 
 bool QUAT_EQUAL(const quat& q1, const quat& q2)
 {
-	return mm::all( mm::equal( q1.value, q2.value) ) || mm::all( mm::equal( q1.value, (q2*-1.f).value ) );
+  return mm::all( mm::equal( q1.value, q2.value) ) || mm::all( mm::equal( q1.value, (q2*-1.f).value ) );
 }
 
 int main( int argc, char** args )
@@ -966,15 +967,7 @@ int main( int argc, char** args )
   UNIT_TEST( MAT2_EQUAL( matrixCompMult( ma, ma ), mat2( 1, 4, 9, 16 ) ) );
   UNIT_TEST( MAT3_EQUAL( matrixCompMult( mb, mb ), mat3( 1, 4, 9, 16, 25, 36, 49, 64, 81 ) ) );
   UNIT_TEST( MAT4_EQUAL( matrixCompMult( mc, mc ), mat4( 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256 ) ) );
-
-  //quaternion test
-  const mm::vec3 arbitraryAxis = mm::vec3(10, 11, 12);
-
-  UNIT_TEST( QUAT_EQUAL( quat(), quat( 0, arbitraryAxis ) ) );
-  UNIT_TEST( QUAT_EQUAL( quat( 1, arbitraryAxis ), quat( 1, arbitraryAxis * 5 ) ) );
-  UNIT_TEST( QUAT_EQUAL( quat( pi, arbitraryAxis ), quat( 3 * pi, arbitraryAxis ) ) );
-
-
+  
   //util functions
   mm::camera<float> cam;
   mm::frame<float> f;
@@ -999,6 +992,33 @@ int main( int argc, char** args )
   UNIT_TEST( is_pow_2( 2 ) == true );
   UNIT_TEST( is_pow_2( 3 ) == false );
   UNIT_TEST( is_pow_2( 0 ) == true );
+
+  //quaternion tests
+  const mm::vec3 arbitraryAxis( 10, 11, 12 );
+
+  UNIT_TEST( QUAT_EQUAL( quat(), quat( 0, arbitraryAxis ) ) );
+  UNIT_TEST( QUAT_EQUAL( quat( 1, arbitraryAxis ), quat( 1, arbitraryAxis * 5 ) ) );
+  UNIT_TEST( QUAT_EQUAL( quat( pi, arbitraryAxis ), quat( 3 * pi, arbitraryAxis ) ) );
+
+  UNIT_TEST( QUAT_EQUAL( quat( std::sqrt(2.f), arbitraryAxis ), quat_cast( mat4( create_rotation( std::sqrt(2.f), arbitraryAxis ) ) ) ) );
+  UNIT_TEST( QUAT_EQUAL( quat( std::sqrt(2.f), arbitraryAxis ), quat_cast( mat3( create_rotation( std::sqrt(2.f), arbitraryAxis ) ) ) ) );
+  UNIT_TEST( MAT4_EQUAL( mat4( create_rotation( std::sqrt(2.f), arbitraryAxis ) ), mat4_cast( quat( std::sqrt(2.f), arbitraryAxis ) ) ) );
+  UNIT_TEST( MAT3_EQUAL( mat3( create_rotation( std::sqrt(2.f), arbitraryAxis ) ), mat3_cast( quat( std::sqrt(2.f), arbitraryAxis ) ) ) );
+
+  UNIT_TEST( mm::all( mm::equal( rotate_vector( quat( pi/2, vec3( 1, 0, 0 ) ) * quat( pi/2, vec3( 0, 1, 0 ) ), vec3( 1, 0, 0 ) ), vec3( 0, 1, 0 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( rotate_vector( quat( pi/2, vec3( 0, 1, 0 ) ) * quat( pi/2, vec3( 1, 0, 0 ) ), vec3( 1, 0, 0 ) ), vec3( 0, 0, -1 ) ) ) );
+  UNIT_TEST( mm::all( mm::equal( rotate_vector( quat( pi/2.1, vec3( 1, 0, 0 ) ) * quat( pi/2, vec3( 0, 1, 0 ) ), vec3( 1, 0, 0 ) ), vec3( 0, 1, 0 ) ) ) == false );
+  UNIT_TEST( mm::all( mm::equal( rotate_vector( quat( pi/2.1, vec3( 0, 1, 0 ) ) * quat( pi/2, vec3( 1, 0, 0 ) ), vec3( 1, 0, 0 ) ), vec3( 0, 0, -1 ) ) ) == false );
+
+  UNIT_TEST( QUAT_EQUAL( quat( 1, arbitraryAxis ) * inverse( quat( 1, arbitraryAxis ) ), quat( 0, arbitraryAxis ) ) );
+
+  UNIT_TEST( QUAT_EQUAL( mix( quat( 0, arbitraryAxis ), quat( pi, arbitraryAxis ), 0.5f ), quat( pi/2, arbitraryAxis ) ) );
+  UNIT_TEST( QUAT_EQUAL( slerp( quat( 0, arbitraryAxis ), quat( pi, arbitraryAxis ), 0.5f ), quat( pi/2, arbitraryAxis ) ) );
+
+  //TODO this test with the hard wired value might not be the best solution
+  UNIT_TEST( QUAT_EQUAL( mix( quat( 0, arbitraryAxis ), quat( pi, arbitraryAxis ), 0.25f ), quat( 0.643501341343, arbitraryAxis ) ) );
+  UNIT_TEST( QUAT_EQUAL( mix( quat( 0, arbitraryAxis ), quat( pi, arbitraryAxis ), 0.25f ), quat( pi/4, arbitraryAxis ) ) == false );
+  UNIT_TEST( QUAT_EQUAL( slerp( quat( 0, arbitraryAxis ), quat( pi, arbitraryAxis ), 0.25f ), quat( pi/4, arbitraryAxis ) ) );
 
   //frame functions
   //TODO

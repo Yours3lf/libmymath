@@ -6,13 +6,17 @@
 template<typename ty>
 mymath::impl::quati<ty> operator*(const mymath::impl::quati<ty>& p, const mymath::impl::quati<ty>& q)
 {
-	const mymath::impl::vec3i<ty> pv = p.xyz;
-	const ty ps = p.w;
-	const mymath::impl::vec3i<ty> qv = q.xyz;
-	const ty qs = q.w;
+	mymath::impl::quati<ty> result;
 
-	return mymath::impl::vec4i<ty>(ps * qv + qs * pv + mymath::cross(pv, qv),
+	const mymath::impl::vec3i<ty> pv = p.value.xyz;
+	const ty ps = p.value.w;
+	const mymath::impl::vec3i<ty> qv = q.value.xyz;
+	const ty qs = q.value.w;
+
+	result.value = mymath::impl::vec4i<ty>(ps * qv + qs * pv + mymath::cross(pv, qv),
 		ps * qs - mymath::dot(pv, qv));
+
+	return result;
 }
 
 template<typename ty>
@@ -42,15 +46,18 @@ namespace mymath
 	template<typename ty>
 	impl::quati<ty> conjugate(const impl::quati<ty>& q)
 	{
-		impl::vec4i<t> t = q.value;
-		t.xyz = -t.xyz;
-		return t;
+		impl::quati<ty> result = q;
+		result.value.xyz = -result.value.xyz;
+		return result;
 	}
 
 	template<typename ty>
 	impl::quati<ty> inverse(const impl::quati<ty>& q)
 	{
-		return conjugate(q) / dot_helper(q.value, q.value);
+		//return conjugate(q) / dot_helper(q.value, q.value);
+		const ty lensqr = dot(q.value, q.value);
+		assert(lensqr != ty(0));
+		return conjugate(q) / lensqr;
 	}
 
 	template<typename ty>
@@ -65,22 +72,28 @@ namespace mymath
 		return length(q.value);
 	}
 
+	//FIXME this fucntion does not work properly
 	template<typename ty>
 	impl::mat3i<ty> mat3_cast(const impl::quati<ty>& q)
 	{
-		vec4 tmp1 = q.value.yyxx * q.value.yxzz * vec4(2) * vec4(-1, 1, 1, 1);
-		vec4 tmp2 = q.value.zzyy * q.value.zwww * vec4(2) * vec4(-1, -1, 1, 1);
-		tmp1 = tmp1 + tmp2 + vec4(1, 0, 0, 0);
+		vec3 coloumn1 = q.value.yyx * q.value.yxz * vec3(2) * vec3(-1, 1, 1);
+		vec3 tmp2 = q.value.zzy * q.value.zww * vec3(2) * vec3(-1, -1, 1);
+		coloumn1 = coloumn1 + tmp2 + vec3(1, 0, 0);
 
-		vec4 tmp3 = q.value.xxyy * q.value.yxzz * vec4(2) * vec4(1, -1, 1, 1);
-		vec4 tmp4 = q.value.zzxx * q.value.wzww * vec4(2) * vec4(1, -1, -1, 1);
-		tmp3 = tmp3 + tmp4 + vec4(0, 1, 0, 0);
+		vec3 coloumn2 = q.value.xxy * q.value.yxz * vec3(2) * vec3(1, -1, 1);
+		vec3 tmp4 = q.value.zzx * q.value.wzw * vec3(2) * vec3(1, -1, -1);
+		coloumn2 = coloumn2 + tmp4 + vec3(0, 1, 0);
 
-		vec4 tmp5 = q.value.xyxx * q.value.zzxx * vec4(2) * vec4(1, 1, -1, 1);
-		vec4 tmp6 = q.value.yxyy * q.value.wwyy * vec4(2) * vec4(-1, 1, -1, 1);
-		tmp5 = tmp5 + tmp6 + vec4(0, 0, 1, 0);
+		vec3 coloumn3 = q.value.xyx * q.value.zzx * vec3(2) * vec3(1, 1, -1);
+		vec3 tmp6 = q.value.yxy * q.value.wwy * vec3(2) * vec3(-1, 1, -1);
+		coloumn3 = coloumn3 + tmp6 + vec3(0, 0, 1);
 
-		return mat3(tmp1.xyz, tmp3.xyz, tmp5.xyz);
+		//return mat3(tmp1.xyz, tmp3.xyz, tmp5.xyz);
+		return mat3(
+			coloumn1.x, coloumn2.x, coloumn3.x,
+			coloumn1.y, coloumn2.y, coloumn3.y,
+			coloumn1.z, coloumn2.z, coloumn3.z
+			);
 	}
 
 	template<typename ty>
@@ -94,17 +107,23 @@ namespace mymath
 	template<typename ty>
 	impl::quati<ty> mix(const impl::quati<ty>& q1, const impl::quati<ty>& q2, const ty& t)
 	{
-		return normalize(q1*(1 - t) + q2*t);
+		impl::quati<ty> result;
+		result.value = normalize(q1.value*(1 - t) + q2.value*t);
+		return result;
 	}
 
 	template<typename ty>
 	impl::quati<ty> slerp(const impl::quati<ty>& q1, const impl::quati<ty>& q2, const ty& t)
 	{
-		float theta = acos(dot(q1, q2));
-		float sintheta = sin(theta);
-		float wp = sin((1 - t) * theta) / sintheta;
-		float wq = sin(t * theta) / sin(theta);
-		return wp * q1 + wq * q2;
+		assert(all(equal(q1.value, q2.value)) == false && all(equal(q1.value, -q2.value)) == false );
+		
+		impl::quati<ty> result;
+		float theta = std::acos(dot(q1.value, q2.value));
+		float sintheta = std::sin(theta);
+		float wp = std::sin((1 - t) * theta) / sintheta;
+		float wq = std::sin(t * theta) / sintheta;
+		result.value = wp * q1.value + wq * q2.value;
+		return result;
 	}
 
 	//TODO SLOW
@@ -183,7 +202,7 @@ namespace mymath
 		impl::quati<ty> v_quat(v);
 
 		v_quat = q * v_quat * inverse(q);
-		return v_quat.vector();
+		return v_quat.value.xyz;
 	}
 }
 
