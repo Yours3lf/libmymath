@@ -1010,6 +1010,8 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( rotate_vector( quat( pi/2.1, vec3( 1, 0, 0 ) ) * quat( pi/2, vec3( 0, 1, 0 ) ), vec3( 1, 0, 0 ) ), vec3( 0, 1, 0 ) ) ) == false );
   UNIT_TEST( mm::all( mm::equal( rotate_vector( quat( pi/2.1, vec3( 0, 1, 0 ) ) * quat( pi/2, vec3( 1, 0, 0 ) ), vec3( 1, 0, 0 ) ), vec3( 0, 0, -1 ) ) ) == false );
 
+  UNIT_TEST( QUAT_EQUAL( quat( pi/2, vec3( 1, 0, 0 ) ) * quat( pi/2, vec3( 0, 1, 0 ) ), quat( pi/2, vec3( 1, 0, 0 ) ) *= quat( pi/2, vec3( 0, 1, 0 ) ) ) );
+
   UNIT_TEST( QUAT_EQUAL( quat( 1, arbitraryAxis ) * inverse( quat( 1, arbitraryAxis ) ), quat( 0, arbitraryAxis ) ) );
 
   UNIT_TEST( QUAT_EQUAL( mix( quat( 0, arbitraryAxis ), quat( pi, arbitraryAxis ), 0.5f ), quat( pi/2, arbitraryAxis ) ) );

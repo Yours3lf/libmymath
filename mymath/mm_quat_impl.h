@@ -62,15 +62,15 @@ namespace mymath
 			}
 
 			//Grassman product
-			const quati& operator*=(const quati& other)
+			quati& operator*=(const quati& other)
 			{
-				const type_vec3&	pv = value.xyz;
-				const ty&			ps = value.w;
-				const type_vec3&	qv = other.xyz;
-				const ty&			qs = other.w;
+				const type_vec3 pv = value.xyz;
+				const ty        ps = value.w;
+				const type_vec3 qv = other.value.xyz;
+				const ty        qs = other.value.w;
 
-				*this = type_vec4(type_vec3(ps * qv + qs * pv + cross(pv, qv)),
-					ps * qs - dot(pv, qv));
+				this->value = type_vec4(ps * qv + qs * pv + mymath::cross(pv, qv),
+					ps * qs - mymath::dot(pv, qv));
 
 				return *this;
 			}

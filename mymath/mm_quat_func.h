@@ -9,9 +9,9 @@ mymath::impl::quati<ty> operator*(const mymath::impl::quati<ty>& p, const mymath
 	mymath::impl::quati<ty> result;
 
 	const mymath::impl::vec3i<ty> pv = p.value.xyz;
-	const ty ps = p.value.w;
+	const ty                      ps = p.value.w;
 	const mymath::impl::vec3i<ty> qv = q.value.xyz;
-	const ty qs = q.value.w;
+	const ty                      qs = q.value.w;
 
 	result.value = mymath::impl::vec4i<ty>(ps * qv + qs * pv + mymath::cross(pv, qv),
 		ps * qs - mymath::dot(pv, qv));
@@ -72,7 +72,6 @@ namespace mymath
 		return length(q.value);
 	}
 
-	//FIXME this fucntion does not work properly
 	template<typename ty>
 	impl::mat3i<ty> mat3_cast(const impl::quati<ty>& q)
 	{
