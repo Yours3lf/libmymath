@@ -74,7 +74,7 @@ namespace mymath
           m[3].zw = m3[1];
         }
 
-        mat4i(const quati<t>& q)
+        explicit mat4i(const quati<t>& q)
         {
           *this = mat4_cast(q);
         }

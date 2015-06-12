@@ -57,6 +57,11 @@ bool MAT4_EQUAL( const mat4& A, const mat4& B )
     mm::all( mm::equal( A[3], B[3] ) ) );
 }
 
+bool QUAT_EQUAL(const quat& q1, const quat& q2)
+{
+	return mm::all( mm::equal( q1.value, q2.value) ) || mm::all( mm::equal( q1.value, (q2*-1.f).value ) );
+}
+
 int main( int argc, char** args )
 {
   //common.h tests
@@ -961,6 +966,14 @@ int main( int argc, char** args )
   UNIT_TEST( MAT2_EQUAL( matrixCompMult( ma, ma ), mat2( 1, 4, 9, 16 ) ) );
   UNIT_TEST( MAT3_EQUAL( matrixCompMult( mb, mb ), mat3( 1, 4, 9, 16, 25, 36, 49, 64, 81 ) ) );
   UNIT_TEST( MAT4_EQUAL( matrixCompMult( mc, mc ), mat4( 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256 ) ) );
+
+  //quaternion test
+  const mm::vec3 arbitraryAxis = mm::vec3(10, 11, 12);
+
+  UNIT_TEST( QUAT_EQUAL( quat(), quat( 0, arbitraryAxis ) ) );
+  UNIT_TEST( QUAT_EQUAL( quat( 1, arbitraryAxis ), quat( 1, arbitraryAxis * 5 ) ) );
+  UNIT_TEST( QUAT_EQUAL( quat( pi, arbitraryAxis ), quat( 3 * pi, arbitraryAxis ) ) );
+
 
   //util functions
   mm::camera<float> cam;

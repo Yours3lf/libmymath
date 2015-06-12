@@ -55,7 +55,7 @@ namespace mymath
           m[2] = mat[2].xyz;
         }
 
-        mat3i(const quati<t>& q)
+        explicit mat3i(const quati<t>& q)
         {
           *this = mat3_cast(q);
         }
