@@ -1022,6 +1022,9 @@ int main( int argc, char** args )
   UNIT_TEST( QUAT_EQUAL( mix( quat( 0, arbitraryAxis ), quat( pi, arbitraryAxis ), 0.25f ), quat( pi/4, arbitraryAxis ) ) == false );
   UNIT_TEST( QUAT_EQUAL( slerp( quat( 0, arbitraryAxis ), quat( pi, arbitraryAxis ), 0.25f ), quat( pi/4, arbitraryAxis ) ) );
 
+  UNIT_TEST( QUAT_EQUAL( get_rotation( vec3( 1, 0, 0 ), vec3( 0, 1, 0 ) ), quat( pi/2, vec3( 0, 0, 1 ) ) ) );
+  UNIT_TEST( QUAT_EQUAL( get_rotation( vec3( 0, 0, 1 ), vec3( 0, 1, 0 ) ), quat( -pi/2, vec3( 1, 0, 0 ) ) ) );
+
   //frame functions
   //TODO
   //how do you test this???

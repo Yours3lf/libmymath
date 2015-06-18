@@ -188,13 +188,6 @@ namespace mymath
 		return quat_cast(impl::mat3i < ty >(m));
 	}
 
-	//TODO not sure if needed
-	template<typename ty>
-	impl::quati<ty> rotate(const impl::quati<ty>& q, const ty& angle, const impl::vec3i<ty>& axis)
-	{
-		return q * impl::quati<ty>(angle, axis);
-	}
-
 	template<typename ty>
 	impl::vec3i<ty> rotate_vector(const impl::quati<ty>& q, const impl::vec3i<ty>& v)
 	{
@@ -203,6 +196,28 @@ namespace mymath
 		v_quat = q * v_quat * inverse(q);
 		return v_quat.value.xyz;
 	}
+
+	template<typename ty>
+	impl::quati<ty> get_rotation(const impl::vec3i<ty>& start_dir, const impl::vec3i<ty>& end_dir)
+	{
+		impl::quati<ty> result;
+
+		const ty angle = std::acos(dot(start_dir, end_dir));
+		const impl::vec3i<ty> axis = mymath::cross(start_dir, end_dir);
+		if (mymath::all(mymath::equal(axis, vec3(0, 0, 0))))
+		{
+			//TODO review this and decide whether to use assert or exception
+			assert(angle < mymath::epsilon);
+			result = impl::quati<ty>(angle, vec3(1, 0, 0));
+		}
+		else
+		{
+			result = impl::quati<ty>(angle, axis);
+		}
+
+		return result;
+	}
+
 }
 
 #endif
