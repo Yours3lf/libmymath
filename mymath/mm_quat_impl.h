@@ -40,7 +40,7 @@ namespace mymath
 			type_vec4 value;
 
 			quati() : value(0, 0, 0, 1){} //no rotation
-			quati(type_vec3 vec) : value(vec, 0) {}
+			quati(const type_vec3& vec) : value(vec, 0) {}
 
 			quati(const mat3i<ty>& m)
 			{
