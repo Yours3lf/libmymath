@@ -87,16 +87,18 @@ namespace mymath
         m[0] = vec4( x, 0 );
         m[1] = vec4( up_vector, 0 );
         m[2] = vec4( -view_dir, 0 );
-        m[3] = vec4( -pos, 1 );
+        m[3] = vec4( vec3(0), 1 );
+        m = transpose( m );
 
-        return m;
+        return m * create_translation(-pos);
       }
 
       void set_from_matrix( const impl::mat4i<t>& m )
       {
-        pos = -m[3].xyz;
-        up_vector= m[1].xyz;
-        view_dir = -m[2].xyz;
+        impl::mat4i<t> inv = inverse( m );
+        pos = inv[3].xyz;
+        up_vector = m[1].xyz;
+        view_dir = m[2].xyz;
       }
 
       camera() : pos( impl::vec3i<t>( 0, 0, 0 ) ), view_dir( impl::vec3i<t>( 0, 0, -1 ) ), up_vector( impl::vec3i<t>( 0, 1, 0 ) ) {}
