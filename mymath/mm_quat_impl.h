@@ -40,14 +40,15 @@ namespace mymath
 			type_vec4 value;
 
 			quati() : value(0, 0, 0, 1){} //no rotation
-			quati(const type_vec3& vec) : value(vec, 0) {}
+			explicit quati(const type_vec3& vec) : value(vec, 0) {}
+            explicit quati(const type_vec4& vec) : value(vec) {}
 
-			quati(const mat3i<ty>& m)
+			explicit quati(const mat3i<ty>& m)
 			{
 				value = quat_cast(m).value;
 			}
 
-			quati(const mat4i<ty>& m)
+			explicit quati(const mat4i<ty>& m)
 			{
 				value = quat_cast(m).value;
 			}
