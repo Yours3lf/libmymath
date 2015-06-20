@@ -18,6 +18,7 @@ namespace mymath
           private:
             __m128 v;
           public:
+#ifndef MYMATH_FAST_COMPILE
             //For cases like swizzle = vec2i and swizzle = swizzle
             const vec3i& operator=( const vec3i& other )
             {
@@ -45,6 +46,7 @@ namespace mymath
               v = _mm_sub_ps( v, _mm_shuffle_ps( other.d, other.d, MM_SHUFFLE_SWIZZLE_HELPER( at, bt, ct, 0 ) ) );
               return *( vec3i* )this;
             }
+#endif
 
             operator vec3i() const
             {
@@ -113,12 +115,14 @@ namespace mymath
             }
         };
 
+
         template<int at, int bt>
         class swizzle < at, bt, -2, -3 >
         {
           private:
             __m128 v;
           public:
+#ifndef MYMATH_FAST_COMPILE
             //For cases like swizzle = vec2i and swizzle = swizzle
             const vec2i<float>& operator=( const vec2i<float>& other )
             {
@@ -159,6 +163,7 @@ namespace mymath
               return *( vec2i<float>* )this;
             }
 
+#endif
             operator vec2i<float>() const
             {
               return vec2i<float>( _mm_shuffle_ps( v, v, MYMATH_SHUFFLE( at, bt, 0, 0 ) ) );
@@ -315,8 +320,8 @@ namespace mymath
 #endif
 
         vec3i( const float& at, const float& bt, const float& ct ) : x( at ), y( bt ), z( ct ) {}
-        vec3i( const vec2i<float>& vec, const float& num ) { xyz = vec.xyy; z = num; }
-        vec3i( const float& num, const vec2i<float>& vec ) { xyz = vec.xxy; x = num; }
+        vec3i( const vec2i<float>& vec, const float& num ) { *this = vec.xyy; z = num; }
+        vec3i( const float& num, const vec2i<float>& vec ) { *this = vec.xxy; x = num; }
 #if MYMATH_STRICT_GLSL == 1
         explicit
 #endif

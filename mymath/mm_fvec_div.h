@@ -130,6 +130,7 @@ namespace mymath
       return *( vec2i<float>* )this;
     }
 
+#ifndef MYMATH_FAST_COMPILE
     template<int at, int bt, int ct, int dt>
     const vec3i<float>& vec3i<float>::swizzle<at, bt, ct, dt>::operator/=( const vec3i<float>& vec )
     {
@@ -147,6 +148,7 @@ namespace mymath
       tmp->d = _mm_div_ps( v, _mm_shuffle_ps( vec.d, vec.d, MM_SHUFFLE_SWIZZLE_HELPER( at, bt, ct, dt ) ) );
       return *( vec4i<float>* )this;
     }
+#endif
 
     const vec2i<float>& vec2i<float>::operator/=( const vec2i<float>& vec )
     {

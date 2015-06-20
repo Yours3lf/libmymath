@@ -10,6 +10,8 @@
 //#define MYMATH_USE_FMA
 //#define MYMATH_FORCE_INLINE
 
+#define MYMATH_FAST_COMPILE
+
 #ifdef MYMATH_USE_SSE2
 #include "x86intrin.h"
 #endif
@@ -40,7 +42,9 @@
 #ifdef MYMATH_USE_SSE2
 #define MYMATH_SHUFFLE(x, y, z, w) (_MM_SHUFFLE(w, z, y, x))
 
+#ifndef MYMATH_FAST_COMPILE
 #define MM_SHUFFLE_SWIZZLE_HELPER(x,y,z,w) ((1<<(y<<1)) | (2<<(z<<1)) | (3<<(w<<1)))
+#endif
 #endif
 
 //align variables to 16 bytes (GPU friendly)

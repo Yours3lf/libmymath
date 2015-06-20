@@ -53,14 +53,22 @@ namespace mymath
 
         mat4i(const mat3i<t>& mat)
         {
+          /*
           *this = identity;
           m[0].xyz = mat[0];
           m[1].xyz = mat[1];
           m[2].xyz = mat[2];
+          */
+
+          m[0] = vec4( mat[0], 0 );
+          m[1] = vec4( mat[1], 0 );
+          m[2] = vec4( mat[2], 0 );
+          m[3] = vec4( 0, 0, 0, 1 );
         }
 
         mat4i(const mat2i<t>& m0, const mat2i<t>& m1, const mat2i<t>& m2, const mat2i<t>& m3)
         {
+          /*
           m[0].xy = m0[0];
           m[1].xy = m0[1];
 
@@ -72,6 +80,12 @@ namespace mymath
 
           m[2].zw = m3[0];
           m[3].zw = m3[1];
+          */
+
+          m[0] = vec4( m0[0], m2[0] );
+          m[1] = vec4( m0[1], m2[1] );
+          m[2] = vec4( m1[0], m3[0] );
+          m[3] = vec4( m1[1], m3[1] );
         }
 
         explicit mat4i(const quati<t>& q)

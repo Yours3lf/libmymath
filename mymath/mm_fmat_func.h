@@ -288,20 +288,21 @@ namespace mymath
     return impl::mat2i<t>( tmp1.wy, tmp1.zx );
   }
 
+  //middle row/column is not good
   template< typename t >
   MYMATH_INLINE impl::mat3i<t> inverse( const impl::mat3i<t>& mat )
   {
     assert( determinant( mat ) != 0 );
 
-    impl::vec4i<t> atmp2 = mat[1].zzyy * mat[2].yxxy;
+    impl::vec4i<t> atmp2 = mat[1].zzyy * mat[2].yxxy; //h*f, h*c, e*c, e*f
     //ebb * iif - hhe * fcc
     impl::vec4i<t> atmp1 = impl::sse_fms_ps( impl::vec4i<t>(mat[1].yxxy).d, impl::vec4i<t>(mat[2].zzyy).d, atmp2.d );
 
-    impl::vec4i<t> atmp4 = mat[0].zzyy * mat[2].yxxy;
-    //daa * fii - ggd * fcc
-    impl::vec4i<t> atmp3 = impl::sse_fms_ps( impl::vec4i<t>(mat[0].yxxy).d,  impl::vec4i<t>(mat[2].yzzy).d, atmp4.d );
+    impl::vec4i<t> atmp4 = mat[0].zzyy * mat[2].yxxy; //g*f, g*c, d*c, d*f
+    //daa * iif - ggd * fcc
+    impl::vec4i<t> atmp3 = impl::sse_fms_ps( impl::vec4i<t>(mat[0].yxxy).d,  impl::vec4i<t>(mat[2].zzyy).d, atmp4.d );
     
-    impl::vec4i<t> atmp6 = mat[0].zzyy * mat[1].yxxy;
+    impl::vec4i<t> atmp6 = mat[0].zzyy * mat[1].yxxy; //g*e, g*b, d*b, d*e
     //daa * hhe - ggd * ebb
     impl::vec4i<t> atmp5 = impl::sse_fms_ps( impl::vec4i<t>(mat[0].yxxy).d, impl::vec4i<t>(mat[1].zzyy).d, atmp6.d );
 

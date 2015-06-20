@@ -84,11 +84,11 @@ namespace mymath
       {
         impl::vec3i<t> x = cross( up_vector, -view_dir );
 
-        impl::mat4i<t> m = impl::mat4i<t>::identity;
-        m[0].xyz = x;
-        m[1].xyz = up_vector;
-        m[2].xyz = -view_dir;
-        m[3].xyz = -pos;
+        impl::mat4i<t> m;
+        m[0] = vec4( x, 0 );
+        m[1] = vec4( up_vector, 0 );
+        m[2] = vec4( -view_dir, 0 );
+        m[3] = vec4( -pos, 1 );
 
         return m;
       }

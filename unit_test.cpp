@@ -65,6 +65,9 @@ bool QUAT_EQUAL(const quat& q1, const quat& q2)
 
 int main( int argc, char** args )
 {
+  //vec4 v = vec4( 1, 2, 3, 4 );
+  //v.wxzy = vec4( 1, 2, 3, 4 );
+
   //common.h tests
   for( float eps = mm::epsilon, i = mm::epsilon; i < 100; i += ( eps *= 2 ) )
   {
@@ -203,6 +206,7 @@ int main( int argc, char** args )
 
   //vec3 tests
   vec3 b = vec3( 1, 2, 3 );
+#ifndef MYMATH_FAST_COMPILE
   UNIT_TEST( mm::all( mm::equal( b.zyx = b.xyz, vec3( 3, 2, 1 ) ) ) );
   b = vec3( 1, 2, 3 );
   UNIT_TEST( mm::all( mm::equal( b.zyx *= b.xyz, vec3( 3, 4, 3 ) ) ) );
@@ -212,6 +216,7 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( b.zyx += b.xyz, vec3( 4, 4, 4 ) ) ) );
   b = vec3( 1, 2, 3 );
   UNIT_TEST( mm::all( mm::equal( b.zyx -= b.zyx, vec3( 0, 0, 0 ) ) ) );
+#endif
   b = vec3( 1, 2, 3 );
   UNIT_TEST( mm::all( mm::equal( b.xxx = b.xxx, vec3( 1, 1, 1 ) ) ) );
   b = vec3( 1, 2, 3 );
@@ -223,6 +228,7 @@ int main( int argc, char** args )
   b = vec3( 1, 2, 3 );
   UNIT_TEST( mm::all( mm::equal( b.xx = b.xx, vec2( 1, 1 ) ) ) );
   b = vec3( 1, 2, 3 );
+#ifndef MYMATH_FAST_COMPILE
   UNIT_TEST( mm::all( mm::equal( b.xy = b.xx, vec2( 1, 1 ) ) ) );
   b = vec3( 1, 2, 3 );
   UNIT_TEST( mm::all( mm::equal( b.xy *= b.yy, vec2( 2, 4 ) ) ) );
@@ -232,6 +238,7 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( b.xy += b.xy, vec2( 2, 4 ) ) ) );
   b = vec3( 1, 2, 3 );
   UNIT_TEST( mm::all( mm::equal( b.xy -= b.xy, vec2( 0, 0 ) ) ) );
+#endif
 
   UNIT_TEST( mm::all( mm::equal( b = uvec3( 1, 2, 3 ), vec3( 1, 2, 3 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( b = ivec3( 1, 2, 3 ), vec3( 1, 2, 3 ) ) ) );
@@ -288,6 +295,7 @@ int main( int argc, char** args )
 
   //vec4 tests
   vec4 c = vec4( 1, 2, 3, 4 );
+#ifndef MYMATH_FAST_COMPILE
   UNIT_TEST( mm::all( mm::equal( c.wzyx = c.xyzw, vec4( 4, 3, 2, 1 ) ) ) );
   c = vec4( 1, 2, 3, 4 );
   UNIT_TEST( mm::all( mm::equal( c.wzyx *= c.xyzw, vec4( 4, 6, 6, 4 ) ) ) );
@@ -297,6 +305,7 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( c.wzyx += c.xyzw, vec4( 5, 5, 5, 5 ) ) ) );
   c = vec4( 1, 2, 3, 4 );
   UNIT_TEST( mm::all( mm::equal( c.wzyx -= c.wzyx, vec4( 0, 0, 0, 0 ) ) ) );
+#endif
   c = vec4( 1, 2, 3, 4 );
   UNIT_TEST( mm::all( mm::equal( c.xxxx = c.xxxx, vec4( 1, 1, 1, 1 ) ) ) );
   c = vec4( 1, 2, 3, 4 );
@@ -320,6 +329,7 @@ int main( int argc, char** args )
   c = vec4( 1, 2, 3, 4 );
   UNIT_TEST( mm::all( mm::equal( c.xxy = c.xxy, vec3( 1, 1, 2 ) ) ) );
   c = vec4( 1, 2, 3, 4 );
+#ifndef MYMATH_FAST_COMPILE
   UNIT_TEST( mm::all( mm::equal( c.zyx = c.zyx, vec3( 3, 2, 1 ) ) ) );
   c = vec4( 1, 2, 3, 4 );
   UNIT_TEST( mm::all( mm::equal( c.xyz *= c.xyz, vec3( 1, 4, 9 ) ) ) );
@@ -329,8 +339,10 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( c.xyz += c.xyz, vec3( 2, 4, 6 ) ) ) );
   c = vec4( 1, 2, 3, 4 );
   UNIT_TEST( mm::all( mm::equal( c.xyz -= c.xyz, vec3( 0, 0, 0 ) ) ) );
+#endif
   c = vec4( 1, 2, 3, 4 );
   UNIT_TEST( mm::all( mm::equal( c.xx = c.xx, vec2( 1, 1 ) ) ) );
+#ifndef MYMATH_FAST_COMPILE
   c = vec4( 1, 2, 3, 4 );
   UNIT_TEST( mm::all( mm::equal( c.xy = c.xx, vec2( 1, 1 ) ) ) );
   c = vec4( 1, 2, 3, 4 );
@@ -341,6 +353,7 @@ int main( int argc, char** args )
   UNIT_TEST( mm::all( mm::equal( c.xy += c.xy, vec2( 2, 4 ) ) ) );
   c = vec4( 1, 2, 3, 4 );
   UNIT_TEST( mm::all( mm::equal( c.xy -= c.xy, vec2( 0, 0 ) ) ) );
+#endif
 
   UNIT_TEST( mm::all( mm::equal( c = uvec4( 1, 2, 3, 4 ), vec4( 1, 2, 3, 4 ) ) ) );
   UNIT_TEST( mm::all( mm::equal( c = ivec4( 1, 2, 3, 4 ), vec4( 1, 2, 3, 4 ) ) ) );
