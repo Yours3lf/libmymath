@@ -20,8 +20,8 @@ namespace mymath
         view_dir = normalize( lookat - eye );
         up_vector = normalize( up );
         pos = eye;
-        impl::vec3i<t> right = normalize( cross( view_dir, up_vector ) );
-        up_vector = normalize( cross( right, view_dir ) );
+        impl::vec3i<t> right = cross( view_dir, up_vector );
+        up_vector = cross( right, view_dir );
       }
 
       void translate( const impl::vec3i<t>& vec )
@@ -41,17 +41,16 @@ namespace mymath
 
       void move_right( const t& d )
       {
-        pos += cross( up_vector, view_dir ) * impl::vec3i<t>( -d );
+        vec3 x = cross( view_dir, up_vector );
+        pos += x * impl::vec3i<t>( d );
       }
 
       void rotate_x( const t& angle )
       {
-        impl::mat4i<t> dummy;
         impl::mat3i<t> rot_mat;
         impl::vec3i<t> x_vec;
-        impl::vec3i<t> rot_vec;
 
-        x_vec = cross( up_vector, view_dir );
+        x_vec = cross( view_dir, up_vector );
         rot_mat = impl::mat3i<t>( create_rotation( angle, x_vec ) );
 
         up_vector = rot_mat * up_vector;
@@ -62,14 +61,14 @@ namespace mymath
       {
         impl::mat4i<t> rot_mat = create_rotation( angle, up_vector );
 
-        view_dir = impl::mat3i<t>( rot_mat[0].xyz, rot_mat[1].xyz, rot_mat[2].xyz ) * view_dir;
+        view_dir = impl::mat3i<t>( rot_mat ) * view_dir;
       }
 
       void rotate_z( const t& angle )
       {
         impl::mat4i<t> rot_mat = create_rotation( angle, view_dir );
 
-        up_vector = impl::mat3i<t>( rot_mat[0].xyz, rot_mat[1].xyz, rot_mat[2].xyz ) * up_vector;
+        up_vector = impl::mat3i<t>( rot_mat ) * up_vector;
       }
 
       void rotate( const t& angle, const impl::vec3i<t>& vec )
@@ -82,7 +81,7 @@ namespace mymath
 
       impl::mat4i<t> get_matrix() const
       {
-        impl::vec3i<t> x = cross( up_vector, -view_dir );
+        impl::vec3i<t> x = cross( view_dir, up_vector );
 
         impl::mat4i<t> m;
         m[0] = vec4( x, 0 );

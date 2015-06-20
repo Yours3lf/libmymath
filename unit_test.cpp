@@ -1097,8 +1097,8 @@ int main( int argc, char** args )
 
     cam = camera<float>();
     cam.rotate_x( radians( 90 ) );
-    UNIT_TEST( mm::all( mm::equal( cam.view_dir, vec3( 0, -1, 0 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( cam.up_vector, vec3( 0, 0, -1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( cam.view_dir, vec3( 0, 1, 0 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( cam.up_vector, vec3( 0, 0, 1 ) ) ) );
 
     cam = camera<float>();
     cam.rotate_y( radians( 90 ) );
