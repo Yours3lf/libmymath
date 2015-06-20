@@ -6,25 +6,19 @@
 template<typename ty>
 mymath::impl::quati<ty> operator*( const mymath::impl::quati<ty>& p, const mymath::impl::quati<ty>& q )
 {
-  mymath::impl::quati<ty> result;
-
   const mymath::impl::vec3i<ty> pv = p.value.xyz;
   const ty                      ps = p.value.w;
   const mymath::impl::vec3i<ty> qv = q.value.xyz;
   const ty                      qs = q.value.w;
 
-  result.value = mymath::impl::vec4i<ty>( ps * qv + qs * pv + mymath::cross( pv, qv ),
-    ps * qs - mymath::dot( pv, qv ) );
-
-  return result;
+  return mymath::impl::quati<ty>(mymath::impl::vec4i<ty>( ps * qv + qs * pv + mymath::cross( pv, qv ),
+    ps * qs - mymath::dot( pv, qv ) ));
 }
 
 template<typename ty>
 mymath::impl::quati<ty> operator*( const mymath::impl::quati<ty>& p, const ty& num )
 {
-  mymath::impl::quati<ty> result;
-  result.value = p.value * num;
-  return result;
+  return mymath::impl::quati<ty>(p.value * num);
 }
 
 template<typename ty>
@@ -36,9 +30,7 @@ mymath::impl::quati<ty> operator*( const ty& num, const mymath::impl::quati<ty>&
 template<typename ty>
 mymath::impl::quati<ty> operator/( const mymath::impl::quati<ty>& p, const ty& num )
 {
-  mymath::impl::quati<ty> result;
-  result.value = p.value / num;
-  return result;
+  return mymath::impl::quati<ty>(p.value / num);
 }
 
 namespace mymath
@@ -46,9 +38,7 @@ namespace mymath
   template<typename ty>
   impl::quati<ty> conjugate( const impl::quati<ty>& q )
   {
-    impl::quati<ty> result = q;
-    result.value = vec4(-result.value.xyz, result.value.w);
-    return result;
+    return mymath::impl::quati<ty>(mymath::impl::vec4i<ty>(-q.value.xyz, q.value.w));
   }
 
   template<typename ty>
@@ -63,7 +53,7 @@ namespace mymath
   template<typename ty>
   impl::quati<ty> normalize( const impl::quati<ty>& q )
   {
-    return normalize( q.value );
+    return impl::quati<ty>(normalize( q.value ));
   }
 
   template<typename ty>
@@ -87,7 +77,6 @@ namespace mymath
     vec3 tmp6 = q.value.yxy * q.value.wwy * vec3( 2 ) * vec3( -1, 1, -1 );
     coloumn3 = coloumn3 + tmp6 + vec3( 0, 0, 1 );
 
-    //return mat3(tmp1.xyz, tmp3.xyz, tmp5.xyz);
     return mat3(
       coloumn1.x, coloumn2.x, coloumn3.x,
       coloumn1.y, coloumn2.y, coloumn3.y,
@@ -106,9 +95,7 @@ namespace mymath
   template<typename ty>
   impl::quati<ty> mix( const impl::quati<ty>& q1, const impl::quati<ty>& q2, const ty& t )
   {
-    impl::quati<ty> result;
-    result.value = normalize( q1.value*( 1 - t ) + q2.value*t );
-    return result;
+    return impl::quati<ty>(normalize( q1.value*( 1 - t ) + q2.value*t ));
   }
 
   template<typename ty>
@@ -116,13 +103,11 @@ namespace mymath
   {
     assert( all( equal( q1.value, q2.value ) ) == false && all( equal( q1.value, -q2.value ) ) == false );
 
-    impl::quati<ty> result;
     float theta = std::acos( dot( q1.value, q2.value ) );
     float sintheta = std::sin( theta );
     float wp = std::sin( ( 1 - t ) * theta ) / sintheta;
     float wq = std::sin( t * theta ) / sintheta;
-    result.value = wp * q1.value + wq * q2.value;
-    return result;
+    return impl::quati<ty>(wp * q1.value + wq * q2.value);
   }
 
   //TODO SLOW
@@ -206,7 +191,6 @@ namespace mymath
     const impl::vec3i<ty> axis = mymath::cross( start_dir, end_dir );
     if( mymath::all( mymath::equal( axis, vec3( 0, 0, 0 ) ) ) )
     {
-      //TODO review this and decide whether to use assert or exception
       assert( angle < mymath::epsilon );
       result = impl::quati<ty>( angle, vec3( 1, 0, 0 ) );
     }

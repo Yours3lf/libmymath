@@ -1042,6 +1042,8 @@ int main( int argc, char** args )
     UNIT_TEST( QUAT_EQUAL( quat( 1, arbitraryAxis ), quat( 1, arbitraryAxis * 5 ) ) );
     UNIT_TEST( QUAT_EQUAL( quat( pi, arbitraryAxis ), quat( 3 * pi, arbitraryAxis ) ) );
 
+    UNIT_TEST( mm::all( mm::equal( normalize( quat( vec4( 10, 20, 30, 40 ) ) ).value, normalize( vec4( 10, 20, 30, 40 ) ) ) ) );
+
     UNIT_TEST( QUAT_EQUAL( quat( std::sqrt( 2.f ), arbitraryAxis ), quat_cast( mat4( create_rotation( std::sqrt( 2.f ), arbitraryAxis ) ) ) ) );
     UNIT_TEST( QUAT_EQUAL( quat( std::sqrt( 2.f ), arbitraryAxis ), quat_cast( mat3( create_rotation( std::sqrt( 2.f ), arbitraryAxis ) ) ) ) );
     UNIT_TEST( MAT4_EQUAL( mat4( create_rotation( std::sqrt( 2.f ), arbitraryAxis ) ), mat4_cast( quat( std::sqrt( 2.f ), arbitraryAxis ) ) ) );
