@@ -1125,6 +1125,8 @@ int main( int argc, char** args )
     cam.rotate_x( radians( 90 ) );
     UNIT_TEST( mm::all( mm::equal( cam.view_dir, vec3( 0, 1, 0 ) ) ) );
     UNIT_TEST( mm::all( mm::equal( cam.up_vector, vec3( 1, 0, 0 ) ) ) );
+    cam_mat = cam.get_matrix();
+    UNIT_TEST( MAT4_EQUAL( cam_mat, mat4( 0, 0, -1, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 1 ) ) );
   }
 
   system( "PAUSE" );
