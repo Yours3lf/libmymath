@@ -141,7 +141,7 @@ namespace mymath
     t bottom = -top;
     t left = bottom * aspect;
     t right = -left;
-    impl::mat4i<t> r;
+    impl::mat4i<t> r = mat4::identity;
     r[0].x = ( ( t )2 * near ) / ( right - left );
     r[1].y = ( ( t )2 * near ) / ( top - bottom );
     r[2].x = ( right + left ) / ( right - left );
@@ -156,7 +156,7 @@ namespace mymath
   template< typename t >
   MYMATH_INLINE impl::mat4i<t> ortographic( const t& left, const t& right, const t& bottom, const t& top, const t& near, const t& far )
   {
-    impl::mat4i<t> r;
+    impl::mat4i<t> r = mat4::identity;
     r[0].x = ( t )2 / ( right - left );
     r[1].y = ( t )2 / ( top - bottom );
     r[2].z = -( t )2 / ( far - near );
