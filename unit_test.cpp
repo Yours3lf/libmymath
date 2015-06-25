@@ -165,6 +165,8 @@ int main( int argc, char** args )
     UNIT_TEST( mm::all( mm::equal( a = vec2( uvec2( 1, 2 ) ), vec2( 1, 2 ) ) ) );
     UNIT_TEST( mm::all( mm::equal( a = vec2( ivec2( 1, 2 ) ), vec2( 1, 2 ) ) ) );
 
+    UNIT_TEST( mm::all( mm::equal( vec2( {1.0f, 2.0f} ), vec2( 1, 2 ) ) ) );
+
     a = vec2( 1, 2 );
     UNIT_TEST( a.x == 1 );
     UNIT_TEST( a.y == 2 );
@@ -249,6 +251,8 @@ int main( int argc, char** args )
     UNIT_TEST( mm::all( mm::equal( b = ivec3( 1, 2, 3 ), vec3( 1, 2, 3 ) ) ) );
     UNIT_TEST( mm::all( mm::equal( b = vec3( uvec3( 1, 2, 3 ) ), vec3( 1, 2, 3 ) ) ) );
     UNIT_TEST( mm::all( mm::equal( b = vec3( ivec3( 1, 2, 3 ) ), vec3( 1, 2, 3 ) ) ) );
+
+    UNIT_TEST( mm::all( mm::equal( vec3( { 1.0f, 2.0f, 3.0f } ), vec3( 1, 2, 3 ) ) ) );
 
     b = vec3( 1, 2, 3 );
     UNIT_TEST( b.x == 1 );
@@ -366,6 +370,8 @@ int main( int argc, char** args )
     UNIT_TEST( mm::all( mm::equal( c = ivec4( 1, 2, 3, 4 ), vec4( 1, 2, 3, 4 ) ) ) );
     UNIT_TEST( mm::all( mm::equal( c = vec4( uvec4( 1, 2, 3, 4 ) ), vec4( 1, 2, 3, 4 ) ) ) );
     UNIT_TEST( mm::all( mm::equal( c = vec4( ivec4( 1, 2, 3, 4 ) ), vec4( 1, 2, 3, 4 ) ) ) );
+
+    UNIT_TEST( mm::all( mm::equal( vec4( { 1.0f, 2.0f, 3.0f, 4.0f } ), vec4( 1, 2, 3, 4 ) ) ) );
 
     c = vec4( 1, 2, 3, 4 );
     UNIT_TEST( c.x == 1 );
@@ -897,6 +903,8 @@ int main( int argc, char** args )
     UNIT_TEST( MAT2_EQUAL( ma, mat2( vec2( 1, 0 ), vec2( 0, 1 ) ) ) );
     UNIT_TEST( MAT2_EQUAL( ma, mat2( 1 ) ) );
 
+    UNIT_TEST( MAT2_EQUAL( mat2( { 1, 2, 3, 4 } ), mat2( 1, 2, 3, 4 ) ) );
+
     UNIT_TEST( ma[0].x == 1 );
     UNIT_TEST( ma[0].y == 0 );
 
@@ -919,6 +927,8 @@ int main( int argc, char** args )
     UNIT_TEST( MAT3_EQUAL( mat3( create_rotation( std::sqrt( 2.f ), arbitraryAxis ) ), mat3( quat( std::sqrt( 2.f ), arbitraryAxis ) ) ) );
     UNIT_TEST( MAT3_EQUAL( mb, mat3( vec3( 1, 0, 0 ), vec3( 0, 1, 0 ), vec3( 0, 0, 1 ) ) ) );
     UNIT_TEST( MAT3_EQUAL( mb, mat3( 1 ) ) );
+
+    UNIT_TEST( MAT3_EQUAL( mat3( { 1, 2, 3, 4, 5, 6, 7, 8, 9 } ), mat3( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) ) );
 
     UNIT_TEST( mb[1].x == 0 );
     UNIT_TEST( mb[1].y == 1 );
@@ -945,6 +955,8 @@ int main( int argc, char** args )
     UNIT_TEST( MAT4_EQUAL( mat4( create_rotation( std::sqrt( 2.f ), arbitraryAxis ) ), mat4( quat( std::sqrt( 2.f ), arbitraryAxis ) ) ) );
     UNIT_TEST( MAT4_EQUAL( mc, mat4( vec4( 1, 0, 0, 0 ), vec4( 0, 1, 0, 0 ), vec4( 0, 0, 1, 0 ), vec4( 0, 0, 0, 1 ) ) ) );
     UNIT_TEST( MAT4_EQUAL( mc, mat4( 1 ) ) );
+
+    UNIT_TEST( MAT4_EQUAL( mat4( { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 } ), mat4( 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ) ) );
 
     UNIT_TEST( mc[2].y == 0 );
     UNIT_TEST( mc[2].z == 1 );
