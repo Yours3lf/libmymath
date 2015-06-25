@@ -1050,6 +1050,8 @@ int main( int argc, char** args )
     //quaternion tests
     const mm::vec3 arbitraryAxis( 10, 11, 12 );
 
+    UNIT_TEST( QUAT_EQUAL( quat( {1.0f, 2.0f, 3.0f, 4.0f} ), quat( vec4( 1, 2, 3, 4 ) ) ) );
+
     UNIT_TEST( QUAT_EQUAL( quat(), quat( 0, arbitraryAxis ) ) );
     UNIT_TEST( QUAT_EQUAL( quat( 1, arbitraryAxis ), quat( 1, arbitraryAxis * 5 ) ) );
     UNIT_TEST( QUAT_EQUAL( quat( pi, arbitraryAxis ), quat( 3 * pi, arbitraryAxis ) ) );
