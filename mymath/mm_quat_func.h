@@ -38,7 +38,7 @@ namespace mymath
   template<typename ty>
   impl::quati<ty> conjugate( const impl::quati<ty>& q )
   {
-    return mymath::impl::quati<ty>(mymath::impl::vec4i<ty>(-q.value.xyz, q.value.w));
+    return mymath::impl::quati<ty>(mymath::impl::vec4i<ty>(q.value.xyz*-1, q.value.w));
   }
 
   template<typename ty>
@@ -56,11 +56,11 @@ namespace mymath
     return impl::quati<ty>(normalize( q.value ));
   }
 
-  template<typename ty>
-  ty norm( const impl::quati<ty>& q )
-  {
-    return length( q.value );
-  }
+  //template<typename ty>
+  //ty norm( const impl::quati<ty>& q )
+  //{
+  //  return length( q.value );
+  //}
 
   template<typename ty>
   impl::mat3i<ty> mat3_cast( const impl::quati<ty>& q )
