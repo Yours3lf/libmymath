@@ -10,6 +10,8 @@ endif()
 
 set(project_name libmymath_raytracing_example)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 #project name
 project(${project_name})
 
@@ -118,6 +120,10 @@ add_executable(${project_name} unit_test)
 #add_executable(${project_name} new_raytracer/main)
 #add_executable(${project_name} old_raytracer/main)
 
+add_library(override_new override_new)
+
+add_dependencies(${project_name} override_new)
+
 if(UNIX)
 	add_precompiled_header(${project_name} #add precompiled headers
 	${CMAKE_SOURCE_DIR}/mymath/mm_common.h
@@ -142,3 +148,4 @@ if(UNIX)
 endif()
 
 target_link_libraries(${project_name} ${${project_name}_external_libs})
+target_link_libraries(${project_name} override_new)

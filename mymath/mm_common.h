@@ -28,7 +28,11 @@
 #endif
 
 //align variables to X bytes
+#ifdef _MSC_VER //msvc++
+#define MYMATH_ALIGNED(x) __declspec(align(x))
+#else
 #define MYMATH_ALIGNED(x) alignas(x)
+#endif
 
 #ifdef MYMATH_USE_SSE2
 #define MYMATH_SHUFFLE(x, y, z, w) (_MM_SHUFFLE(w, z, y, x))
