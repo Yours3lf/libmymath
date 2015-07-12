@@ -39,28 +39,28 @@ public:
 
 bool MAT2_EQUAL( const mat2& A, const mat2& B )
 {
-  return (mm::all( mm::equal( A[0], B[0] ) ) &&
-    mm::all( mm::equal( A[1], B[1] ) ));
+  return ( mm::all( mm::equal( A[0], B[0] ) ) &&
+    mm::all( mm::equal( A[1], B[1] ) ) );
 }
 
 bool MAT3_EQUAL( const mat3& A, const mat3& B )
 {
-  return (mm::all( mm::equal( A[0], B[0] ) ) &&
+  return ( mm::all( mm::equal( A[0], B[0] ) ) &&
     mm::all( mm::equal( A[1], B[1] ) ) &&
-    mm::all( mm::equal( A[2], B[2] ) ));
+    mm::all( mm::equal( A[2], B[2] ) ) );
 }
 
 bool MAT4_EQUAL( const mat4& A, const mat4& B )
 {
-  return (mm::all( mm::equal( A[0], B[0] ) ) &&
+  return ( mm::all( mm::equal( A[0], B[0] ) ) &&
     mm::all( mm::equal( A[1], B[1] ) ) &&
     mm::all( mm::equal( A[2], B[2] ) ) &&
-    mm::all( mm::equal( A[3], B[3] ) ));
+    mm::all( mm::equal( A[3], B[3] ) ) );
 }
 
 bool QUAT_EQUAL( const quat& q1, const quat& q2 )
 {
-  return mm::all( mm::equal( q1.value, q2.value ) ) || mm::all( mm::equal( q1.value, (q2*-1.f).value ) );
+  return mm::all( mm::equal( q1.value, q2.value ) ) || mm::all( mm::equal( q1.value, ( q2*-1.f ).value ) );
 }
 
 int main( int argc, char** args )
@@ -70,7 +70,7 @@ int main( int argc, char** args )
 
   {
     //common.h tests
-    for( float eps = mm::epsilon, i = mm::epsilon; i < 100; i += (eps *= 2) )
+    for( float eps = mm::epsilon, i = mm::epsilon; i < 100; i += ( eps *= 2 ) )
     {
       UNIT_TEST( mm::impl::is_eq( mm::inversesqrt( i ), 1.0f / std::sqrt( i ) ) );
     }
@@ -78,7 +78,7 @@ int main( int argc, char** args )
     UNIT_TEST( mm::step( 2, -1 ) == 0 );
     UNIT_TEST( mm::step( -1, 2 ) == 1 );
 
-    for( float eps = mm::epsilon, i = mm::epsilon; i < 1; i += (eps *= 2) )
+    for( float eps = mm::epsilon, i = mm::epsilon; i < 1; i += ( eps *= 2 ) )
     {
       UNIT_TEST( mm::impl::is_eq( mm::mix( -1, 1, i ), i * 2 - 1 ) );
     }
@@ -165,7 +165,7 @@ int main( int argc, char** args )
     UNIT_TEST( mm::all( mm::equal( a = vec2( uvec2( 1, 2 ) ), vec2( 1, 2 ) ) ) );
     UNIT_TEST( mm::all( mm::equal( a = vec2( ivec2( 1, 2 ) ), vec2( 1, 2 ) ) ) );
 
-    UNIT_TEST( mm::all( mm::equal( vec2( {1.0f, 2.0f} ), vec2( 1, 2 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( vec2( { 1.0f, 2.0f } ), vec2( 1, 2 ) ) ) );
 
     a = vec2( 1, 2 );
     UNIT_TEST( a.x == 1 );
@@ -177,30 +177,30 @@ int main( int argc, char** args )
     UNIT_TEST( mm::all( mm::equal( vec2( 1, 1 ), vec2( 1 ) ) ) );
     UNIT_TEST( a[0] == 1 );
     UNIT_TEST( a[1] == 2 );
-    UNIT_TEST( mm::all( mm::equal( (a *= 2), vec2( 2, 4 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (a /= 2), vec2( 1, 2 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (a += a), vec2( 2, 4 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (a -= a), vec2( 0, 0 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( a *= 2 ), vec2( 2, 4 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( a /= 2 ), vec2( 1, 2 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( a += a ), vec2( 2, 4 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( a -= a ), vec2( 0, 0 ) ) ) );
     ivec2 ai = ivec2( 10 );
     uvec2 au = uvec2( 10 );
-    UNIT_TEST( mm::all( mm::equal( (ai %= ivec2( 3 )), ivec2( 1 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (au %= uvec2( 3 )), uvec2( 1 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (ai <<= ivec2( 1 )), ivec2( 2 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (au <<= uvec2( 1 )), uvec2( 2 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (ai >>= ivec2( 1 )), ivec2( 1 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (au >>= uvec2( 1 )), uvec2( 1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( ai %= ivec2( 3 ) ), ivec2( 1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( au %= uvec2( 3 ) ), uvec2( 1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( ai <<= ivec2( 1 ) ), ivec2( 2 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( au <<= uvec2( 1 ) ), uvec2( 2 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( ai >>= ivec2( 1 ) ), ivec2( 1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( au >>= uvec2( 1 ) ), uvec2( 1 ) ) ) );
     ai = ivec2( 255 );
     au = uvec2( 255 );
-    UNIT_TEST( mm::all( mm::equal( (ai &= ivec2( 259 )), ivec2( 3 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (au &= uvec2( 259 )), uvec2( 3 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( ai &= ivec2( 259 ) ), ivec2( 3 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( au &= uvec2( 259 ) ), uvec2( 3 ) ) ) );
     ai = ivec2( 255 );
     au = uvec2( 255 );
-    UNIT_TEST( mm::all( mm::equal( (ai ^= ivec2( 259 )), ivec2( 508 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (au ^= uvec2( 259 )), uvec2( 508 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( ai ^= ivec2( 259 ) ), ivec2( 508 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( au ^= uvec2( 259 ) ), uvec2( 508 ) ) ) );
     ai = ivec2( 255 );
     au = uvec2( 255 );
-    UNIT_TEST( mm::all( mm::equal( (ai |= ivec2( 259 )), ivec2( 511 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (au |= uvec2( 259 )), uvec2( 511 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( ai |= ivec2( 259 ) ), ivec2( 511 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( au |= uvec2( 259 ) ), uvec2( 511 ) ) ) );
 
     a = vec2( 1, 2 );
     UNIT_TEST( mm::all( mm::equal( ++a, vec2( 2, 3 ) ) ) );
@@ -270,30 +270,30 @@ int main( int argc, char** args )
     UNIT_TEST( b[0] == 1 );
     UNIT_TEST( b[1] == 2 );
     UNIT_TEST( b[2] == 3 );
-    UNIT_TEST( mm::all( mm::equal( (b *= 2), vec3( 2, 4, 6 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (b /= 2), vec3( 1, 2, 3 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (b += b), vec3( 2, 4, 6 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (b -= b), vec3( 0, 0, 0 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( b *= 2 ), vec3( 2, 4, 6 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( b /= 2 ), vec3( 1, 2, 3 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( b += b ), vec3( 2, 4, 6 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( b -= b ), vec3( 0, 0, 0 ) ) ) );
     ivec3 bi = ivec3( 10 );
     uvec3 bu = uvec3( 10 );
-    UNIT_TEST( mm::all( mm::equal( (bi %= ivec3( 3 )), ivec3( 1 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (bu %= uvec3( 3 )), uvec3( 1 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (bi <<= ivec3( 1 )), ivec3( 2 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (bu <<= uvec3( 1 )), uvec3( 2 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (bi >>= ivec3( 1 )), ivec3( 1 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (bu >>= uvec3( 1 )), uvec3( 1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( bi %= ivec3( 3 ) ), ivec3( 1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( bu %= uvec3( 3 ) ), uvec3( 1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( bi <<= ivec3( 1 ) ), ivec3( 2 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( bu <<= uvec3( 1 ) ), uvec3( 2 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( bi >>= ivec3( 1 ) ), ivec3( 1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( bu >>= uvec3( 1 ) ), uvec3( 1 ) ) ) );
     bi = ivec3( 255 );
     bu = uvec3( 255 );
-    UNIT_TEST( mm::all( mm::equal( (bi &= ivec3( 259 )), ivec3( 3 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (bu &= uvec3( 259 )), uvec3( 3 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( bi &= ivec3( 259 ) ), ivec3( 3 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( bu &= uvec3( 259 ) ), uvec3( 3 ) ) ) );
     bi = ivec3( 255 );
     bu = uvec3( 255 );
-    UNIT_TEST( mm::all( mm::equal( (bi ^= ivec3( 259 )), ivec3( 508 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (bu ^= uvec3( 259 )), uvec3( 508 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( bi ^= ivec3( 259 ) ), ivec3( 508 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( bu ^= uvec3( 259 ) ), uvec3( 508 ) ) ) );
     bi = ivec3( 255 );
     bu = uvec3( 255 );
-    UNIT_TEST( mm::all( mm::equal( (bi |= ivec3( 259 )), ivec3( 511 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (bu |= uvec3( 259 )), uvec3( 511 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( bi |= ivec3( 259 ) ), ivec3( 511 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( bu |= uvec3( 259 ) ), uvec3( 511 ) ) ) );
 
     b = vec3( 1, 2, 3 );
     UNIT_TEST( mm::all( mm::equal( ++b, vec3( 2, 3, 4 ) ) ) );
@@ -397,30 +397,30 @@ int main( int argc, char** args )
     UNIT_TEST( c[1] == 2 );
     UNIT_TEST( c[2] == 3 );
     UNIT_TEST( c[3] == 4 );
-    UNIT_TEST( mm::all( mm::equal( (c *= 2), vec4( 2, 4, 6, 8 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (c /= 2), vec4( 1, 2, 3, 4 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (c += c), vec4( 2, 4, 6, 8 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (c -= c), vec4( 0, 0, 0, 0 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( c *= 2 ), vec4( 2, 4, 6, 8 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( c /= 2 ), vec4( 1, 2, 3, 4 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( c += c ), vec4( 2, 4, 6, 8 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( c -= c ), vec4( 0, 0, 0, 0 ) ) ) );
     ivec4 ci = ivec4( 10 );
     uvec4 cu = uvec4( 10 );
-    UNIT_TEST( mm::all( mm::equal( (ci %= ivec4( 3 )), ivec4( 1 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (cu %= uvec4( 3 )), uvec4( 1 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (ci <<= ivec4( 1 )), ivec4( 2 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (cu <<= uvec4( 1 )), uvec4( 2 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (ci >>= ivec4( 1 )), ivec4( 1 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (cu >>= uvec4( 1 )), uvec4( 1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( ci %= ivec4( 3 ) ), ivec4( 1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( cu %= uvec4( 3 ) ), uvec4( 1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( ci <<= ivec4( 1 ) ), ivec4( 2 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( cu <<= uvec4( 1 ) ), uvec4( 2 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( ci >>= ivec4( 1 ) ), ivec4( 1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( cu >>= uvec4( 1 ) ), uvec4( 1 ) ) ) );
     ci = ivec4( 255 );
     cu = uvec4( 255 );
-    UNIT_TEST( mm::all( mm::equal( (ci &= ivec4( 259 )), ivec4( 3 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (cu &= uvec4( 259 )), uvec4( 3 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( ci &= ivec4( 259 ) ), ivec4( 3 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( cu &= uvec4( 259 ) ), uvec4( 3 ) ) ) );
     ci = ivec4( 255 );
     cu = uvec4( 255 );
-    UNIT_TEST( mm::all( mm::equal( (ci ^= ivec4( 259 )), ivec4( 508 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (cu ^= uvec4( 259 )), uvec4( 508 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( ci ^= ivec4( 259 ) ), ivec4( 508 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( cu ^= uvec4( 259 ) ), uvec4( 508 ) ) ) );
     ci = ivec4( 255 );
     cu = uvec4( 255 );
-    UNIT_TEST( mm::all( mm::equal( (ci |= ivec4( 259 )), ivec4( 511 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (cu |= uvec4( 259 )), uvec4( 511 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( ci |= ivec4( 259 ) ), ivec4( 511 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( cu |= uvec4( 259 ) ), uvec4( 511 ) ) ) );
 
     c = vec4( 1, 2, 3, 4 );
     UNIT_TEST( mm::all( mm::equal( ++c, vec4( 2, 3, 4, 5 ) ) ) );
@@ -911,12 +911,12 @@ int main( int argc, char** args )
     ma = mat2( 0.2147, 1.0665,
       0.16, 2.6088 );
 
-    UNIT_TEST( MAT2_EQUAL( (ma *= mm::inverse( ma )), mat2::identity ) );
-    UNIT_TEST( MAT2_EQUAL( (ma *= 2), mat2( 2 ) ) );
-    UNIT_TEST( MAT2_EQUAL( (++ma), mat2( 3, 1, 1, 3 ) ) );
-    UNIT_TEST( MAT2_EQUAL( (ma++), mat2( 3, 1, 1, 3 ) ) );
-    UNIT_TEST( MAT2_EQUAL( (--ma), mat2( 3, 1, 1, 3 ) ) );
-    UNIT_TEST( MAT2_EQUAL( (ma--), mat2( 3, 1, 1, 3 ) ) );
+    UNIT_TEST( MAT2_EQUAL( ( ma *= mm::inverse( ma ) ), mat2::identity ) );
+    UNIT_TEST( MAT2_EQUAL( ( ma *= 2 ), mat2( 2 ) ) );
+    UNIT_TEST( MAT2_EQUAL( ( ++ma ), mat2( 3, 1, 1, 3 ) ) );
+    UNIT_TEST( MAT2_EQUAL( ( ma++ ), mat2( 3, 1, 1, 3 ) ) );
+    UNIT_TEST( MAT2_EQUAL( ( --ma ), mat2( 3, 1, 1, 3 ) ) );
+    UNIT_TEST( MAT2_EQUAL( ( ma-- ), mat2( 3, 1, 1, 3 ) ) );
   }
 
   {
@@ -939,12 +939,12 @@ int main( int argc, char** args )
       0.5045, 0.5253, -0.7856,
       -1.1963, -0.6228, -0.2589 );
 
-    UNIT_TEST( MAT3_EQUAL( (mb *= mm::inverse( mb )), mat3::identity ) );
-    UNIT_TEST( MAT3_EQUAL( (mb *= 2), mat3( 2 ) ) );
-    UNIT_TEST( MAT3_EQUAL( (++mb), mat3( 3, 1, 1, 1, 3, 1, 1, 1, 3 ) ) );
-    UNIT_TEST( MAT3_EQUAL( (mb++), mat3( 3, 1, 1, 1, 3, 1, 1, 1, 3 ) ) );
-    UNIT_TEST( MAT3_EQUAL( (--mb), mat3( 3, 1, 1, 1, 3, 1, 1, 1, 3 ) ) );
-    UNIT_TEST( MAT3_EQUAL( (mb--), mat3( 3, 1, 1, 1, 3, 1, 1, 1, 3 ) ) );
+    UNIT_TEST( MAT3_EQUAL( ( mb *= mm::inverse( mb ) ), mat3::identity ) );
+    UNIT_TEST( MAT3_EQUAL( ( mb *= 2 ), mat3( 2 ) ) );
+    UNIT_TEST( MAT3_EQUAL( ( ++mb ), mat3( 3, 1, 1, 1, 3, 1, 1, 1, 3 ) ) );
+    UNIT_TEST( MAT3_EQUAL( ( mb++ ), mat3( 3, 1, 1, 1, 3, 1, 1, 1, 3 ) ) );
+    UNIT_TEST( MAT3_EQUAL( ( --mb ), mat3( 3, 1, 1, 1, 3, 1, 1, 1, 3 ) ) );
+    UNIT_TEST( MAT3_EQUAL( ( mb-- ), mat3( 3, 1, 1, 1, 3, 1, 1, 1, 3 ) ) );
   }
 
   {
@@ -969,12 +969,12 @@ int main( int argc, char** args )
       1.6993, -1.5248, -0.0907, 0.6628,
       -1.2859, 0.1765, -0.4029, 0.0235 );
 
-    UNIT_TEST( MAT4_EQUAL( (mc *= mm::inverse( mc )), mat4::identity ) );
-    UNIT_TEST( MAT4_EQUAL( (mc *= 2), mat4( 2 ) ) );
-    UNIT_TEST( MAT4_EQUAL( (++mc), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
-    UNIT_TEST( MAT4_EQUAL( (mc++), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
-    UNIT_TEST( MAT4_EQUAL( (--mc), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
-    UNIT_TEST( MAT4_EQUAL( (mc--), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
+    UNIT_TEST( MAT4_EQUAL( ( mc *= mm::inverse( mc ) ), mat4::identity ) );
+    UNIT_TEST( MAT4_EQUAL( ( mc *= 2 ), mat4( 2 ) ) );
+    UNIT_TEST( MAT4_EQUAL( ( ++mc ), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
+    UNIT_TEST( MAT4_EQUAL( ( mc++ ), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
+    UNIT_TEST( MAT4_EQUAL( ( --mc ), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
+    UNIT_TEST( MAT4_EQUAL( ( mc-- ), mat4( 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3 ) ) );
   }
 
   {
@@ -994,9 +994,9 @@ int main( int argc, char** args )
     UNIT_TEST( mm::all( mm::equal( mb * b, vec3( 30, 36, 42 ) ) ) );
     UNIT_TEST( mm::all( mm::equal( mc * c, vec4( 90, 100, 110, 120 ) ) ) );
 
-    UNIT_TEST( mm::all( mm::equal( (a *= ma), vec2( 5, 11 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (b *= mb), vec3( 14, 32, 50 ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( (c *= mc), vec4( 30, 70, 110, 150 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( a *= ma ), vec2( 5, 11 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( b *= mb ), vec3( 14, 32, 50 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( ( c *= mc ), vec4( 30, 70, 110, 150 ) ) ) );
 
     UNIT_TEST( MAT2_EQUAL( ma * ma, mat2( 7, 10, 15, 22 ) ) );
     UNIT_TEST( MAT3_EQUAL( mb * mb, mat3( 30, 36, 42, 66, 81, 96, 102, 126, 150 ) ) );
@@ -1050,7 +1050,7 @@ int main( int argc, char** args )
     //quaternion tests
     const mm::vec3 arbitraryAxis( 10, 11, 12 );
 
-    UNIT_TEST( QUAT_EQUAL( quat( {1.0f, 2.0f, 3.0f, 4.0f} ), quat( vec4( 1, 2, 3, 4 ) ) ) );
+    UNIT_TEST( QUAT_EQUAL( quat( { 1.0f, 2.0f, 3.0f, 4.0f } ), quat( vec4( 1, 2, 3, 4 ) ) ) );
 
     UNIT_TEST( QUAT_EQUAL( quat(), quat( 0, arbitraryAxis ) ) );
     UNIT_TEST( QUAT_EQUAL( quat( 1, arbitraryAxis ), quat( 1, arbitraryAxis * 5 ) ) );

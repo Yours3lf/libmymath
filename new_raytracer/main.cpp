@@ -40,9 +40,9 @@ inline int find_nearest( const ray& r, float& dist, primitive*& p )
 
   vec3 cb, tmax, tdelta, cell;
   cell = ( r.origin - the_scene.extents.pos ) * the_scene.inv_cell_size;
-  int step_x, out_x, x = ( int )cell.x;
-  int step_y, out_y, y = ( int )cell.y;
-  int step_z, out_z, z = ( int )cell.z;
+  int step_x, out_x, x = (int)cell.x;
+  int step_y, out_y, y = (int)cell.y;
+  int step_z, out_z, z = (int)cell.z;
 
   if( x < 0 || x >= gridsize || y < 0 || y >= gridsize || z < 0 || z >= gridsize )
   {
@@ -382,7 +382,7 @@ inline vec3 raytrace( const ray& r, int depth, float r_index, float& dist, int& 
   int type = miss;
   primitive* p = 0;
 
-  if( ( type  = find_nearest( r, dist, p ) ) == miss )
+  if( ( type = find_nearest( r, dist, p ) ) == miss )
   {
     return vec3( 0 );
   }
@@ -417,7 +417,7 @@ inline vec3 raytrace( const ray& r, int depth, float r_index, float& dist, int& 
       {
         shade = 1.0f;
 
-        l = ( ( sphere* )( *it ) )->center - point;
+        l = ( (sphere*)( *it ) )->center - point;
         float dist2 = length( l );
         l *= vec3( 1.0f / dist2 );
 
@@ -434,7 +434,7 @@ inline vec3 raytrace( const ray& r, int depth, float r_index, float& dist, int& 
       else if( ( *it )->type == primitive::BOX )
       {
         shade = 0;
-        box* b = ( box* ) * it;
+        box* b = (box*)* it;
 
         l = normalize( ( b->bb.pos + vec3( 0.5 ) * b->bb.size ) - point );
 
@@ -443,14 +443,14 @@ inline vec3 raytrace( const ray& r, int depth, float r_index, float& dist, int& 
           float deltax = b->bb.size.x * 0.25f;
           float deltay = b->bb.size.z * 0.25f;
 
-          float seed = ( random_cache.size() / 2 ) * ( ( float )rand() / RAND_MAX ) * 2.0f;
+          float seed = ( random_cache.size() / 2 ) * ( (float)rand() / RAND_MAX ) * 2.0f;
 
           float dirx = random_cache[seed];
           float diry = random_cache[seed + 1];
 
           for( int c = 0; c < samples; ++c )
           {
-            vec3 lp( b->grid[( c & 15 ) << 1] + dirx * deltax , b->bb.pos.y, b->grid[( ( c & 15 ) << 1 ) + 1 ] + diry * deltay );
+            vec3 lp( b->grid[( c & 15 ) << 1] + dirx * deltax, b->bb.pos.y, b->grid[( ( c & 15 ) << 1 ) + 1] + diry * deltay );
             dirx = random_cache[random_cache.size() * dirx];
             diry = random_cache[random_cache.size() * diry];
             vec3 dir = lp - point;
@@ -509,7 +509,7 @@ inline vec3 raytrace( const ray& r, int depth, float r_index, float& dist, int& 
         vec3 re1( re.z, re.y, -re.x );
         vec3 re2 = cross( re, re1 );
 
-        float seed = ( random_cache.size() / 2 ) * ( ( float )rand() / RAND_MAX ) * 2.0f;
+        float seed = ( random_cache.size() / 2 ) * ( (float)rand() / RAND_MAX ) * 2.0f;
 
         float dirx = random_cache[seed];
         float diry = random_cache[seed + 1];
@@ -675,12 +675,12 @@ int main( int argc, char* args[] )
     else if( ss.str() == "--help" )
     {
       std::cout << "libmymath raytracer, written by Tamas Marton.\n"
-                "based on: http://www.flipcode.com/archives/Raytracing_Topics_Techniques-Part_1_Introduction.shtml\n"
-                "Usage: --silent      //don't display FPS info in the terminal\n"
-                "       --screenx num //set screen width (default:1280)\n"
-                "       --screeny num //set screen height (default:720)\n"
-                "       --fullscreen  //set fullscreen, windowed by default\n"
-                "       --help        //display this information\n";
+        "based on: http://www.flipcode.com/archives/Raytracing_Topics_Techniques-Part_1_Introduction.shtml\n"
+        "Usage: --silent      //don't display FPS info in the terminal\n"
+        "       --screenx num //set screen width (default:1280)\n"
+        "       --screeny num //set screen height (default:720)\n"
+        "       --fullscreen  //set fullscreen, windowed by default\n"
+        "       --help        //display this information\n";
       return 0;
     }
     else if( ss.str() == "--silent" )
@@ -772,7 +772,7 @@ int main( int argc, char* args[] )
   {
     for( unsigned int y = 0; y < h; ++y )
     {
-      startends[x * h + y] = uvec4( ( screen.x / ( float )w ) * x, ( screen.x / ( float )w ) * ( x + 1 ), ( screen.y / ( float )h ) * y, ( screen.y / ( float )h ) * ( y + 1 ) );
+      startends[x * h + y] = uvec4( ( screen.x / (float)w ) * x, ( screen.x / (float)w ) * ( x + 1 ), ( screen.y / (float)h ) * y, ( screen.y / (float)h ) * ( y + 1 ) );
     }
   }
 
@@ -792,8 +792,8 @@ int main( int argc, char* args[] )
     random_cache[c * 2] = v[0];
     random_cache[c * 2 + 1] = v[1];
 #else
-    v[0] = ( float )rand() / ( float )RAND_MAX;
-    v[1] = ( float )rand() / ( float )RAND_MAX;
+    v[0] = (float)rand() / (float)RAND_MAX;
+    v[1] = (float)rand() / (float)RAND_MAX;
     random_cache[c * 2] = v[0];
     random_cache[c * 2 + 1] = v[1];
 #endif
@@ -818,81 +818,81 @@ int main( int argc, char* args[] )
     {
       switch( the_event.type )
       {
-        case sf::Event::Closed:
+      case sf::Event::Closed:
+      {
+        the_window.close();
+        exit( 0 );
+      }
+      case sf::Event::KeyPressed:
+      {
+        if( the_event.key.code == sf::Keyboard::Escape )
+        {
+          the_window.close();
+          exit( 0 );
+        }
+
+        if( the_event.key.code == sf::Keyboard::Space )
+        {
+          fast_mode = !fast_mode;
+
+          if( fast_mode )
           {
-            the_window.close();
-            exit( 0 );
+            num_samples = 16;
+            trace_depth = 4;
           }
-        case sf::Event::KeyPressed:
+          else
           {
-            if( the_event.key.code == sf::Keyboard::Escape )
-            {
-              the_window.close();
-              exit( 0 );
-            }
-
-            if( the_event.key.code == sf::Keyboard::Space )
-            {
-              fast_mode = !fast_mode;
-
-              if( fast_mode )
-              {
-                num_samples = 16;
-                trace_depth = 4;
-              }
-              else
-              {
-                num_samples = 64;
-                trace_depth = 8;
-              }
-            }
-
-            if( the_event.key.code == sf::Keyboard::Tab )
-            {
-              sf::Image im;
-              im.create( screen.x, screen.y );
-
-              for( unsigned int x = 0; x < screen.x; ++x )
-              {
-                for( unsigned int y = 0; y < screen.y; ++y )
-                {
-                  vec4 val = clamp( tex[y * screen.x + x], vec4( 0 ), vec4( 1 ) ) * vec4( 255 );
-                  im.setPixel( x, y, sf::Color( val.x, val.y, val.z, val.w ) );
-                }
-              }
-
-              im.saveToFile( "screenshot.png" );
-
-              std::cout << "Screenshot saved." << std::endl;
-            }
-
-            /*
-            if( the_event.key.code == sf::Keyboard::Left )
-            {
-              the_scene.cam.rotate_y( radians( 5.0f ) );
-              the_scene.update_frame();
-            }
-
-            if( the_event.key.code == sf::Keyboard::Right )
-            {
-              the_scene.cam.rotate_y( radians( -5.0f ) );
-              the_scene.update_frame();
-            }
-
-            if( the_event.key.code == sf::Keyboard::Up )
-            {
-              the_scene.cam.move_forward( 0.5f );
-              the_scene.update_frame();
-            }
-
-            if( the_event.key.code == sf::Keyboard::Down )
-            {
-              the_scene.cam.move_forward( -0.5f );
-              the_scene.update_frame();
-            }*/
+            num_samples = 64;
+            trace_depth = 8;
           }
-        default:
-          break;
+        }
+
+        if( the_event.key.code == sf::Keyboard::Tab )
+        {
+          sf::Image im;
+          im.create( screen.x, screen.y );
+
+          for( unsigned int x = 0; x < screen.x; ++x )
+          {
+            for( unsigned int y = 0; y < screen.y; ++y )
+            {
+              vec4 val = clamp( tex[y * screen.x + x], vec4( 0 ), vec4( 1 ) ) * vec4( 255 );
+              im.setPixel( x, y, sf::Color( val.x, val.y, val.z, val.w ) );
+            }
+          }
+
+          im.saveToFile( "screenshot.png" );
+
+          std::cout << "Screenshot saved." << std::endl;
+        }
+
+        /*
+        if( the_event.key.code == sf::Keyboard::Left )
+        {
+        the_scene.cam.rotate_y( radians( 5.0f ) );
+        the_scene.update_frame();
+        }
+
+        if( the_event.key.code == sf::Keyboard::Right )
+        {
+        the_scene.cam.rotate_y( radians( -5.0f ) );
+        the_scene.update_frame();
+        }
+
+        if( the_event.key.code == sf::Keyboard::Up )
+        {
+        the_scene.cam.move_forward( 0.5f );
+        the_scene.update_frame();
+        }
+
+        if( the_event.key.code == sf::Keyboard::Down )
+        {
+        the_scene.cam.move_forward( -0.5f );
+        the_scene.update_frame();
+        }*/
+      }
+      default:
+        break;
       }
     }
 
@@ -904,13 +904,13 @@ int main( int argc, char* args[] )
     thread_func( uvec4( 0, screen.x, 0, screen.y ) );
 #else
     //intel thread building blocks for the rescue!
-    tbb::parallel_for( tbb::blocked_range<size_t>( 0, ( size_t )startends.size() ),
-                       [ = ]( const tbb::blocked_range<size_t>& r )
+    tbb::parallel_for( tbb::blocked_range<size_t>( 0, (size_t)startends.size() ),
+      [=]( const tbb::blocked_range<size_t>& r )
     {
       for( size_t i = r.begin(); i != r.end(); ++i )
         thread_func( startends[i] );
     }
-                     );
+    );
 #endif
 
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, screen.x, screen.y, 0, GL_RGBA, GL_FLOAT, &tex[0][0] );
@@ -929,7 +929,7 @@ int main( int argc, char* args[] )
 
     frames++;
 
-    elapsed_time = radians( ( float )the_clock.getElapsedTime().asMilliseconds() * 0.05f );
+    elapsed_time = radians( (float)the_clock.getElapsedTime().asMilliseconds() * 0.05f );
 
     if( the_clock.getElapsedTime().asMilliseconds() - current_time > 1000.0f && !silent )
     {
@@ -940,8 +940,8 @@ int main( int argc, char* args[] )
 #endif
 
       int timepassed = the_clock.getElapsedTime().asMilliseconds() - current_time;
-      fps = 1000.0f / ( ( float ) timepassed / ( float ) frames );
-      std::cout << "FPS: " << fps << " Time: " << ( float ) timepassed / ( float ) frames << std::endl;
+      fps = 1000.0f / ( (float)timepassed / (float)frames );
+      std::cout << "FPS: " << fps << " Time: " << (float)timepassed / (float)frames << std::endl;
       frames = 0;
       current_time = the_clock.getElapsedTime().asMilliseconds();
     }

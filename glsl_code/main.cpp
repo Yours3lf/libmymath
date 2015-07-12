@@ -143,12 +143,12 @@ int main( int argc, char* args[] )
     else if( ss.str() == "--help" )
     {
       std::cout << "GLSL in c++, written by Tamas Marton.\n"
-                "Usage: --threads num //use [num] number of threads\n"
-                "       --silent      //don't display FPS info in the terminal\n"
-                "       --screenx num //set screen width (default:1280)\n"
-                "       --screeny num //set screen height (default:720)\n"
-                "       --fullscreen  //set fullscreen, windowed by default\n"
-                "       --help        //display this information\n";
+        "Usage: --threads num //use [num] number of threads\n"
+        "       --silent      //don't display FPS info in the terminal\n"
+        "       --screenx num //set screen width (default:1280)\n"
+        "       --screeny num //set screen height (default:720)\n"
+        "       --fullscreen  //set fullscreen, windowed by default\n"
+        "       --help        //display this information\n";
       return 0;
     }
     else if( ss.str() == "--silent" )
@@ -235,7 +235,7 @@ int main( int argc, char* args[] )
   {
     for( unsigned int y = 0; y < h; ++y )
     {
-      startends[x * h + y] = uvec4( ( screen.x / ( float )w ) * x, ( screen.x / ( float )w ) * ( x + 1 ), ( screen.y / ( float )h ) * y, ( screen.y / ( float )h ) * ( y + 1 ) );
+      startends[x * h + y] = uvec4( ( screen.x / (float)w ) * x, ( screen.x / (float)w ) * ( x + 1 ), ( screen.y / (float)h ) * y, ( screen.y / (float)h ) * ( y + 1 ) );
     }
   }
 
@@ -259,26 +259,26 @@ int main( int argc, char* args[] )
     {
       switch( the_event.type )
       {
-        case sf::Event::Closed:
-          {
-            the_window.close();
-            exit( 0 );
-          }
-        case sf::Event::KeyPressed:
-          {
-            if( the_event.key.code == sf::Keyboard::Escape )
-            {
-              the_window.close();
-              exit( 0 );
-            }
-          }
-        case sf::Event::MouseMoved:
-          {
-            mouse_coords.x = the_event.mouseMove.x / ( float )screen.x;
-            mouse_coords.y = 1.0f - the_event.mouseMove.y / ( float )screen.y;
-          }
-        default:
-          break;
+      case sf::Event::Closed:
+      {
+        the_window.close();
+        exit( 0 );
+      }
+      case sf::Event::KeyPressed:
+      {
+        if( the_event.key.code == sf::Keyboard::Escape )
+        {
+          the_window.close();
+          exit( 0 );
+        }
+      }
+      case sf::Event::MouseMoved:
+      {
+        mouse_coords.x = the_event.mouseMove.x / (float)screen.x;
+        mouse_coords.y = 1.0f - the_event.mouseMove.y / (float)screen.y;
+      }
+      default:
+        break;
       }
     }
 
@@ -286,13 +286,13 @@ int main( int argc, char* args[] )
 
 #if USE_TBB == 1
     //intel thread building blocks for the rescue!
-    tbb::parallel_for( tbb::blocked_range<size_t>( 0, ( size_t )startends.size() ),
-                       [ & ]( const tbb::blocked_range<size_t>& r )
+    tbb::parallel_for( tbb::blocked_range<size_t>( 0, (size_t)startends.size() ),
+      [&]( const tbb::blocked_range<size_t>& r )
     {
       for( size_t i = r.begin(); i != r.end(); ++i )
         thread_func( startends[i] );
     }
-                     );
+    );
 #else
 
 #if ONETHREAD == 0
@@ -365,8 +365,8 @@ int main( int argc, char* args[] )
     if( the_clock.getElapsedTime().asMilliseconds() - current_time > 1000.0f && !silent )
     {
       int timepassed = the_clock.getElapsedTime().asMilliseconds() - current_time;
-      fps = 1000.0f / ( ( float ) timepassed / ( float ) frames );
-      std::cout << "FPS: " << fps << " Time: " << ( float ) timepassed / ( float ) frames << "\n";
+      fps = 1000.0f / ( (float)timepassed / (float)frames );
+      std::cout << "FPS: " << fps << " Time: " << (float)timepassed / (float)frames << "\n";
       frames = 0;
       current_time = the_clock.getElapsedTime().asMilliseconds();
     }

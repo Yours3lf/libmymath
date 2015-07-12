@@ -5,20 +5,22 @@
 
 class ray
 {
-  private:
-  protected:
-  public:
-    vec3 origin, direction;
-    int ray_id;
+private:
+protected:
+public:
+  vec3 origin, direction;
+  int ray_id;
 
-    ray() {}
+  ray()
+  {
+  }
 
-    ray( const vec3& o, const vec3& d, int id )
-    {
-      origin = o;
-      direction = d;
-      ray_id = id;
-    }
+  ray( const vec3& o, const vec3& d, int id )
+  {
+    origin = o;
+    direction = d;
+    ray_id = id;
+  }
 };
 
 #endif

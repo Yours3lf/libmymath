@@ -23,28 +23,28 @@ public:
   double get_elapsed_time_seconds()
   {
     auto after = std::chrono::high_resolution_clock::now();
-    double elapsed = std::chrono::duration_cast<std::chrono::seconds>(after - before).count();
+    double elapsed = std::chrono::duration_cast<std::chrono::seconds>( after - before ).count();
     return elapsed;
   }
 
   double get_elapsed_time_milliseconds()
   {
     auto after = std::chrono::high_resolution_clock::now();
-    double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(after - before).count();
+    double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>( after - before ).count();
     return elapsed;
   }
 
   double get_elapsed_time_microseconds()
   {
     auto after = std::chrono::high_resolution_clock::now();
-    double elapsed = std::chrono::duration_cast<std::chrono::microseconds>(after - before).count();
+    double elapsed = std::chrono::duration_cast<std::chrono::microseconds>( after - before ).count();
     return elapsed;
   }
 
   double get_elapsed_time_nanoseconds()
   {
     auto after = std::chrono::high_resolution_clock::now();
-    double elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(after - before).count();
+    double elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>( after - before ).count();
     return elapsed;
   }
 
@@ -54,33 +54,33 @@ public:
   }
 };
 
-void print_sse_mask(unsigned mask)
+void print_sse_mask( unsigned mask )
 {
   using namespace std;
 
-  unsigned w = (mask >> 6) & 3;
-  unsigned z = (mask >> 4) & 3;
-  unsigned y = (mask >> 2) & 3;
+  unsigned w = ( mask >> 6 ) & 3;
+  unsigned z = ( mask >> 4 ) & 3;
+  unsigned y = ( mask >> 2 ) & 3;
   unsigned x = mask & 3;
 
-  auto helper = [](unsigned m) -> string
+  auto helper = []( unsigned m ) -> string
   {
-    switch(m)
+    switch( m )
     {
-      case 0:
-        return "x";
-      case 1:
-        return "y";
-      case 2:
-        return "z";
-      case 3:
-        return "w";
+    case 0:
+      return "x";
+    case 1:
+      return "y";
+    case 2:
+      return "z";
+    case 3:
+      return "w";
     }
 
     return "";
   };
 
-  cout << helper(x) << helper(y) << helper(z) << helper(w) << endl;
+  cout << helper( x ) << helper( y ) << helper( z ) << helper( w ) << endl;
 }
 
 template< class t, class u, class v >
@@ -104,20 +104,20 @@ void benchmark( u& uu, v& vv, double freq, const t& tt )
 
   cout << "Time per action: " << action_time << " nanoseconds" << endl;
   //cout << "Cycle time: " << cycle_time << " nanoseconds" << endl;
-  cout << "CPU cycles per action: " << (action_time / cycle_time) << " cycles" << endl;
+  cout << "CPU cycles per action: " << ( action_time / cycle_time ) << " cycles" << endl;
 }
 
 void fill_vec_rand( float* f, int l )
 {
   for( int c = 0; c < l; ++c )
-    *(f + c) = rand() % 101 / 100.0f;
+    *( f + c ) = rand() % 101 / 100.0f;
 }
 
 void fill_mat_rand( float* f, int l )
 {
   for( int c = 0; c < l; ++c )
     for( int d = 0; d < l; ++d )
-      *(f + c * l + d) = rand() % 101 / 100.0f;
+      *( f + c * l + d ) = rand() % 101 / 100.0f;
 }
 
 std::ostream& operator<<( std::ostream& o, const glm::simdVec4& v )
@@ -127,10 +127,10 @@ std::ostream& operator<<( std::ostream& o, const glm::simdVec4& v )
 
 std::ostream& operator<<( std::ostream& o, const glm::simdMat4& m )
 {
-  return o      << "( " << m[0].x << ", " << m[1].x << ", " << m[2].x << ", " << m[3].x << "\n  "
-          << m[0].y << ", " << m[1].y << ", " << m[2].y << ", " << m[3].y << "\n  "
-          << m[0].z << ", " << m[1].z << ", " << m[2].z << ", " << m[3].z << "\n  "
-         << m[0].w << ", " << m[1].w << ", " << m[2].w << ", " << m[3].w << " )\n";
+  return o << "( " << m[0].x << ", " << m[1].x << ", " << m[2].x << ", " << m[3].x << "\n  "
+    << m[0].y << ", " << m[1].y << ", " << m[2].y << ", " << m[3].y << "\n  "
+    << m[0].z << ", " << m[1].z << ", " << m[2].z << ", " << m[3].z << "\n  "
+    << m[0].w << ", " << m[1].w << ", " << m[2].w << ", " << m[3].w << " )\n";
 }
 
 int main( int argc, char** args )
@@ -138,7 +138,7 @@ int main( int argc, char** args )
   using namespace mymath;
   using namespace std;
 
-  srand(time(0));
+  srand( time( 0 ) );
 
   double freq = 3.4e+9;
 
@@ -149,8 +149,8 @@ int main( int argc, char** args )
   mat4 m;
   vec4 v;
 
-  fill_vec_rand(&v.x, v.length());
-  fill_mat_rand(&m[0].x, m[0].length());
+  fill_vec_rand( &v.x, v.length() );
+  fill_mat_rand( &m[0].x, m[0].length() );
 
   cout << inverse( inverse( m ) ) << m;
 
@@ -164,8 +164,8 @@ int main( int argc, char** args )
 
   //fill_vec_rand(&gv.x, 4);
   //fill_mat_rand(&gm[0].x, 4);
-  memcpy(&gm, &m, sizeof(mat4));
-  memcpy(&gv, &v, sizeof(vec4));
+  memcpy( &gm, &m, sizeof( mat4 ) );
+  memcpy( &gv, &v, sizeof( vec4 ) );
 
   benchmark( gm, gv, freq, []( glm::simdMat4& a, glm::simdVec4& b )
   {
