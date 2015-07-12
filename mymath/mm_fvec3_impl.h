@@ -356,33 +356,7 @@ namespace mymath
         z = *( list.begin() + 2 );
       }
 
-#if USE_MYMATH_ALLOCATOR == 1
-      void* operator new( size_t s )
-      {
-#ifdef _WIN32
-        void* m = _aligned_malloc( s, MYMATH_ALIGNMENT );
-#else
-        void* m = 0;
-
-        if( posix_memalign( &m, MYMATH_ALIGNMENT, s ) )
-          m = 0;
-#endif
-
-        if( !m )
-          throw std::bad_alloc();
-
-        return m;
-      }
-
-        void operator delete( void* m )
-      {
-#ifdef _WIN32
-        _aligned_free( m );
-#else
-        free( p );
-#endif
-      }
-#endif
+      MM_OVERRIDE_NEW
 
       float& operator[]( const unsigned int& num )
       {

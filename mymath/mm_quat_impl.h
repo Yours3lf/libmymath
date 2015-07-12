@@ -78,6 +78,8 @@ namespace mymath
           *( list.begin() + 3 ) );
       }
 
+      MM_OVERRIDE_NEW
+
       //Grassman product
       quati& operator*=( const quati& other )
       {

@@ -124,6 +124,8 @@ namespace mymath
         m[3] = vec4i<t>( *( list.begin() + 12 ), *( list.begin() + 13 ), *( list.begin() + 14 ), *( list.begin() + 15 ) );
       }
 
+      MM_OVERRIDE_NEW
+
       vec4i<t>& operator[]( const unsigned int& num )
       {
         assert( num < 4 );

@@ -105,6 +105,7 @@ namespace mymath
     {
     }
 
+    MM_OVERRIDE_NEW
   };
 }
 

@@ -88,6 +88,8 @@ namespace mymath
         m[2] = vec3i<t>( *( list.begin() + 6 ), *( list.begin() + 7 ), *( list.begin() + 8 ) );
       }
 
+      MM_OVERRIDE_NEW
+
       vec3i<t>& operator[]( const unsigned int& num )
       {
         assert( num < 3 );

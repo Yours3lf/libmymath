@@ -54,6 +54,38 @@
 
 #define USE_MYMATH_ALLOCATOR 1
 
+#if USE_MYMATH_ALLOCATOR == 1
+  #ifdef _WIN32
+    #define MM_OVERRIDE_NEW \
+      void* operator new( size_t s ) \
+      { \
+        void* m = _aligned_malloc( s, MYMATH_ALIGNMENT ); \
+        if( !m ) \
+          throw std::bad_alloc(); \
+        return m; \
+      } \
+      void operator delete( void* m ) \
+      { \
+        _aligned_free( m ); \
+      }
+  #else //not win32
+    #define MM_OVERRIDE_NEW \
+      void* operator new( size_t s ) \
+      { \
+        void* m = 0; \
+        if( posix_memalign( &m, MYMATH_ALIGNMENT, s ) ) \
+          m = 0; \
+        if( !m ) \
+          throw std::bad_alloc(); \
+        return m; \
+      } \
+      void operator delete( void* m ) \
+      { \
+        free( p ); \
+      }
+  #endif
+#endif
+
 //makes sure only explicit cast is available between vecn and float/double etc.
 #define MYMATH_STRICT_GLSL 0
 #define MYMATH_DOUBLE_PRECISION 0
