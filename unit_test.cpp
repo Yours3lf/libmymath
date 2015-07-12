@@ -1049,6 +1049,7 @@ int main( int argc, char** args )
   {
     //quaternion tests
     const mm::vec3 arbitraryAxis( 10, 11, 12 );
+	const mm::vec3 arbitraryVector( 5, 6, 7 );
 
     UNIT_TEST( QUAT_EQUAL( quat( { 1.0f, 2.0f, 3.0f, 4.0f } ), quat( vec4( 1, 2, 3, 4 ) ) ) );
 
@@ -1062,7 +1063,10 @@ int main( int argc, char** args )
     UNIT_TEST( QUAT_EQUAL( quat( std::sqrt( 2.f ), arbitraryAxis ), quat_cast( mat3( create_rotation( std::sqrt( 2.f ), arbitraryAxis ) ) ) ) );
     UNIT_TEST( MAT4_EQUAL( mat4( create_rotation( std::sqrt( 2.f ), arbitraryAxis ) ), mat4_cast( quat( std::sqrt( 2.f ), arbitraryAxis ) ) ) );
     UNIT_TEST( MAT3_EQUAL( mat3( create_rotation( std::sqrt( 2.f ), arbitraryAxis ) ), mat3_cast( quat( std::sqrt( 2.f ), arbitraryAxis ) ) ) );
-
+    
+    UNIT_TEST(mm::all(mm::equal(rotate_vector(quat(std::sqrt(2.f), arbitraryAxis), arbitraryVector).xyz, (mat4(quat(std::sqrt(2.f), arbitraryAxis)) * vec4(arbitraryVector, 1)).xyz)));
+    UNIT_TEST(MAT4_EQUAL(mat4(quat(std::sqrt(2.f), arbitraryAxis)), mat4(create_rotation(std::sqrt(2.f), arbitraryAxis))));
+    
     UNIT_TEST( mm::all( mm::equal( rotate_vector( quat( pi / 2, vec3( 1, 0, 0 ) ) * quat( pi / 2, vec3( 0, 1, 0 ) ), vec3( 1, 0, 0 ) ), vec3( 0, 1, 0 ) ) ) );
     UNIT_TEST( mm::all( mm::equal( rotate_vector( quat( pi / 2, vec3( 0, 1, 0 ) ) * quat( pi / 2, vec3( 1, 0, 0 ) ), vec3( 1, 0, 0 ) ), vec3( 0, 0, -1 ) ) ) );
     UNIT_TEST( mm::all( mm::equal( rotate_vector( quat( pi / 2.1, vec3( 1, 0, 0 ) ) * quat( pi / 2, vec3( 0, 1, 0 ) ), vec3( 1, 0, 0 ) ), vec3( 0, 1, 0 ) ) ) == false );

@@ -56,11 +56,11 @@ namespace mymath
     return impl::quati<ty>( normalize( q.value ) );
   }
 
-  template<typename ty>
-  ty norm( const impl::quati<ty>& q )
-  {
-    return length( q.value );
-  }
+  //template<typename ty>
+  //ty norm( const impl::quati<ty>& q )
+  //{
+  //  return length( q.value );
+  //}
 
   template<typename ty>
   impl::mat3i<ty> mat3_cast( const impl::quati<ty>& q )
