@@ -56,6 +56,7 @@
 
 #if USE_MYMATH_ALLOCATOR == 1
   #ifdef _WIN32
+    #ifndef MM_OVERRIDE_NEW
     #define MM_OVERRIDE_NEW \
       void* operator new( size_t s ) \
       { \
@@ -68,7 +69,9 @@
       { \
         _aligned_free( m ); \
       }
+    #endif
   #else //not win32
+    #ifndef MM_OVERRIDE_NEW
     #define MM_OVERRIDE_NEW \
       void* operator new( size_t s ) \
       { \
@@ -83,6 +86,7 @@
       { \
         free( p ); \
       }
+    #endif
   #endif
 #endif
 
