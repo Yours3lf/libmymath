@@ -9,7 +9,7 @@ namespace mymath
   namespace impl
   {
     template< typename ty >
-    class vec3i
+    class MM_16_BYTE_ALIGNED vec3i
     {
     private:
       template< int at, int bt, int ct, int dt >
@@ -18,6 +18,7 @@ namespace mymath
       private:
         ty v[3];
       public:
+#ifndef MYMATH_FAST_COMPILE
         //For cases like swizzle = vec2 and swizzle = swizzle
         const vec3i& operator=( const vec3i& other )
         {
@@ -53,6 +54,7 @@ namespace mymath
           v[ct] -= other.z;
           return *( vec3i* )this;
         }
+#endif
 
         operator vec3i() const
         {
@@ -127,6 +129,7 @@ namespace mymath
       private:
         ty v[3];
       public:
+#ifndef MYMATH_FAST_COMPILE
         //For cases like swizzle = vec2 and swizzle = swizzle
         const vec2i<ty>& operator=( const vec2i<ty>& other )
         {
@@ -165,6 +168,7 @@ namespace mymath
           v[bt] -= other.y;
           return *( vec2i<ty>* )this;
         }
+#endif
 
         operator vec2i<ty>() const
         {

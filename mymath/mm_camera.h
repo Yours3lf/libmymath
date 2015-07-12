@@ -4,7 +4,7 @@
 namespace mymath
 {
   template< typename t >
-  class camera
+  class MM_16_BYTE_ALIGNED camera
   {
   private:
 
@@ -104,8 +104,6 @@ namespace mymath
     camera() : pos( impl::vec3i<t>( 0, 0, 0 ) ), view_dir( impl::vec3i<t>( 0, 0, -1 ) ), up_vector( impl::vec3i<t>( 0, 1, 0 ) )
     {
     }
-
-    MM_OVERRIDE_NEW
   };
 }
 

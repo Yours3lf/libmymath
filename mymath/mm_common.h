@@ -10,6 +10,7 @@
 //#define MYMATH_USE_FMA
 //#define MYMATH_FORCE_INLINE
 
+//TODO comment this out when compilers can handle it...
 #define MYMATH_FAST_COMPILE
 
 #ifdef MYMATH_USE_SSE2
@@ -27,17 +28,7 @@
 #endif
 
 //align variables to X bytes
-#ifdef MYMATH_USE_SSE2
-#ifdef _MSC_VER //msvc++
-#define MYMATH_ALIGNED(x) __declspec(align(x))
-#elif __GNUC__  //g++
-#define MYMATH_ALIGNED(x) __attribute__((aligned (x)))
-#elif __clang__ //clang
-#define MYMATH_ALIGNED(x) __attribute__((__aligned__(x)))
-#endif
-#else
-#define MYMATH_ALIGNED(x)
-#endif
+#define MYMATH_ALIGNED(x) alignas(x)
 
 #ifdef MYMATH_USE_SSE2
 #define MYMATH_SHUFFLE(x, y, z, w) (_MM_SHUFFLE(w, z, y, x))
@@ -47,48 +38,10 @@
 #endif
 #endif
 
-#define MYMATH_ALIGNMENT 16
+#define MYMATH_GPU_ALIGNMENT 16
 
 //align variables to 16 bytes (GPU friendly)
-#define MYMATH_GPU_ALIGNED MYMATH_ALIGNED(MYMATH_ALIGNMENT)
-
-#define USE_MYMATH_ALLOCATOR 1
-
-#if USE_MYMATH_ALLOCATOR == 1
-  #ifdef _WIN32
-    #ifndef MM_OVERRIDE_NEW
-    #define MM_OVERRIDE_NEW \
-      void* operator new( size_t s ) \
-      { \
-        void* m = _aligned_malloc( s, MYMATH_ALIGNMENT ); \
-        if( !m ) \
-          throw std::bad_alloc(); \
-        return m; \
-      } \
-      void operator delete( void* m ) \
-      { \
-        _aligned_free( m ); \
-      }
-    #endif
-  #else //not win32
-    #ifndef MM_OVERRIDE_NEW
-    #define MM_OVERRIDE_NEW \
-      void* operator new( size_t s ) \
-      { \
-        void* m = 0; \
-        if( posix_memalign( &m, MYMATH_ALIGNMENT, s ) ) \
-          m = 0; \
-        if( !m ) \
-          throw std::bad_alloc(); \
-        return m; \
-      } \
-      void operator delete( void* m ) \
-      { \
-        free( p ); \
-      }
-    #endif
-  #endif
-#endif
+#define MM_16_BYTE_ALIGNED MYMATH_ALIGNED(MYMATH_GPU_ALIGNMENT)
 
 //makes sure only explicit cast is available between vecn and float/double etc.
 #define MYMATH_STRICT_GLSL 0

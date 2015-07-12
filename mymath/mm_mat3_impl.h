@@ -7,7 +7,7 @@ namespace mymath
   namespace impl
   {
     template< typename t >
-    class MYMATH_GPU_ALIGNED mat3i;
+    class MM_16_BYTE_ALIGNED mat3i;
   }
 }
 
@@ -22,7 +22,7 @@ namespace mymath
   namespace impl
   {
     template< typename t >
-    class MYMATH_GPU_ALIGNED mat3i
+    class MM_16_BYTE_ALIGNED mat3i
     {
     private:
       /*
@@ -87,8 +87,6 @@ namespace mymath
         m[1] = vec3i<t>( *( list.begin() + 3 ), *( list.begin() + 4 ), *( list.begin() + 5 ) );
         m[2] = vec3i<t>( *( list.begin() + 6 ), *( list.begin() + 7 ), *( list.begin() + 8 ) );
       }
-
-      MM_OVERRIDE_NEW
 
       vec3i<t>& operator[]( const unsigned int& num )
       {

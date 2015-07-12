@@ -786,6 +786,7 @@ namespace mymath
       return *( vec2i<ty>* )this;
     }
 
+#ifndef MYMATH_FAST_COMPILE
     template<typename ty>
     template<int at, int bt, int ct, int dt>
     const vec3i<ty>& vec3i<ty>::swizzle<at, bt, ct, dt>::operator/=( const vec3i<ty>& other )
@@ -810,6 +811,7 @@ namespace mymath
       v[dt] *= tmp.w;
       return *( vec4i<ty>* )this;
     }
+#endif
 
     template<typename ty>
     const vec2i<ty>& vec2i<ty>::operator/= ( const vec2i<ty>& vec )

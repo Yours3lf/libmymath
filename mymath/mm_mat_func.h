@@ -435,6 +435,3 @@ namespace mymath
 }
 
 #endif
-
-
-

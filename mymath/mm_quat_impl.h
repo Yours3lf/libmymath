@@ -27,7 +27,7 @@ namespace mymath
   namespace impl
   {
     template<typename ty>
-    class quati
+    class MM_16_BYTE_ALIGNED quati
     {
     private:
       typedef vec4i<ty> type_vec4;
@@ -77,8 +77,6 @@ namespace mymath
           *( list.begin() + 2 ),
           *( list.begin() + 3 ) );
       }
-
-      MM_OVERRIDE_NEW
 
       //Grassman product
       quati& operator*=( const quati& other )

@@ -9,7 +9,7 @@ namespace mymath
   namespace impl
   {
     template< typename t >
-    class MYMATH_GPU_ALIGNED mat2i
+    class MM_16_BYTE_ALIGNED mat2i
     {
     private:
       /*
@@ -56,9 +56,7 @@ namespace mymath
         m[0] = vec2i<t>( *( list.begin() + 0 ), *( list.begin() + 1 ) );
         m[1] = vec2i<t>( *( list.begin() + 2 ), *( list.begin() + 3 ) );
       }
-
-      MM_OVERRIDE_NEW
-
+      
       vec2i<t>& operator[]( const unsigned int& num )
       {
         assert( num < 2 );

@@ -424,8 +424,6 @@ namespace mymath
         w = *( list.begin() + 3 );
       }
 
-      MM_OVERRIDE_NEW
-
       float& operator[]( const unsigned int& num )
       {
         assert( num < 4 && this );

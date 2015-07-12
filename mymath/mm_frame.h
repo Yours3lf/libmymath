@@ -6,7 +6,7 @@
 namespace mymath
 {
   template< typename t >
-  class frame
+  class MM_16_BYTE_ALIGNED frame
   {
   private:
 
@@ -64,8 +64,6 @@ namespace mymath
       far_ur = impl::vec4i<t>( fright, ftop, -far, (t)1 );
       far_lr = impl::vec4i<t>( fright, fbottom, -far, (t)1 );
     }
-
-    MM_OVERRIDE_NEW
   };
 }
 

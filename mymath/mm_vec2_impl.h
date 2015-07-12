@@ -8,7 +8,7 @@ namespace mymath
   namespace impl
   {
     template< typename ty >
-    class vec2i
+    class MM_16_BYTE_ALIGNED vec2i
     {
     private:
       template< int at, int bt, int ct, int dt >

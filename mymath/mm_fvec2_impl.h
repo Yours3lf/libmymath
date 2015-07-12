@@ -9,11 +9,11 @@ namespace mymath
   namespace impl
   {
     template< typename ty >
-    class MYMATH_GPU_ALIGNED vec2i;
+    class MM_16_BYTE_ALIGNED vec2i;
     template< typename ty >
-    class MYMATH_GPU_ALIGNED vec3i;
+    class MM_16_BYTE_ALIGNED vec3i;
     template< typename ty >
-    class MYMATH_GPU_ALIGNED vec4i;
+    class MM_16_BYTE_ALIGNED vec4i;
 
     template<>
     class vec2i < float >
@@ -239,8 +239,6 @@ namespace mymath
         x = *( list.begin() + 0 );
         y = *( list.begin() + 1 );
       }
-
-      MM_OVERRIDE_NEW
 
       float& operator[]( const unsigned int& num ) //read-write
       {
