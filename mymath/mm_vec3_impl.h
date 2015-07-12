@@ -16,7 +16,11 @@ namespace mymath
       class swizzle
       {
       private:
-        ty v[3];
+        struct
+        {
+          ty v[3];
+          ty _dummy;
+        };
       public:
 #ifndef MYMATH_FAST_COMPILE
         //For cases like swizzle = vec2 and swizzle = swizzle
@@ -66,7 +70,11 @@ namespace mymath
       class swizzle < at, at, at, -3 >
       {
       private:
-        ty v[3];
+        struct
+        {
+          ty v[3];
+          ty _dummy;
+        };
       public:
         operator vec3i() const
         {
@@ -78,7 +86,11 @@ namespace mymath
       class swizzle < bt, at, at, -3 >
       {
       private:
-        ty v[3];
+        struct
+        {
+          ty v[3];
+          ty _dummy;
+        };
       public:
         operator vec3i() const
         {
@@ -90,7 +102,11 @@ namespace mymath
       class swizzle < at, bt, at, -3 >
       {
       private:
-        ty v[3];
+        struct
+        {
+          ty v[3];
+          ty _dummy;
+        };
       public:
         operator vec3i() const
         {
@@ -102,7 +118,11 @@ namespace mymath
       class swizzle < at, at, bt, -3 >
       {
       private:
-        ty v[3];
+        struct
+        {
+          ty v[3];
+          ty _dummy;
+        };
       public:
         operator vec3i() const
         {
@@ -115,7 +135,11 @@ namespace mymath
       class swizzle < at, at, -2, -3 >
       {
       private:
-        ty v[3];
+        struct
+        {
+          ty v[3];
+          ty _dummy;
+        };
       public:
         operator vec2i<ty>() const
         {
@@ -127,7 +151,11 @@ namespace mymath
       class swizzle < at, bt, -2, -3 >
       {
       private:
-        ty v[3];
+        struct
+        {
+          ty v[3];
+          ty _dummy;
+        };
       public:
 #ifndef MYMATH_FAST_COMPILE
         //For cases like swizzle = vec2 and swizzle = swizzle
@@ -187,21 +215,28 @@ namespace mymath
         struct
         {
           ty x, y, z;
+          ty _dummy;
         };
 
         struct
         {
           ty r, g, b;
+          ty _dummy2;
         };
 
         struct
         {
           ty s, t, q;
+          ty _dummy3;
         };
 
 #include "includes/vec3_swizzle_declarations.h"
 
-        ty v[3];
+        struct
+        {
+          ty v[3];
+          ty _dummy4;
+        };
       };
 #ifdef __GNUC__  //g++
 #pragma GCC diagnostic pop

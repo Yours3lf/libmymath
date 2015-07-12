@@ -16,7 +16,11 @@ namespace mymath
     class vec2i<ty>::swizzle < ta, ta, ta, -3 >
     {
     private:
-      ty v[2];
+      struct
+      {
+        ty v[2];
+        ty _dummy[2];
+      };
     public:
       operator vec3i<ty>() const
       {
@@ -29,7 +33,11 @@ namespace mymath
     class vec2i<ty>::swizzle < tb, ta, ta, -3 >
     {
     private:
-      ty v[2];
+      struct
+      {
+        ty v[2];
+        ty _dummy[2];
+      };
     public:
       operator vec3i<ty>() const
       {
@@ -42,7 +50,11 @@ namespace mymath
     class vec2i<ty>::swizzle < ta, tb, ta, -3 >
     {
     private:
-      ty v[2];
+      struct
+      {
+        ty v[2];
+        ty _dummy[2];
+      };
     public:
       operator vec3i<ty>() const
       {
@@ -55,7 +67,11 @@ namespace mymath
     class vec2i<ty>::swizzle < ta, ta, tb, -3 >
     {
     private:
-      ty v[2];
+      struct
+      {
+        ty v[2];
+        ty _dummy[2];
+      };
     public:
       operator vec3i<ty>() const
       {
@@ -69,7 +85,11 @@ namespace mymath
     class vec2i<ty>::swizzle<ta, ta, ta, ta>
     {
     private:
-      ty v[2];
+      struct
+      {
+        ty v[2];
+        ty _dummy[2];
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -82,7 +102,11 @@ namespace mymath
     class vec2i<ty>::swizzle<tb, ta, ta, ta>
     {
     private:
-      ty v[2];
+      struct
+      {
+        ty v[2];
+        ty _dummy[2];
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -95,7 +119,11 @@ namespace mymath
     class vec2i<ty>::swizzle<ta, tb, ta, ta>
     {
     private:
-      ty v[2];
+      struct
+      {
+        ty v[2];
+        ty _dummy[2];
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -108,7 +136,11 @@ namespace mymath
     class vec2i<ty>::swizzle<ta, ta, tb, ta>
     {
     private:
-      ty v[2];
+      struct
+      {
+        ty v[2];
+        ty _dummy[2];
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -121,7 +153,11 @@ namespace mymath
     class vec2i<ty>::swizzle<ta, ta, ta, tb>
     {
     private:
-      ty v[2];
+      struct
+      {
+        ty v[2];
+        ty _dummy[2];
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -134,7 +170,11 @@ namespace mymath
     class vec2i<ty>::swizzle<ta, tb, ta, tb>
     {
     private:
-      ty v[2];
+      struct
+      {
+        ty v[2];
+        ty _dummy[2];
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -147,7 +187,11 @@ namespace mymath
     class vec2i<ty>::swizzle<ta, ta, tb, tb>
     {
     private:
-      ty v[2];
+      struct
+      {
+        ty v[2];
+        ty _dummy[2];
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -161,7 +205,11 @@ namespace mymath
     class vec3i<ty>::swizzle<ta, ta, ta, ta>
     {
     private:
-      ty v[3];
+      struct
+      {
+        ty v[3];
+        ty _dummy;
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -174,7 +222,11 @@ namespace mymath
     class vec3i<ty>::swizzle<tb, ta, ta, ta>
     {
     private:
-      ty v[3];
+      struct
+      {
+        ty v[3];
+        ty _dummy;
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -187,7 +239,11 @@ namespace mymath
     class vec3i<ty>::swizzle<ta, tb, ta, ta>
     {
     private:
-      ty v[3];
+      struct
+      {
+        ty v[3];
+        ty _dummy;
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -200,7 +256,11 @@ namespace mymath
     class vec3i<ty>::swizzle<ta, ta, tb, ta>
     {
     private:
-      ty v[3];
+      struct
+      {
+        ty v[3];
+        ty _dummy;
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -213,7 +273,11 @@ namespace mymath
     class vec3i<ty>::swizzle<ta, ta, ta, tb>
     {
     private:
-      ty v[3];
+      struct
+      {
+        ty v[3];
+        ty _dummy;
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -226,7 +290,11 @@ namespace mymath
     class vec3i<ty>::swizzle<tb, tc, ta, ta>
     {
     private:
-      ty v[3];
+      struct
+      {
+        ty v[3];
+        ty _dummy;
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -239,7 +307,11 @@ namespace mymath
     class vec3i<ty>::swizzle<tb, ta, tc, ta>
     {
     private:
-      ty v[3];
+      struct
+      {
+        ty v[3];
+        ty _dummy;
+      };
     public:
       operator vec4i<ty>() const
       {
@@ -252,7 +324,11 @@ namespace mymath
     class vec3i<ty>::swizzle<tb, ta, ta, tc>
     {
     private:
-      ty v[3];
+      struct
+      {
+        ty v[3];
+        ty _dummy;
+      };
     public:
       operator vec4i<ty>() const
       {

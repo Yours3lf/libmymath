@@ -15,7 +15,11 @@ namespace mymath
       class swizzle
       {
       private:
-        ty v[2];
+        struct
+        {
+          ty v[2];
+          ty _dummy[2];
+        };
       public:
         //For cases like swizzle = vec2 and swizzle = swizzle
         const vec2i& operator=( const vec2i& other )
@@ -59,7 +63,11 @@ namespace mymath
       class swizzle < at, at, -2, -3 >
       {
       private:
-        ty v[2];
+        struct
+        {
+          ty v[2];
+          ty _dummy[2];
+        };
       public:
         operator vec2i() const
         {
@@ -78,21 +86,28 @@ namespace mymath
         struct
         {
           ty x, y;
+          ty _dummy[2];
         };
 
         struct
         {
           ty r, g;
+          ty _dummy2[2];
         };
 
         struct
         {
           ty s, t;
+          ty _dummy3[2];
         };
 
 #include "includes/vec2_swizzle_declarations.h"
 
-        ty v[2];
+        struct
+        {
+          ty v[2];
+          ty _dummy4[2];
+        };
       };
 #ifdef __GNUC__  //g++
 #pragma GCC diagnostic pop
