@@ -10,6 +10,7 @@
 #include "mm_fvec_swizzle_out.h"
 #include "mm_fvec_func.h"
 #include "mm_fmat_func.h"
+#include "mm_fvec_div.h"
 #endif
 
 #include "mm_vec2_impl.h"
@@ -21,10 +22,6 @@
 #include "mm_mat3_impl.h"
 #include "mm_mat4_impl.h"
 #include "mm_mat_func.h"
-
-#ifdef MYMATH_USE_SSE2
-#include "mm_fvec_div.h"
-#endif
 
 #include "mm_quat_impl.h"
 #include "mm_quat_func.h"

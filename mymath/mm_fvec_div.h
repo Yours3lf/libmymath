@@ -1,33 +1,8 @@
+#ifndef mm_fvec_div_h
+#define mm_fvec_div_h
+
 namespace mymath
 {
-  namespace impl
-  {
-    vec2i<float>::vec2i( const vec2i<int>& v )
-    {
-      x = v.x; y = v.y;
-    }
-    vec2i<float>::vec2i( const vec2i<unsigned>& v )
-    {
-      x = v.x; y = v.y;
-    }
-    vec3i<float>::vec3i( const vec3i<int>& v )
-    {
-      x = v.x; y = v.y; z = v.z;
-    }
-    vec3i<float>::vec3i( const vec3i<unsigned>& v )
-    {
-      x = v.x; y = v.y; z = v.z;
-    }
-    vec4i<float>::vec4i( const vec4i<int>& v )
-    {
-      x = v.x; y = v.y; z = v.z; w = v.w;
-    }
-    vec4i<float>::vec4i( const vec4i<unsigned>& v )
-    {
-      x = v.x; y = v.y; z = v.z; w = v.w;
-    }
-  }
-
   MYMATH_INLINE impl::vec2i<bool> isnan( const impl::vec2i<float>& vec )
   {
     return impl::vec2i<bool>( isnan( vec.x ), isnan( vec.y ) );
@@ -149,18 +124,10 @@ namespace mymath
     return not( equal( a, b ) );
   }
 
+#if 0
   namespace impl
   {
-    template<int ta, int tb, int tc, int td>
-    const vec2i<float>& vec2i<float>::swizzle<ta, tb, tc, td>::operator/=( const vec2i<float>& vec )
-    {
-      assert( all( notEqual( vec, vec2i<float>( 0 ) ) ) );
-      vec2i<float>* tmp = ( vec2i<float>* )this;
-      tmp->d = _mm_div_ps( v, _mm_shuffle_ps( vec.d, vec.d, MYMATH_SHUFFLE( ta, tb, 0, 0 ) ) );
-      return *( vec2i<float>* )this;
-    }
-
-#ifndef MYMATH_FAST_COMPILE
+//#ifndef MYMATH_FAST_COMPILE
     template<int at, int bt, int ct, int dt>
     const vec3i<float>& vec3i<float>::swizzle<at, bt, ct, dt>::operator/=( const vec3i<float>& vec )
     {
@@ -178,7 +145,7 @@ namespace mymath
       tmp->d = _mm_div_ps( v, _mm_shuffle_ps( vec.d, vec.d, MM_SHUFFLE_SWIZZLE_HELPER( at, bt, ct, dt ) ) );
       return *( vec4i<float>* )this;
     }
-#endif
+//#endif
 
     const vec2i<float>& vec2i<float>::operator/=( const vec2i<float>& vec )
     {
@@ -204,4 +171,7 @@ namespace mymath
       return *this;
     }
   }
+#endif
 }
+
+#endif

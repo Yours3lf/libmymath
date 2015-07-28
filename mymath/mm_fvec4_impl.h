@@ -5,6 +5,8 @@
 #include "mm_fvec2_impl.h"
 #include "mm_fvec3_impl.h"
 
+#include "mm_vec4_impl.h"
+
 namespace mymath
 {
   namespace impl
@@ -34,7 +36,13 @@ namespace mymath
           return *( vec4i* )this;
         }
 
-        const vec4i& operator/=( const vec4i& other ); //needs notEqual defined elsewhere
+        const vec4i& operator/=( const vec4i& other ) //needs notEqual defined elsewhere
+        {
+          assert( !is_eq(other.x, 0) && !is_eq(other.y, 0) && !is_eq(other.z, 0) && !is_eq(other.w, 0) );
+          vec4i<float>* tmp = (vec4i<float>*)this;
+          tmp->d = _mm_div_ps( v, _mm_shuffle_ps( other.d, other.d, MM_SHUFFLE_SWIZZLE_HELPER( at, bt, ct, dt ) ) );
+          return *( vec4i<float>* )this;
+        }
 
         const vec4i& operator+=( const vec4i& other )
         {
@@ -411,8 +419,14 @@ namespace mymath
       vec4i()
       {
       }
-      vec4i( const vec4i<int>& v );
-      vec4i( const vec4i<unsigned>& v );
+      vec4i( const vec4i<int>& v )
+      {
+        x = v.x; y = v.y; z = v.z; w = v.w;
+      }
+      vec4i( const vec4i<unsigned>& v )
+      {
+        x = v.x; y = v.y; z = v.z; w = v.w;
+      }
 
       vec4i( std::initializer_list<float> list )
       {
@@ -442,7 +456,13 @@ namespace mymath
         return *this;
       }
 
-      const vec4i& operator/= ( const vec4i& vec ); //needs notEqual defined elsewhere
+      const vec4i& operator/= ( const vec4i& vec ) //needs notEqual defined elsewhere
+      {
+        assert( !is_eq( vec.x, 0 ) && !is_eq( vec.y, 0 ) && !is_eq( vec.z, 0 ) && !is_eq( vec.w, 0 ) );
+        vec4i<float>* tmp = ( vec4i<float>* )this;
+        tmp->d = _mm_div_ps( tmp->d, vec.d );
+        return *this;
+      }
 
       const vec4i& operator+= ( const vec4i& vec )
       {

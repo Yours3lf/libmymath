@@ -14,7 +14,15 @@ namespace mymath
     class MM_16_BYTE_ALIGNED vec3i;
     template< typename ty >
     class MM_16_BYTE_ALIGNED vec4i;
+  }
+}
 
+#include "mm_vec2_impl.h"
+
+namespace mymath
+{
+  namespace impl
+  {
     template<>
     class vec2i < float >
     {
@@ -39,7 +47,13 @@ namespace mymath
           return *( vec2i* )this;
         }
 
-        const vec2i& operator/=( const vec2i& other ); //needs notEqual, defined elsewhere
+        const vec2i& operator/=( const vec2i& other ) //needs notEqual, defined elsewhere
+        {
+          assert( !is_eq( other.x, 0 ) && !is_eq( other.y, 0 ) );
+          vec2i<float>* tmp = ( vec2i<float>* )this;
+          tmp->d = _mm_div_ps( v, _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, 0, 0 ) ) );
+          return *( vec2i<float>* )this;
+        }
 
         const vec2i& operator+=( const vec2i& other )
         {
@@ -229,8 +243,14 @@ namespace mymath
       vec2i()
       {
       }
-      vec2i( const vec2i<int>& v );
-      vec2i( const vec2i<unsigned>& v );
+      vec2i( const vec2i<int>& v )
+      {
+        x = v.x; y = v.y;
+      }
+      vec2i( const vec2i<unsigned>& v )
+      {
+        x = v.x; y = v.y;
+      }
 
       vec2i( std::initializer_list<float> list )
       {
@@ -258,7 +278,13 @@ namespace mymath
         return *this;
       }
 
-      const vec2i& operator/= ( const vec2i& vec ); //needs notEqual defined elsewhere
+      const vec2i& operator/= ( const vec2i& vec ) //needs notEqual defined elsewhere
+      {
+        assert( !is_eq( vec.x, 0 ) && !is_eq( vec.y, 0 ) );
+        vec2i* tmp = ( vec2i* )this;
+        tmp->d = _mm_div_ps( tmp->d, vec.d );
+        return *this;
+      }
 
       const vec2i& operator+= ( const vec2i& vec )
       {
