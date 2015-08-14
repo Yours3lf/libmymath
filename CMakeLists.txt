@@ -8,7 +8,7 @@ if(UNIX)
 	add_subdirectory(precompile)
 endif()
 
-set(project_name libmymath_raytracing_example)
+set(project_name libmymath)
 
 set(CMAKE_BUILD_TYPE Debug)
 

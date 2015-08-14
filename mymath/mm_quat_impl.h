@@ -39,24 +39,31 @@ namespace mymath
       //value.xyz is the vector and value.w is the scalar part
       type_vec4 value;
 
-      quati() : value( 0, 0, 0, 1 )
+      //default constructor does nothing!
+      quati()
       {
       } //no rotation
       explicit quati( const type_vec3& vec ) : value( vec, 0 )
       {
+        assert( !value.has_nans( ) );
       }
       explicit quati( const type_vec4& vec ) : value( vec )
       {
+        assert( !value.has_nans( ) );
       }
 
       explicit quati( const mat3i<ty>& m )
       {
         value = quat_cast( m ).value;
+
+        assert( !value.has_nans( ) );
       }
 
       explicit quati( const mat4i<ty>& m )
       {
         value = quat_cast( m ).value;
+
+        assert( !value.has_nans( ) );
       }
 
       quati( const ty& angle, const type_vec3& axis )
@@ -66,6 +73,8 @@ namespace mymath
         float c = std::cos( a );
         //sincosf(a, &s, &c);
         value = type_vec4( normalize( axis ) * s, c );
+
+        assert( !value.has_nans( ) );
       }
 
       quati( std::initializer_list<float> list )
@@ -76,6 +85,8 @@ namespace mymath
           *( list.begin() + 1 ),
           *( list.begin() + 2 ),
           *( list.begin() + 3 ) );
+
+        assert( !value.has_nans( ) );
       }
 
       //Grassman product

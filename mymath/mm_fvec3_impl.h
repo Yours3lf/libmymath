@@ -25,6 +25,7 @@ namespace mymath
         const vec3i& operator=( const vec3i& other )
         {
           v = _mm_shuffle_ps( other.d, other.d, MM_SHUFFLE_SWIZZLE_HELPER( at, bt, ct, 0 ) );
+          assert( !has_nans( ) );
           return *( vec3i* )this;
         }
 
@@ -138,6 +139,7 @@ namespace mymath
           //so that we can shuffle them afterwards to the right place
           __m128 l = _mm_shuffle_ps( other.d, v, MYMATH_SHUFFLE( 0, 1, 3-at-bt, 3-at-bt ) );
           v = _mm_shuffle_ps( l, l, MM_SHUFFLE_SWIZZLE_HELPER( at, bt, 3 - at - bt, 0 ) );
+          assert( !has_nans( ) );
           return *( vec2i<float>* )this;
         }
 
@@ -329,14 +331,17 @@ namespace mymath
 
       vec3i( const float& at, const float& bt, const float& ct ) : x( at ), y( bt ), z( ct )
       {
+        assert( !has_nans( ) );
       }
       vec3i( const vec2i<float>& vec, const float& num )
       {
         *this = vec.xyy; z = num;
+        assert( !has_nans( ) );
       }
       vec3i( const float& num, const vec2i<float>& vec )
       {
         *this = vec.xxy; x = num;
+        assert( !has_nans( ) );
       }
 #if MYMATH_STRICT_GLSL == 1
       explicit
@@ -344,9 +349,12 @@ namespace mymath
         vec3i( const float& num )
       {
         d = _mm_set1_ps( num );
+        assert( !has_nans( ) );
       }
-      vec3i( const __m128& num ) : d( num )
+      vec3i( const __m128& num, bool do_assert = true ) : d( num )
       {
+        if( do_assert )
+          assert( !has_nans( ) );
       }
       //vec3i() { d = impl::zero; }
       vec3i()
@@ -355,10 +363,12 @@ namespace mymath
       vec3i( const vec3i<int>& v )
       {
         x = v.x; y = v.y; z = v.z;
+        assert( !has_nans( ) );
       }
       vec3i( const vec3i<unsigned>& v )
       {
         x = v.x; y = v.y; z = v.z;
+        assert( !has_nans( ) );
       }
 
       vec3i( std::initializer_list<float> list )
@@ -368,6 +378,8 @@ namespace mymath
         x = *( list.begin() + 0 );
         y = *( list.begin() + 1 );
         z = *( list.begin() + 2 );
+
+        assert( !has_nans( ) );
       }
 
       float& operator[]( const unsigned int& num )
@@ -437,6 +449,11 @@ namespace mymath
       const unsigned int length() const
       {
         return 3;
+      }
+
+      bool has_nans( )
+      {
+        return isnan( x ) || isnan( y ) || isnan(z);
       }
     };
   }

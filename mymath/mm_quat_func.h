@@ -56,6 +56,13 @@ namespace mymath
     return impl::quati<ty>( normalize( q.value ) );
   }
 
+  //TODO unit test
+  template<typename ty>
+  ty dot( const impl::quati<ty>& q1, const impl::quati<ty>& q2 )
+  {
+    return dot(q1.value, q2.value) + q1.value.w * q2.value.w;
+  }
+
   //template<typename ty>
   //ty norm( const impl::quati<ty>& q )
   //{
@@ -103,7 +110,14 @@ namespace mymath
   {
     assert( all( equal( q1.value, q2.value ) ) == false && all( equal( q1.value, -q2.value ) ) == false );
 
-    float theta = std::acos( dot( q1.value, q2.value ) );
+    float cos_theta = dot( q1.value, q2.value );
+
+    if( cos_theta > 0.9995f )
+    { //shortcut
+      return impl::quati<ty>( normalize( (1.0f - t) * q1.value + t * q2.value ) );
+    }
+
+    float theta = std::acos( cos_theta );
     float sintheta = std::sin( theta );
     float wp = std::sin( ( 1 - t ) * theta ) / sintheta;
     float wq = std::sin( t * theta ) / sintheta;

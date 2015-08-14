@@ -30,6 +30,8 @@ namespace mymath
       {
         m[0] = vec2i<t>( m0, m1 );
         m[1] = vec2i<t>( m2, m3 );
+
+        assert( !has_nans( ) );
       }
 
       // 1 column per vector
@@ -37,12 +39,16 @@ namespace mymath
       {
         m[0] = a;
         m[1] = b;
+
+        assert( !has_nans( ) );
       }
 
       explicit mat2i( const t& num )
       {
         m[0] = vec2i<t>( num, 0 );
         m[1] = vec2i<t>( 0, num );
+
+        assert( !has_nans( ) );
       }
 
       mat2i()
@@ -55,6 +61,8 @@ namespace mymath
 
         m[0] = vec2i<t>( *( list.begin() + 0 ), *( list.begin() + 1 ) );
         m[1] = vec2i<t>( *( list.begin() + 2 ), *( list.begin() + 3 ) );
+
+        assert( !has_nans( ) );
       }
       
       vec2i<t>& operator[]( const unsigned int& num )
@@ -114,6 +122,10 @@ namespace mymath
         return tmp;
       }
 
+      bool has_nans( )
+      {
+        return m[0].has_nans() || m[1].has_nans();
+      }
     };
 
     template< typename t >

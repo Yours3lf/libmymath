@@ -3,6 +3,9 @@
 
 #include "mm_mat_func.h"
 #include "mm_vec_func.h"
+#include "mm_camera.h" 
+
+#include <vector>
 
 namespace mymath
 {
@@ -167,6 +170,124 @@ namespace mymath
     return r;
   }
 
+  template< class t >
+  MYMATH_INLINE float length_squared( const t& v )
+  {
+    return dot( v, v );
+  }
+
+  //constructs a coordinate system from the normalized vector v1
+  //v1, v2, v3 will contain the unit vectors of the new coordinate system
+  MYMATH_INLINE void get_coord_unit_vectors( const impl::vec3i<float>& v1, impl::vec3i<float>& v2, impl::vec3i<float>& v3 )
+  {
+    if( std::abs( v1.x ) > std::abs( v1.y ) )
+    {
+      float inv_len = 1.0f / length( v1.xz );
+      v2 = impl::vec3i<float>( -v1.z * inv_len, 0, v1.x * inv_len );
+    }
+    else
+    {
+      float inv_len = 1.0f / length( v1.yz );
+      v2 = impl::vec3i<float>( 0, v1.z * inv_len, -v1.y * inv_len );
+    }
+    v3 = cross( v1, v2 );
+  }
+
+  //TODO unit test
+  //fills v with the world space coordinates of the corners of the frustum define by the projection matrix
+  //used to compute the inverse view-projection matrix
+  MYMATH_INLINE void get_frustum_corners( std::vector<impl::vec4i<float> >& v, const impl::mat4i<float>& inv_viewproj )
+  {
+    int start = v.size();
+    v.push_back( impl::vec4i<float>( -1,  1, -1, 1 ) ); //ntl
+    v.push_back( impl::vec4i<float>( 1, 1, -1, 1 ) ); //ntr
+    v.push_back( impl::vec4i<float>( -1, -1, -1, 1 ) ); //nbl
+    v.push_back( impl::vec4i<float>( 1, -1, -1, 1 ) ); //nbr
+    v.push_back( impl::vec4i<float>( -1, 1, 1, 1 ) ); //ftl
+    v.push_back( impl::vec4i<float>( 1, 1, 1, 1 ) ); //ftr
+    v.push_back( impl::vec4i<float>( -1, -1, 1, 1 ) ); //fbl
+    v.push_back( impl::vec4i<float>( 1, -1, 1, 1 ) ); //fbr
+
+    for( int c = start; c < v.size(); ++c )
+    {
+      v[c] = inv_viewproj * v[c]; //transform back to world space
+    }
+
+    for( int c = start; c < v.size( ); ++c )
+    {
+      v[c] = v[c] / v[c].w;
+    }
+  }
+
+  //TODO unit test
+  MYMATH_INLINE camera<float> lookat( const impl::vec3i<float>& eye, const impl::vec3i<float>& lookat, const impl::vec3i<float>& up )
+  {
+    camera<float> c;
+    c.view_dir = normalize( lookat - eye );
+    c.up_vector = normalize( up );
+    c.pos = eye;
+    impl::vec3i<float> right = normalize( cross( c.view_dir, c.up_vector ) );
+    c.up_vector = normalize( cross( right, c.view_dir ) );
+    return c;
+  };
+
+  //TODO unit test
+  //this function transforms a position vector by a matrix
+  //it also ensures that the last coordinate of the vector will always be one
+  //ie. the vector returned will not be in homogenous coordinates
+  template< class t, class u >
+  MYMATH_INLINE t transform_position( const t& vector, const u& transformation)
+  {
+    t tmp = transformation * vector;
+    if( !impl::is_eq(tmp[tmp.length()-1], 1.0f) ) tmp /= tmp[tmp.length()-1];
+    return tmp;
+  }
+
+  //TODO unit test
+  //this function transforms a direction vector by a matrix
+  //it also ensures that the last coordinate of the vector will always be one
+  //because the last coordinate is implicitly zero (the vector represents a direction)
+  template< class t, class u >
+  MYMATH_INLINE t transform_direction( const t& vector, const u& transformation )
+  {
+    t tmp = transformation * vector;
+    return tmp;
+  }
+
+  //TODO unit test
+  //this function transforms a normal vector by the inverse transpose of a transformation matrix
+  //the matrix is assumed to contain the inverse transpose of the transformation
+  MYMATH_INLINE impl::vec3i<float> transform_direction( const impl::vec3i<float>& normal, const impl::mat4i<float>& inverse_transpose_transformation )
+  {
+    return impl::mat3i<float>(inverse_transpose_transformation) * normal;
+  }
+
+  //TODO unit test
+  //computes the following transformation
+  //1) apply a
+  //2) apply b
+  template< class t >
+  MYMATH_INLINE t concat_transformations( const t& a, const t& b )
+  {
+    returns b * a;
+  }
+
+  //TODO unit test
+  //computes the inverse of the following transformation
+  //1) apply a
+  //2) apply b
+  template< class t >
+  MYMATH_INLINE t inv_concat_transformations( const t& inv_a, const t& inv_b )
+  {
+    returns inv_a * inv_b;
+  }
+
+  //TODO unit test
+  //returns true if the transformation changes the handedness of the coordinate system
+  MYMATH_INLINE bool swaps_handedness( const impl::mat4i<float>& transformation )
+  {
+    return determinant( impl::mat3i<float>(transformation) ) < 0;
+  }
 }
 
 #endif

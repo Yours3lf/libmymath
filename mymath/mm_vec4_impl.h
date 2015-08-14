@@ -27,6 +27,7 @@ namespace mymath
           v[bt] = other.y;
           v[ct] = other.z;
           v[dt] = other.w;
+          assert( !has_nans( ) );
           return *( vec4i* )this;
         }
 
@@ -225,6 +226,7 @@ namespace mymath
           v[at] = other.x;
           v[bt] = other.y;
           v[ct] = other.z;
+          assert( !has_nans( ) );
           return *( vec3i<ty>* )this;
         }
 
@@ -295,6 +297,7 @@ namespace mymath
         {
           v[at] = other.x;
           v[bt] = other.y;
+          assert( !has_nans( ) );
           return *( vec2i<ty>* )this;
         }
 
@@ -369,30 +372,38 @@ namespace mymath
 
       vec4i( const ty& at, const ty& bt, const ty& ct, const ty& dt ) : x( at ), y( bt ), z( ct ), w( dt )
       {
+        assert( !has_nans( ) );
       }
       vec4i( const vec3i<ty>& vec, const ty& num ) : x( vec.x ), y( vec.y ), z( vec.z ), w( num )
       {
+        assert( !has_nans( ) );
       }
       vec4i( const ty& num, const vec3i<ty>& vec ) : x( num ), y( vec.x ), z( vec.y ), w( vec.z )
       {
+        assert( !has_nans( ) );
       }
       vec4i( const vec2i<ty>& at, const vec2i<ty>& bt ) : x( at.x ), y( at.y ), z( bt.x ), w( bt.y )
       {
+        assert( !has_nans( ) );
       }
       vec4i( const vec2i<ty>& vec, const ty& num1, const ty& num2 ) : x( vec.x ), y( vec.y ), z( num1 ), w( num2 )
       {
+        assert( !has_nans( ) );
       }
       vec4i( const ty& num1, const vec2i<ty>& vec, const ty& num2 ) : x( num1 ), y( vec.x ), z( vec.y ), w( num2 )
       {
+        assert( !has_nans( ) );
       }
       vec4i( const ty& num1, const ty& num2, const vec2i<ty>& vec ) : x( num1 ), y( num2 ), z( vec.x ), w( vec.y )
       {
+        assert( !has_nans( ) );
       }
 #if MYMATH_STRICT_GLSL == 1
       explicit
 #endif
         vec4i( const ty& num ) : x( num ), y( num ), z( num ), w( num )
       {
+          assert( !has_nans( ) );
       }
       //vec4i() : x( 0 ), y( 0 ), z( 0 ), w( 0 ) {}
       vec4i()
@@ -401,10 +412,14 @@ namespace mymath
       vec4i( const vec4i<int>& v )
       {
         x = v.x; y = v.y; z = v.z; w = v.w;
+
+        assert( !has_nans( ) );
       }
       vec4i( const vec4i<unsigned>& v )
       {
         x = v.x; y = v.y; z = v.z; w = v.w;
+
+        assert( !has_nans( ) );
       }
 
       vec4i( std::initializer_list<ty> list )
@@ -415,6 +430,8 @@ namespace mymath
         y = *( list.begin() + 1 );
         z = *( list.begin() + 2 );
         w = *( list.begin() + 3 );
+
+        assert( !has_nans( ) );
       }
 
       ty& operator[]( const unsigned int& num )
@@ -602,6 +619,12 @@ namespace mymath
       {
         return 4;
       }
+
+      bool has_nans( )
+      {
+        return isnan( x ) || isnan( y ) || isnan(z) || isnan(w);
+      }
+
     };
   }
 }

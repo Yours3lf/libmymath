@@ -26,6 +26,7 @@ namespace mymath
         const vec4i& operator=( const vec4i& other )
         {
           v = _mm_shuffle_ps( other.d, other.d, MM_SHUFFLE_SWIZZLE_HELPER( at, bt, ct, dt ) );
+          assert( !has_nans( ) );
           return *( vec4i* )this;
         }
 
@@ -222,6 +223,7 @@ namespace mymath
           __m128 m = _mm_shuffle_ps( other.d, v, MYMATH_SHUFFLE( 2, 3, 6-at-bt-ct, 6-at-bt-ct ) );
           l = _mm_shuffle_ps( l, m, MYMATH_SHUFFLE(0, 1, 0, 2) );
           v = _mm_shuffle_ps( l, l, MM_SHUFFLE_SWIZZLE_HELPER( at, bt, ct, 6 - at - bt - ct ) );
+          assert( !has_nans( ) );
           return *( vec3i<float>* )this;
         }
 
@@ -302,6 +304,7 @@ namespace mymath
         {
           __m128 l = _mm_shuffle_ps( other.d, v, MYMATH_SHUFFLE( 0, 1, MM_FIRST_COMPONENT(), MM_SECOND_COMPONENT() ) );
           v = _mm_shuffle_ps( l, l, MM_SHUFFLE_SWIZZLE_HELPER( at, bt, MM_FIRST_COMPONENT(), MM_SECOND_COMPONENT() ) );
+          assert( !has_nans( ) );
           return *( vec2i<float>* )this;
         }
 
@@ -380,30 +383,37 @@ namespace mymath
 
       vec4i( const float& at, const float& bt, const float& ct, const float& dt ) : x( at ), y( bt ), z( ct ), w( dt )
       {
+        assert( !has_nans( ) );
       }
       vec4i( const vec3i<float>& vec, const float& num )
       {
         *this = vec.xyzz; w = num;
+        assert( !has_nans( ) );
       }
       vec4i( const float& num, const vec3i<float>& vec )
       {
         *this = vec.xxyz; x = num;
+        assert( !has_nans( ) );
       }
       vec4i( const vec2i<float>& vec, const float& num1, const float& num2 )
       {
         *this = vec.xyyy; z = num1; w = num2;
+        assert( !has_nans( ) );
       }
       vec4i( const float& num1, const vec2i<float>& vec, const float& num2 )
       {
         *this = vec.xxyy; x = num1; w = num2;
+        assert( !has_nans( ) );
       }
       vec4i( const float& num1, const float& num2, const vec2i<float>& vec )
       {
         *this = vec.xxxy; x = num1; y = num2;
+        assert( !has_nans( ) );
       }
       vec4i( const vec2i<float>& at, const vec2i<float>& bt )
       {
         d = _mm_shuffle_ps( at.d, bt.d, MYMATH_SHUFFLE( 0, 1, 0, 1 ) );
+        assert( !has_nans( ) );
       }
 #if MYMATH_STRICT_GLSL == 1
       explicit
@@ -411,9 +421,12 @@ namespace mymath
         vec4i( const float& num )
       {
         d = _mm_set1_ps( num );
+        assert( !has_nans( ) );
       }
-      vec4i( const __m128& num ) : d( num )
+      vec4i( const __m128& num, bool do_assert = true ) : d( num )
       {
+        if( do_assert )
+          assert( !has_nans( ) );
       }
       //vec4i() { d = impl::zero; }
       vec4i()
@@ -422,10 +435,12 @@ namespace mymath
       vec4i( const vec4i<int>& v )
       {
         x = v.x; y = v.y; z = v.z; w = v.w;
+        assert( !has_nans( ) );
       }
       vec4i( const vec4i<unsigned>& v )
       {
         x = v.x; y = v.y; z = v.z; w = v.w;
+        assert( !has_nans( ) );
       }
 
       vec4i( std::initializer_list<float> list )
@@ -436,6 +451,8 @@ namespace mymath
         y = *( list.begin() + 1 );
         z = *( list.begin() + 2 );
         w = *( list.begin() + 3 );
+
+        assert( !has_nans( ) );
       }
 
       float& operator[]( const unsigned int& num )
@@ -505,6 +522,11 @@ namespace mymath
       const unsigned int length() const
       {
         return 4;
+      }
+
+      bool has_nans( )
+      {
+        return isnan( x ) || isnan( y ) || isnan(z) || isnan(w);
       }
     };
   }

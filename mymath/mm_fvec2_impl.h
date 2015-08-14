@@ -37,6 +37,7 @@ namespace mymath
         const vec2i& operator=( const vec2i& other )
         {
           v = _mm_shuffle_ps( other.d, other.d, MYMATH_SHUFFLE( at, bt, 0, 0 ) );
+          assert( !vec2i(v).has_nans( ) );
           return *( vec2i* )this;
         }
 
@@ -228,6 +229,7 @@ namespace mymath
 
       vec2i( const float& at, const float& bt ) : x( at ), y( bt )
       {
+        assert( !has_nans( ) );
       }
 #if MYMATH_STRICT_GLSL == 1
       explicit
@@ -235,9 +237,12 @@ namespace mymath
         vec2i( const float& num )
       {
         d = _mm_set1_ps( num );
+        assert( !has_nans( ) );
       }
-      vec2i( const __m128& num ) : d( num )
+      vec2i( const __m128& num, bool do_assert = true ) : d( num )
       {
+        if( do_assert )
+          assert( !has_nans() );
       }
       //vec2i() { d = impl::zero; }
       vec2i()
@@ -246,10 +251,12 @@ namespace mymath
       vec2i( const vec2i<int>& v )
       {
         x = v.x; y = v.y;
+        assert( !has_nans( ) );
       }
       vec2i( const vec2i<unsigned>& v )
       {
         x = v.x; y = v.y;
+        assert( !has_nans( ) );
       }
 
       vec2i( std::initializer_list<float> list )
@@ -258,6 +265,8 @@ namespace mymath
 
         x = *( list.begin() + 0 );
         y = *( list.begin() + 1 );
+
+        assert( !has_nans( ) );
       }
 
       float& operator[]( const unsigned int& num ) //read-write
@@ -327,6 +336,11 @@ namespace mymath
       const unsigned int length() const
       {
         return 2;
+      }
+
+      bool has_nans()
+      {
+        return isnan(x) || isnan(y);
       }
     };
   }

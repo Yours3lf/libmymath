@@ -46,6 +46,8 @@ namespace mymath
         m[0] = vec3i<t>( m0, m1, m2 );
         m[1] = vec3i<t>( m3, m4, m5 );
         m[2] = vec3i<t>( m6, m7, m8 );
+
+        assert( !has_nans( ) );
       }
 
       mat3i( const mat4i<t>& mat )
@@ -53,11 +55,15 @@ namespace mymath
         m[0] = mat[0].xyz;
         m[1] = mat[1].xyz;
         m[2] = mat[2].xyz;
+
+        assert( !has_nans( ) );
       }
 
       explicit mat3i( const quati<t>& q )
       {
         *this = mat3_cast( q );
+
+        assert( !has_nans( ) );
       }
 
       // 1 column per vector
@@ -66,6 +72,8 @@ namespace mymath
         m[0] = a;
         m[1] = b;
         m[2] = c;
+
+        assert( !has_nans( ) );
       }
 
       explicit mat3i( const t& num )
@@ -73,6 +81,8 @@ namespace mymath
         m[0] = vec3i<t>( num, 0, 0 );
         m[1] = vec3i<t>( 0, num, 0 );
         m[2] = vec3i<t>( 0, 0, num );
+
+        assert( !has_nans( ) );
       }
 
       mat3i()
@@ -86,6 +96,8 @@ namespace mymath
         m[0] = vec3i<t>( *( list.begin() + 0 ), *( list.begin() + 1 ), *( list.begin() + 2 ) );
         m[1] = vec3i<t>( *( list.begin() + 3 ), *( list.begin() + 4 ), *( list.begin() + 5 ) );
         m[2] = vec3i<t>( *( list.begin() + 6 ), *( list.begin() + 7 ), *( list.begin() + 8 ) );
+
+        assert( !has_nans( ) );
       }
 
       vec3i<t>& operator[]( const unsigned int& num )
@@ -148,6 +160,11 @@ namespace mymath
         mat3i tmp = ( *this );
         --( *this );
         return tmp;
+      }
+
+      bool has_nans( )
+      {
+        return m[0].has_nans( ) || m[1].has_nans( ) || m[2].has_nans();
       }
     };
 

@@ -26,6 +26,7 @@ namespace mymath
         {
           v[at] = other.x;
           v[bt] = other.y;
+          assert( !has_nans( ) );
           return *( vec2i* )this;
         }
 
@@ -115,12 +116,14 @@ namespace mymath
 
       vec2i( const ty& at, const ty& bt ) : x( at ), y( bt )
       {
+        assert( !has_nans( ) );
       }
 #if MYMATH_STRICT_GLSL == 1
       explicit
 #endif
         vec2i( const ty& num ) : x( num ), y( num )
       {
+          assert( !has_nans( ) );
       }
       //vec2i() : x( 0 ), y( 0 ) {}
       vec2i()
@@ -129,10 +132,14 @@ namespace mymath
       vec2i( const vec2i<int>& v )
       {
         x = v.x; y = v.y;
+
+        assert( !has_nans( ) );
       }
       vec2i( const vec2i<unsigned>& v )
       {
         x = v.x; y = v.y;
+
+        assert( !has_nans( ) );
       }
 
       vec2i( std::initializer_list<ty> list )
@@ -141,6 +148,8 @@ namespace mymath
 
         x = *( list.begin() + 0 );
         y = *( list.begin() + 1 );
+
+        assert( !has_nans( ) );
       }
 
       ty& operator[]( const unsigned int& num ) //read-write
@@ -293,6 +302,11 @@ namespace mymath
       const unsigned int length() const
       {
         return 2;
+      }
+
+      bool has_nans( )
+      {
+        return isnan( x ) || isnan( y );
       }
     };
   }

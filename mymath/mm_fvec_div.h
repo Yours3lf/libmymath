@@ -33,68 +33,68 @@ namespace mymath
   //less
   MYMATH_INLINE impl::vec2i<bool> lessThan( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
   {
-    mm::impl::vec2i<float> v = _mm_cmplt_ps( a.d, b.d );
+    mm::impl::vec2i<float> v = mm::impl::vec2i<float>(_mm_cmplt_ps( a.d, b.d ), false);
     return impl::vec2i<bool>( v.x, v.y );
   }
   MYMATH_INLINE impl::vec3i<bool> lessThan( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
   {
-    mm::impl::vec3i<float> v = _mm_cmplt_ps( a.d, b.d );
+    mm::impl::vec3i<float> v = mm::impl::vec3i<float>( _mm_cmplt_ps( a.d, b.d ), false);
     return impl::vec3i<bool>( v.x, v.y, v.z );
   }
   MYMATH_INLINE impl::vec4i<bool> lessThan( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
   {
-    mm::impl::vec4i<float> v = _mm_cmplt_ps( a.d, b.d );
+    mm::impl::vec4i<float> v = mm::impl::vec4i<float>( _mm_cmplt_ps( a.d, b.d ), false );
     return impl::vec4i<bool>( v.x, v.y, v.z, v.w );
   }
 
   //greater
   MYMATH_INLINE impl::vec2i<bool> greaterThan( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
   {
-    mm::impl::vec2i<float> v = _mm_cmpgt_ps( a.d, b.d );
+    mm::impl::vec2i<float> v = mm::impl::vec2i<float>( _mm_cmpgt_ps( a.d, b.d ), false );
     return impl::vec2i<bool>( v.x, v.y );
   }
   MYMATH_INLINE impl::vec3i<bool> greaterThan( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
   {
-    mm::impl::vec3i<float> v = _mm_cmpgt_ps( a.d, b.d );
+    mm::impl::vec3i<float> v = mm::impl::vec3i<float>( _mm_cmpgt_ps( a.d, b.d ), false );
     return impl::vec3i<bool>( v.x, v.y, v.z );
   }
   MYMATH_INLINE impl::vec4i<bool> greaterThan( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
   {
-    mm::impl::vec4i<float> v = _mm_cmpgt_ps( a.d, b.d );
+    mm::impl::vec4i<float> v = mm::impl::vec4i<float>( _mm_cmpgt_ps( a.d, b.d ), false );
     return impl::vec4i<bool>( v.x, v.y, v.z, v.w );
   }
 
   //less or equal
   MYMATH_INLINE impl::vec2i<bool> lessThanEqual( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
   {
-    mm::impl::vec2i<float> v = _mm_cmple_ps( a.d, b.d );
+    mm::impl::vec2i<float> v = mm::impl::vec2i<float>( _mm_cmple_ps( a.d, b.d ), false );
     return impl::vec2i<bool>( v.x, v.y );
   }
   MYMATH_INLINE impl::vec3i<bool> lessThanEqual( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
   {
-    mm::impl::vec3i<float> v = _mm_cmple_ps( a.d, b.d );
+    mm::impl::vec3i<float> v = mm::impl::vec3i<float>( _mm_cmple_ps( a.d, b.d ), false );
     return impl::vec3i<bool>( v.x, v.y, v.z );
   }
   MYMATH_INLINE impl::vec4i<bool> lessThanEqual( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
   {
-    mm::impl::vec4i<float> v = _mm_cmple_ps( a.d, b.d );
+    mm::impl::vec4i<float> v = mm::impl::vec4i<float>( _mm_cmple_ps( a.d, b.d ), false );
     return impl::vec4i<bool>( v.x, v.y, v.z, v.w );
   }
 
   //greater or equal
   MYMATH_INLINE impl::vec2i<bool> greaterThanEqual( const mm::impl::vec2i<float>& a, const mm::impl::vec2i<float>& b )
   {
-    mm::impl::vec2i<float> v = _mm_cmpge_ps( a.d, b.d );
+    mm::impl::vec2i<float> v = mm::impl::vec2i<float>( _mm_cmpge_ps( a.d, b.d ), false );
     return impl::vec2i<bool>( v.x, v.y );
   }
   MYMATH_INLINE impl::vec3i<bool> greaterThanEqual( const mm::impl::vec3i<float>& a, const mm::impl::vec3i<float>& b )
   {
-    mm::impl::vec3i<float> v = _mm_cmpge_ps( a.d, b.d );
+    mm::impl::vec3i<float> v = mm::impl::vec3i<float>( _mm_cmpge_ps( a.d, b.d ), false );
     return impl::vec3i<bool>( v.x, v.y, v.z );
   }
   MYMATH_INLINE impl::vec4i<bool> greaterThanEqual( const mm::impl::vec4i<float>& a, const mm::impl::vec4i<float>& b )
   {
-    mm::impl::vec4i<float> v = _mm_cmpge_ps( a.d, b.d );
+    mm::impl::vec4i<float> v = mm::impl::vec4i<float>( _mm_cmpge_ps( a.d, b.d ), false );
     return impl::vec4i<bool>( v.x, v.y, v.z, v.w );
   }
 

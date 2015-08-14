@@ -29,6 +29,7 @@ namespace mymath
           v[at] = other.x;
           v[bt] = other.y;
           v[ct] = other.z;
+          assert( !has_nans( ) );
           return *( vec3i* )this;
         }
 
@@ -163,6 +164,7 @@ namespace mymath
         {
           v[at] = other.x;
           v[bt] = other.y;
+          assert( !has_nans( ) );
           return *( vec2i<ty>* )this;
         }
 
@@ -244,18 +246,22 @@ namespace mymath
 
       vec3i( const ty& at, const ty& bt, const ty& ct ) : x( at ), y( bt ), z( ct )
       {
+        assert( !has_nans( ) );
       }
       vec3i( const vec2i<ty>& vec, const ty& num ) : x( vec.x ), y( vec.y ), z( num )
       {
+        assert( !has_nans( ) );
       }
       vec3i( const ty& num, const vec2i<ty>& vec ) : x( num ), y( vec.x ), z( vec.y )
       {
+        assert( !has_nans( ) );
       }
 #if MYMATH_STRICT_GLSL == 1
       explicit
 #endif
         vec3i( const ty& num ) : x( num ), y( num ), z( num )
       {
+          assert( !has_nans( ) );
       }
       //vec3i() : x( 0 ), y( 0 ), z( 0 ) {}
       vec3i()
@@ -264,10 +270,14 @@ namespace mymath
       vec3i( const vec3i<int>& v )
       {
         x = v.x; y = v.y; z = v.z;
+
+        assert( !has_nans( ) );
       }
       vec3i( const vec3i<unsigned>& v )
       {
         x = v.x; y = v.y; z = v.z;
+
+        assert( !has_nans( ) );
       }
 
       vec3i( std::initializer_list<ty> list )
@@ -277,6 +287,8 @@ namespace mymath
         x = *( list.begin() + 0 );
         y = *( list.begin() + 1 );
         z = *( list.begin() + 2 );
+
+        assert( !has_nans( ) );
       }
 
       ty& operator[]( const unsigned int& num )
@@ -446,6 +458,11 @@ namespace mymath
       const unsigned int length() const
       {
         return 3;
+      }
+
+      bool has_nans( )
+      {
+        return isnan( x ) || isnan( y ) || isnan(z);
       }
     };
   }

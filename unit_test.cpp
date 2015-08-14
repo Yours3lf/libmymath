@@ -877,11 +877,11 @@ int main( int argc, char** args )
     UNIT_TEST( mm::all( mm::equal( mm::faceforward( vec4( -1 ), vec4( 1 ), vec4( 0, 1, 0, 0 ) ), vec4( 1 ) ) ) );
     UNIT_TEST( mm::all( mm::equal( mm::faceforward( vec4( 1 ), vec4( -1 ), vec4( 0, 1, 0, 0 ) ), vec4( 1 ) ) ) );
 
-    UNIT_TEST( mm::all( mm::equal( mm::isnan( vec2( nanf( 0 ) ) ), bvec2( true ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( mm::isnan( vec2( _mm_set1_ps( nanf( 0 ) ), false ) ), bvec2( true ) ) ) );
     UNIT_TEST( mm::all( mm::equal( mm::isnan( vec2( 0 ) ), bvec2( false ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( mm::isnan( vec3( nanf( 0 ) ) ), bvec3( true ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( mm::isnan( vec3( _mm_set1_ps( nanf( 0 ) ), false ) ), bvec3( true ) ) ) );
     UNIT_TEST( mm::all( mm::equal( mm::isnan( vec3( 0 ) ), bvec3( false ) ) ) );
-    UNIT_TEST( mm::all( mm::equal( mm::isnan( vec4( nanf( 0 ) ) ), bvec4( true ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( mm::isnan( vec4( _mm_set1_ps( nanf( 0 ) ), false ) ), bvec4( true ) ) ) );
     UNIT_TEST( mm::all( mm::equal( mm::isnan( vec4( 0 ) ), bvec4( false ) ) ) );
 
     UNIT_TEST( mm::all( mm::equal( mm::isinf( vec2( INFINITY ) ), bvec2( true ) ) ) );
@@ -1022,10 +1022,6 @@ int main( int argc, char** args )
   {
     //util functions
     mm::camera<float> cam;
-    mm::frame<float> f;
-    f.set_perspective( radians( 45 ), 1, 1, 100 );
-    mat4 inv_mvp = inverse( f.projection_matrix * cam.get_matrix() );
-    UNIT_TEST( mm::all( mm::equal( unproject( vec3( 0.0, 0.0, -1.0 ), inv_mvp ), vec3( 0, 0, -1 ) ) ) );
 
     UNIT_TEST( mm::all( mm::equal( create_rotation( radians( 90 ), vec3( 0, 0, 1 ) ) * vec4( 1, 0, 0, 1 ), vec4( 0, 1, 0, 1 ) ) ) );
     UNIT_TEST( mm::all( mm::equal( create_scale( vec3( 2 ) ) * vec4( 2 ), vec4( 4, 4, 4, 2 ) ) ) );
@@ -1053,7 +1049,8 @@ int main( int argc, char** args )
 
     UNIT_TEST( QUAT_EQUAL( quat( { 1.0f, 2.0f, 3.0f, 4.0f } ), quat( vec4( 1, 2, 3, 4 ) ) ) );
 
-    UNIT_TEST( QUAT_EQUAL( quat(), quat( 0, arbitraryAxis ) ) );
+    //empty constructor will do nothing!
+    //UNIT_TEST( QUAT_EQUAL( quat(), quat( 0, arbitraryAxis ) ) );
     UNIT_TEST( QUAT_EQUAL( quat( 1, arbitraryAxis ), quat( 1, arbitraryAxis * 5 ) ) );
     UNIT_TEST( QUAT_EQUAL( quat( pi, arbitraryAxis ), quat( 3 * pi, arbitraryAxis ) ) );
 
@@ -1145,6 +1142,16 @@ int main( int argc, char** args )
     UNIT_TEST( mm::all( mm::equal( cam.up_vector, vec3( 1, 0, 0 ) ) ) );
     cam_mat = cam.get_matrix();
     UNIT_TEST( MAT4_EQUAL( cam_mat, mat4( 0, 1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, 1 ) ) );
+  }
+
+  { //new utility function tests
+    UNIT_TEST( length_squared( vec3( 1 ) ) == 3 );
+    vec3 v1 = vec3( 0, 1, 0 ), v2, v3;
+    get_coord_unit_vectors( v1, v2, v3 );
+    UNIT_TEST( mm::all( mm::equal( v2, vec3( 0, 0, -1 ) ) ) );
+    UNIT_TEST( mm::all( mm::equal( v3, vec3( -1, 0, 0 ) ) ) );
+
+    int a = 0;
   }
 
   system( "PAUSE" );

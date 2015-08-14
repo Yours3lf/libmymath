@@ -49,6 +49,8 @@ namespace mymath
         m[1] = vec4i<t>( m4, m5, m6, m7 );
         m[2] = vec4i<t>( m8, m9, m10, m11 );
         m[3] = vec4i<t>( m12, m13, m14, m15 );
+
+        assert( !has_nans( ) );
       }
 
       mat4i( const mat3i<t>& mat )
@@ -64,6 +66,8 @@ namespace mymath
         m[1] = vec4( mat[1], 0 );
         m[2] = vec4( mat[2], 0 );
         m[3] = vec4( 0, 0, 0, 1 );
+
+        assert( !has_nans( ) );
       }
 
       mat4i( const mat2i<t>& m0, const mat2i<t>& m1, const mat2i<t>& m2, const mat2i<t>& m3 )
@@ -86,11 +90,15 @@ namespace mymath
         m[1] = vec4( m0[1], m2[1] );
         m[2] = vec4( m1[0], m3[0] );
         m[3] = vec4( m1[1], m3[1] );
+
+        assert( !has_nans( ) );
       }
 
       explicit mat4i( const quati<t>& q )
       {
         *this = mat4_cast( q );
+
+        assert( !has_nans( ) );
       }
 
       // 1 column per vector
@@ -100,6 +108,8 @@ namespace mymath
         m[1] = b;
         m[2] = c;
         m[3] = d;
+
+        assert( !has_nans( ) );
       }
 
       explicit mat4i( const t& num )
@@ -108,6 +118,8 @@ namespace mymath
         m[1] = vec4i<t>( 0, num, 0, 0 );
         m[2] = vec4i<t>( 0, 0, num, 0 );
         m[3] = vec4i<t>( 0, 0, 0, num );
+
+        assert( !has_nans( ) );
       }
 
       mat4i()
@@ -122,6 +134,8 @@ namespace mymath
         m[1] = vec4i<t>( *( list.begin() + 4 ), *( list.begin() + 5 ), *( list.begin() + 6 ), *( list.begin() + 7 ) );
         m[2] = vec4i<t>( *( list.begin() + 8 ), *( list.begin() + 9 ), *( list.begin() + 10 ), *( list.begin() + 11 ) );
         m[3] = vec4i<t>( *( list.begin() + 12 ), *( list.begin() + 13 ), *( list.begin() + 14 ), *( list.begin() + 15 ) );
+
+        assert( !has_nans( ) );
       }
 
       vec4i<t>& operator[]( const unsigned int& num )
@@ -189,6 +203,11 @@ namespace mymath
         mat4i tmp = ( *this );
         --( *this );
         return tmp;
+      }
+
+      bool has_nans( )
+      {
+        return m[0].has_nans( ) || m[1].has_nans( ) || m[2].has_nans() || m[3].has_nans();
       }
     };
 
