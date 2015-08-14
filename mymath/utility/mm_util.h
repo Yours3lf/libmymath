@@ -1,9 +1,9 @@
 #ifndef mm_util_h
 #define mm_util_h
 
-#include "mm_mat_func.h"
-#include "mm_vec_func.h"
-#include "mm_camera.h" 
+#include "../mm_mat_func.h"
+#include "../mm_vec_func.h"
+#include "../mm_camera.h" 
 
 #include <vector>
 
