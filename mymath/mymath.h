@@ -26,7 +26,7 @@
 #include "mm_quat_impl.h"
 #include "mm_quat_func.h"
 
-#include "mm_util.h"
+#include "utility/mm_util.h"
 #include "mm_camera.h"
 
 namespace mymath
