@@ -18,11 +18,6 @@
 
 #define INVALID (FLT_MAX)
 
-//haxx
-#ifdef _WIN32
-#undef FAR
-#endif
-
 namespace mymath
 {
 	namespace inner
@@ -261,7 +256,7 @@ namespace mymath
 			return tkl.y > 0 && tkl.z > 0 && (tkl.y + tkl.z) < 1;
 		}
 
-		static mm::vec2 intersect_rt(shape* aa, shape* bb)
+		static impl::vec2i<float> intersect_rt(shape* aa, shape* bb)
 		{
 			auto a = static_cast<ray*>(aa);
 			auto b = static_cast<triangle*>(bb);

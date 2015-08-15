@@ -52,6 +52,6 @@ namespace mymath
 	dispatcher<shape*, shape*, bool> shape::_is_on_right_side;
 	dispatcher<shape*, shape*, bool> shape::_is_inside;
 	dispatcher<shape*, shape*, bool> shape::_is_intersecting;
-	dispatcher<shape*, shape*, vec2 > shape::_intersect;
+	dispatcher<shape*, shape*, impl::vec2i<float> > shape::_intersect;
 	bool shape::is_setup = false;
 }

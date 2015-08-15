@@ -1,8 +1,10 @@
 #pragma once
 
 #include "../mm_common.h"
+#include "../mm_mat4_impl.h"
 #include "../mm_vec3_impl.h"
 #include "../mm_vec4_impl.h"
+#include "mm_sphere.h"
 
 namespace mymath
 {
@@ -10,6 +12,7 @@ namespace mymath
 	{
 		typedef impl::vec4i<float> vec4;
 		typedef impl::vec3i<float> vec3;
+		typedef impl::mat4i<float> mat4;
 	public:
 		vec3 min, max; //minimum/maximum apex of the aabb
 
