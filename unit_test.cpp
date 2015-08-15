@@ -1064,6 +1064,11 @@ int main( int argc, char** args )
 	UNIT_TEST( MAT4_EQUAL ( arbitrary_basis_matrix( vec3( -1, 0, 0 ), vec3( 0, 1, 0 ), vec3( 0, 0, 1 ), vec3( 0, 0, 0 ) ), create_scale( vec3( -1, 1, 1 ) ) ) );
 	UNIT_TEST( MAT4_EQUAL ( arbitrary_basis_matrix( vec3( -1, 0, 0 ), vec3( 0, 1, 0 ), vec3( 0, 0, 1 ) ), create_scale( vec3( -1, 1, 1 ) ) ) );
 	UNIT_TEST( MAT4_EQUAL ( arbitrary_basis_matrix( vec3( 0, 0, -1 ), vec3( 0, 1, 0 ), vec3( 1, 0, 0 ), vec3( 0, 0, 0 ) ), create_rotation( radians( 90 ), vec3( 0, 1, 0 ) ) ) );
+
+	shape::set_up_intersection();
+	aabb a;
+	sphere b;
+	a.is_intersecting( &b );
   }
 
   {
