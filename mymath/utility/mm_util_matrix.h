@@ -89,7 +89,6 @@ namespace mymath
 		return r;
 	}
 
-	//TODO unit test
 	//this function transforms a position vector by a matrix
 	//it also ensures that the last coordinate of the vector will always be one
 	//ie. the vector returned will not be in homogenous coordinates
@@ -101,7 +100,6 @@ namespace mymath
 		return tmp;
 	}
 
-	//TODO unit test
 	//this function transforms a direction vector by a matrix
 	//it also ensures that the last coordinate of the vector will always be one
 	//because the last coordinate is implicitly zero (the vector represents a direction)
@@ -120,7 +118,6 @@ namespace mymath
 		return impl::mat3i<float>(inverse_transpose_transformation) * normal;
 	}
 
-	//TODO unit test
 	//computes the following transformation
 	//1) apply a
 	//2) apply b
@@ -130,7 +127,6 @@ namespace mymath
 		return b * a;
 	}
 
-	//TODO unit test
 	//computes the inverse of the following transformation
 	//1) apply a
 	//2) apply b
@@ -140,16 +136,14 @@ namespace mymath
 		return inv_a * inv_b;
 	}
 
-	//TODO unit test
 	//returns true if the transformation changes the handedness of the coordinate system
 	MYMATH_INLINE bool swaps_handedness(const impl::mat4i<float>& transformation)
 	{
 		return determinant(impl::mat3i<float>(transformation)) < 0;
 	}
 
-	//TODO unit test
 	template< typename t >
-	impl::mat4i<t> arbitrary_basis_matrix(const impl::mat4i<t>& x, const impl::mat4i<t>& y, const impl::mat4i<t>& z, const impl::mat4i<t>& origin)
+	impl::mat4i<t> arbitrary_basis_matrix(const impl::vec3i<t>& x, const impl::vec3i<t>& y, const impl::vec3i<t>& z, const impl::vec3i<t>& origin = impl::vec3i<t>(0, 0, 0))
 	{
 		return impl::mat4i<t>(
 			x.x, x.y, x.z, 0,
