@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../mm_vec3_impl.h"
+#include "../mm_vec2_impl.h"
 
 namespace mymath
 {

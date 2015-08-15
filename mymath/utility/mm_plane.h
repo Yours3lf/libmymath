@@ -2,6 +2,7 @@
 
 #include "../mm_vec3_impl.h"
 #include "../mm_vec4_impl.h"
+#include "mm_shape.h"
 
 namespace mymath
 {

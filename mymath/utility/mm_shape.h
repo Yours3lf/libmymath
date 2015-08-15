@@ -1,7 +1,8 @@
 #pragma once
 
-#include "mm_dispatcher.h"
 #include "../mm_vec2_impl.h"
+#include "mm_dispatcher.h"
+#include "mm_shape.h"
 
 namespace mymath
 {

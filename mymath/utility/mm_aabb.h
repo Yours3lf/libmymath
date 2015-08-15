@@ -4,7 +4,9 @@
 #include "../mm_mat4_impl.h"
 #include "../mm_vec3_impl.h"
 #include "../mm_vec4_impl.h"
+#include "mm_shape.h"
 #include "mm_sphere.h"
+#include "mm_util_matrix.h"
 
 namespace mymath
 {
@@ -88,7 +90,7 @@ namespace mymath
 			
 			for( auto& c : v )
 			{
-			tmp.expand( transform_point( vec4( c, 1 ), transformation ) );
+			tmp.expand( transform_position( vec4( c, 1 ), transformation ).xyx );
 			}
 
 			return tmp;

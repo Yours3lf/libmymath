@@ -31,6 +31,8 @@
 #include "utility/mm_intersection.h"
 #include "utility/mm_util_vector.h"
 
+#include "utility/mm_shape_func.h"
+
 #include "mm_camera.h"
 
 namespace mymath

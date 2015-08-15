@@ -1,5 +1,7 @@
 #pragma once
 
+#include "mm_shape.h"
+
 #include "mm_aabb.h"
 #include "mm_dispatcher.h"
 #include "mm_frustum.h"
