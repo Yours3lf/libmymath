@@ -1,7 +1,6 @@
 #ifndef mm_common_h
 #define mm_common_h
 
-#include <iostream>
 #include <cmath>
 #include <algorithm>
 #include <assert.h>

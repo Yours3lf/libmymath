@@ -178,15 +178,6 @@ namespace mymath
   MYMATH_INLINE mm::impl::vec4i<t> operator- ( const mm::impl::vec4i<t>& vec ) \
     { return mm::impl::vec4i<t>( -vec.x, -vec.y, -vec.z, -vec.w ); }
 
-//std::cout <<
-#define MYMATH_COUT_FUNC(t) \
-  MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::vec2i<t>& vec ) \
-    { return output << "( " << vec.x << ", " << vec.y << " )\n"; } \
-  MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::vec3i<t>& vec ) \
-    { return output << "( " << vec.x << ", " << vec.y << ", " << vec.z << " )\n"; } \
-  MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::vec4i<t>& vec ) \
-    { return output << "( " << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << " )\n"; }
-
 #ifndef MYMATH_USE_SSE2
 MYMATH_OPERATORMUL_FUNC( float )
 #endif
@@ -246,13 +237,6 @@ MYMATH_NEGATE_FUNC( float )
 #endif
 MYMATH_NEGATE_FUNC( double )
 MYMATH_NEGATE_FUNC( int )
-
-#ifndef MYMATH_USE_SSE2
-MYMATH_COUT_FUNC( float )
-#endif
-MYMATH_COUT_FUNC( double )
-MYMATH_COUT_FUNC( int )
-MYMATH_COUT_FUNC( unsigned int )
 
 namespace mymath
 {
@@ -506,11 +490,11 @@ namespace mymath
   //normalize
 #define MYMATH_NORMALIZE_FUNC(t) \
   MYMATH_INLINE impl::vec2i<t> normalize( const impl::vec2i<t>& vec ) \
-  { return vec / impl::vec2i<t>( length( vec ) ); } \
+  { return vec * inversesqrt( dot( vec, vec ) ); } \
   MYMATH_INLINE impl::vec3i<t> normalize( const impl::vec3i<t>& vec ) \
-  { return vec / impl::vec3i<t>( length( vec ) ); } \
+  { return vec * inversesqrt( dot( vec, vec ) ); } \
   MYMATH_INLINE impl::vec4i<t> normalize( const impl::vec4i<t>& vec ) \
-  { return vec / impl::vec4i<t>( length( vec ) ); }
+  { return vec * inversesqrt( dot( vec, vec ) ); } \
 
   //reflect
 #define MYMATH_REFLECT_FUNC(t) \

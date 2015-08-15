@@ -29,6 +29,8 @@
 #include "utility/mm_util.h"
 #include "utility/mm_util_matrix.h"
 #include "utility/mm_intersection.h"
+#include "utility/mm_util_vector.h"
+
 #include "mm_camera.h"
 
 namespace mymath
