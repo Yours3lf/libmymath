@@ -138,20 +138,6 @@ MYMATH_INLINE mm::impl::vec4i<float> operator-( const mm::impl::vec4i<float>& a 
   return mm::impl::sse_neg_ps( a.d );
 }
 
-//cout
-MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::vec2i<float>& vec )
-{
-  return output << "( " << vec.x << ", " << vec.y << " )\n";
-}
-MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::vec3i<float>& vec )
-{
-  return output << "( " << vec.x << ", " << vec.y << ", " << vec.z << " )\n";
-}
-MYMATH_INLINE std::ostream& operator<< ( std::ostream& output, const mm::impl::vec4i<float>& vec )
-{
-  return output << "( " << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << " )\n";
-}
-
 namespace mymath
 {
   //radians
