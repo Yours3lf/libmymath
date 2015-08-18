@@ -7,6 +7,7 @@
 #include "mm_shape.h"
 #include "mm_sphere.h"
 #include "mm_util_matrix.h"
+#include "mm_util_transform.h"
 
 namespace mymath
 {

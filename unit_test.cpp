@@ -1041,12 +1041,6 @@ int main( int argc, char** args )
     UNIT_TEST( is_pow_2( 3 ) == false );
     UNIT_TEST( is_pow_2( 0 ) == true );
 
-	UNIT_TEST( mm::all( mm::equal( transform_position( vec4( 1, 0, 0, 1 ), create_rotation( radians( 90 ), vec3( 0, 0, 1 ) ) ), vec4( 0, 1, 0, 1 ) ) ) );
-	UNIT_TEST( mm::all( mm::equal( transform_position( vec4( 0, 1, 0, 1 ), create_translation( vec3( 1, 0, 0 ) ) ), vec4( 1, 1, 0, 1 ) ) ) );
-	const float nearPlaneZ = 8;
-	UNIT_TEST( mm::all( mm::equal( transform_position( vec4( 0, 0, -nearPlaneZ, 1 ), perspective( 60.f, 1.f, nearPlaneZ, nearPlaneZ + 2 ) ), vec4( 0, 0, -1, 1 ) ) ) );
-
-	UNIT_TEST( mm::all( mm::equal( transform_direction( vec4( 1, 0, 0, 0 ), create_rotation( radians( 90 ), vec3( 0, 0, 1 ) ) ), vec4( 0, 1, 0, 0 ) ) ) );
 
 	const mat4 trA = perspective( 60.f, 1.f, 2.f, 25.f );
 	const mat4 trB = create_rotation( 5.3, mm::vec3( 1, 2, 5 ) );
@@ -1065,10 +1059,18 @@ int main( int argc, char** args )
 	UNIT_TEST( MAT4_EQUAL ( arbitrary_basis_matrix( vec3( -1, 0, 0 ), vec3( 0, 1, 0 ), vec3( 0, 0, 1 ) ), create_scale( vec3( -1, 1, 1 ) ) ) );
 	UNIT_TEST( MAT4_EQUAL ( arbitrary_basis_matrix( vec3( 0, 0, -1 ), vec3( 0, 1, 0 ), vec3( 1, 0, 0 ), vec3( 0, 0, 0 ) ), create_rotation( radians( 90 ), vec3( 0, 1, 0 ) ) ) );
 
+	UNIT_TEST( mm::all( mm::equal( transform_position( vec4( 1, 0, 0, 1 ), create_rotation( radians( 90 ), vec3( 0, 0, 1 ) ) ), vec4( 0, 1, 0, 1 ) ) ) );
+	UNIT_TEST( mm::all( mm::equal( transform_position( vec4( 0, 1, 0, 1 ), create_translation( vec3( 1, 0, 0 ) ) ), vec4( 1, 1, 0, 1 ) ) ) );
+	const float nearPlaneZ = 8;
+	UNIT_TEST( mm::all( mm::equal( transform_position( vec4( 0, 0, -nearPlaneZ, 1 ), perspective( 60.f, 1.f, nearPlaneZ, nearPlaneZ + 2 ) ), vec4( 0, 0, -1, 1 ) ) ) );
+	UNIT_TEST( mm::all( mm::equal( transform_position( vec4(0, 0, 0, 1), vec3(0, 1, 2) ), vec4(0, 1, 2, 1) ) ) );
+
+	UNIT_TEST( mm::all( mm::equal( transform_direction( vec4( 1, 0, 0, 0 ), create_rotation( radians( 90 ), vec3( 0, 0, 1 ) ) ), vec4( 0, 1, 0, 0 ) ) ) );
+
 	shape::set_up_intersection();
 	aabb a;
 	sphere b;
-	a.is_intersecting( &b );
+	//a.is_intersecting( &b );
   }
 
   {

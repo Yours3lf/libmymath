@@ -30,6 +30,7 @@
 #include "utility/mm_util_matrix.h"
 #include "utility/mm_intersection.h"
 #include "utility/mm_util_vector.h"
+#include "utility/mm_util_transform.h"
 
 #include "utility/mm_shape_func.h"
 
